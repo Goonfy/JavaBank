@@ -94,4 +94,8 @@ public abstract class Account {
     public boolean canWithdraw() {
         return true;
     }
+
+    public String toString() {
+        return id + " - [ Balance: " + balance + ", Type: " + getAccountType() + " ]\n";
+    }
 }

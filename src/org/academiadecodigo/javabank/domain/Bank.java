@@ -2,7 +2,6 @@ package org.academiadecodigo.javabank.domain;
 
 import org.academiadecodigo.javabank.managers.AccountManager;
 
-import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
@@ -10,8 +9,6 @@ import java.util.Set;
  * The bank entity
  */
 public class Bank {
-
-    private static int NUMBER_OF_CUSTOMERS;
 
     private final AccountManager accountManager;
     private final Set<Customer> customers = new LinkedHashSet<>();
@@ -32,10 +29,9 @@ public class Bank {
      * @see Customer#setAccountManager(AccountManager)
      */
     public void addCustomer(Customer customer) {
-        NUMBER_OF_CUSTOMERS++;
-
         customers.add(customer);
         customer.setAccountManager(accountManager);
+        customer.setId();
     }
 
     public void removeCustomer(Customer customer) {
@@ -72,15 +68,13 @@ public class Bank {
         StringBuilder stringBuilder = new StringBuilder();
 
         for (Customer customer : customers) {
-            String info = customer.getId() + " - [ Name: " + customer.getName() + ", Email: "
-                    + customer.getEmail() + ", Phone Number: " + customer.getPhoneNumber() + " ]\n";
-            stringBuilder.append(info);
+            stringBuilder.append(customer.toString());
         }
 
         return stringBuilder.toString();
     }
 
-    public static int getNumberOfCustomers() {
-        return NUMBER_OF_CUSTOMERS;
+    public int getNumberOfCustomers() {
+        return customers.size();
     }
 }

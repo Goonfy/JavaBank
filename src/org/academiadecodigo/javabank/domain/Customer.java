@@ -20,6 +20,14 @@ public class Customer {
     private AccountManager accountManager;
     private final Map<Integer, Account> accounts = new HashMap<>();
 
+    public Customer() {}
+
+    public Customer(String name, String email, String phoneNumber) {
+        this.name = name;
+        this.email = email;
+        this.phoneNumber = phoneNumber;
+    }
+
     /**
      * Sets the account manager
      *
@@ -43,7 +51,7 @@ public class Customer {
     }
 
     public void closeAccount(Account account) {
-        accounts.values().remove(account);
+        accounts.remove(account.getId());
     }
 
     /**
@@ -72,12 +80,8 @@ public class Customer {
         return balance;
     }
 
-    public void setup(String name, String email, String phoneNumber) {
-        this.name = name;
-        this.email = email;
-        this.phoneNumber = phoneNumber;
-
-        id = Bank.getNumberOfCustomers();
+    public void setId() {
+        id++;
     }
 
     public int getId() {
@@ -97,22 +101,14 @@ public class Customer {
     }
 
     public Account getAccountFromID(int id) {
-        for (Account account : accounts.values()) {
-            if (account.getId() == id) {
-                return account;
-            }
-        }
-
-        return null;
+        return accounts.get(id);
     }
 
     public String getAllAccountsInfo() {
         StringBuilder stringBuilder = new StringBuilder();
 
         for (Account account : accounts.values()) {
-            String info = account.getId() + " - [ Balance: " + account.getBalance() + ", Type: "
-                    + account.getAccountType() + " ]\n";
-            stringBuilder.append(info);
+            stringBuilder.append(account.toString());
         }
 
         return stringBuilder.toString();
@@ -120,5 +116,10 @@ public class Customer {
 
     public AccountManager getAccountManager() {
         return accountManager;
+    }
+
+    @Override
+    public String toString() {
+        return id + " - [ Name: " + name + ", Email: " + email + ", Phone Number: " + phoneNumber + " ]\n";
     }
 }
