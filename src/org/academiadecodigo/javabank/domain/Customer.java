@@ -12,8 +12,13 @@ import java.util.Map;
  */
 public class Customer {
 
+    private int id;
+    private String name;
+    private String email;
+    private String phoneNumber;
+
     private AccountManager accountManager;
-    private Map<Integer, Account> accounts = new HashMap<>();
+    private final Map<Integer, Account> accounts = new HashMap<>();
 
     /**
      * Sets the account manager
@@ -35,6 +40,10 @@ public class Customer {
         Account account = accountManager.openAccount(accountType);
         accounts.put(account.getId(), account);
         return account.getId();
+    }
+
+    public void closeAccount(Account account) {
+        accounts.values().remove(account);
     }
 
     /**
@@ -63,4 +72,53 @@ public class Customer {
         return balance;
     }
 
+    public void setup(String name, String email, String phoneNumber) {
+        this.name = name;
+        this.email = email;
+        this.phoneNumber = phoneNumber;
+
+        id = Bank.getNumberOfCustomers();
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public Account getAccountFromID(int id) {
+        for (Account account : accounts.values()) {
+            if (account.getId() == id) {
+                return account;
+            }
+        }
+
+        return null;
+    }
+
+    public String getAllAccountsInfo() {
+        StringBuilder stringBuilder = new StringBuilder();
+
+        for (Account account : accounts.values()) {
+            String info = account.getId() + " - [ Balance: " + account.getBalance() + ", Type: "
+                    + account.getAccountType() + " ]\n";
+            stringBuilder.append(info);
+        }
+
+        return stringBuilder.toString();
+    }
+
+    public AccountManager getAccountManager() {
+        return accountManager;
+    }
 }

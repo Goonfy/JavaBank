@@ -2,79 +2,93 @@ package org.academiadecodigo.javabank.ui;
 
 import org.academiadecodigo.bootcamp.Prompt;
 import org.academiadecodigo.bootcamp.scanners.integer.IntegerInputScanner;
-import org.academiadecodigo.bootcamp.scanners.integer.IntegerRangeInputScanner;
-import org.academiadecodigo.bootcamp.scanners.integer.IntegerSetInputScanner;
 import org.academiadecodigo.bootcamp.scanners.menu.MenuInputScanner;
 import org.academiadecodigo.javabank.domain.Bank;
 import org.academiadecodigo.javabank.domain.Customer;
 
-import java.util.HashSet;
-import java.util.Set;
-
 public class Menu {
+
+    private final Bank bank;
+    private final MenuHandler menuHandler;
 
     private final Prompt prompt;
 
-    private final Bank bank;
-
     public Menu(Bank bank) {
         this.bank = bank;
+
         prompt = new Prompt(System.in, System.out);
-    }
-
-    private MenuItem getMenuChosenOption(String[] options) {
-        MenuInputScanner menuInputScanner = new MenuInputScanner(options);
-        menuInputScanner.setMessage("Please choose an option: ");
-
-        int option = prompt.getUserInput(menuInputScanner);
-
-        return MenuItem.values()[option - 1];
+        menuHandler = new MenuHandler(bank, this);
     }
 
     public void init() {
-        MenuItem chosenOption = getMenuChosenOption(new String[]{"Add new Customer", "Show Customers",
-                "Edit Customers", "Delete Customers"});
+        int option = createMenuWithOptions(new String[]{"Add new Customer", "Show Customers",
+                "Delete Customers", "Add Account", "Close Account", "Transfer Money",
+                "Deposit Money", "Withdraw Money"});
 
-        switch (chosenOption) {
-            case NEW:
-                addNewCustomer();
+        switch (MenuItem.values()[option - 1]) {
+            case NEWCUSTOMER:
+                menuHandler.addNewCustomer();
                 break;
-            case SHOW:
-                showCustomers();
+            case SHOWCUSTOMER:
+                System.out.println("\n" + bank.getAllCustomersInfo());
                 break;
-            case EDIT:
-                editCustomers();
+            case DELETECUSTOMER:
+                menuHandler.deleteCustomers();
                 break;
-            case DELETE:
-                deleteCustomers();
+            case ADDACCOUNT:
+                menuHandler.addAccount();
+                break;
+            case SHOWACCOUNT:
+                Customer customer = bank.getCustomerFromID(selectCustomer());
+                System.out.println("\n" + customer.getAllAccountsInfo());
+                break;
+            case CLOSEACCOUNT:
+                menuHandler.closeAccount();
+                break;
+            case TRANSFERMONEY:
+                menuHandler.transferMoney();
+                break;
+            case DEPOSITMONEY:
+                menuHandler.depositMoney();
+                break;
+            case WITHDRAWMONEY:
+                menuHandler.withdrawMoney();
                 break;
             default:
                 System.out.println("Invalid option...");
-                init();
         }
+
+        try {
+            Thread.sleep(3000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        init();
     }
 
-    private void addNewCustomer() {
+    protected int createMenuWithOptions(String[] options) {
+        MenuInputScanner menuInputScanner = new MenuInputScanner(options);
+        menuInputScanner.setMessage("Please choose an option: ");
 
-
-        Customer customer = new Customer();
-        //customer.openAccount()
-        bank.addCustomer(customer);
+        return prompt.getUserInput(menuInputScanner);
     }
 
-    private void showCustomers() {
-
+    protected int createSelectionInput(String message) {
+        IntegerInputScanner chooseCustomerOption = new IntegerInputScanner();
+        chooseCustomerOption.setMessage(message);
+        return prompt.getUserInput(chooseCustomerOption);
     }
 
-    private void editCustomers() {
+    protected int selectCustomer() {
+        System.out.println("\n" + bank.getAllCustomersInfo());
 
+        return createSelectionInput("Choose one customer from the list: ");
     }
 
-    private void deleteCustomers() {
+    protected int selectAccount(Customer customer) {
+        System.out.println("\n" + customer.getAllAccountsInfo());
 
-    }
-
-    private void listAllCustomers() {
-
+        return createSelectionInput("Choose one account from the list: ");
     }
 }

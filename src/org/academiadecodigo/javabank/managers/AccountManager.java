@@ -14,7 +14,7 @@ import java.util.Map;
 public class AccountManager {
 
     private static int numberAccounts = 0;
-    private Map<Integer, Account> accountMap;
+    private final Map<Integer, Account> accountMap;
 
     /**
      * Creates a new {@code AccountManager}

@@ -1,7 +1,6 @@
 package org.academiadecodigo.javabank;
 
 import org.academiadecodigo.javabank.domain.Bank;
-import org.academiadecodigo.javabank.domain.Customer;
 import org.academiadecodigo.javabank.managers.AccountManager;
 import org.academiadecodigo.javabank.ui.Menu;
 
@@ -11,8 +10,5 @@ public class Main {
 
         Menu menu = new Menu(bank);
         menu.init();
-
-        //Bank bank = new Bank(new AccountManager());
-        //bank.addCustomer(menu.getInput());
     }
 }
