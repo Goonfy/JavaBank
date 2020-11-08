@@ -10,6 +10,8 @@ import java.util.Set;
  */
 public class Bank {
 
+    private int numberOfCustomers;
+
     private final AccountManager accountManager;
     private final Set<Customer> customers = new LinkedHashSet<>();
 
@@ -29,13 +31,25 @@ public class Bank {
      * @see Customer#setAccountManager(AccountManager)
      */
     public void addCustomer(Customer customer) {
-        customers.add(customer);
+        if (!customers.add(customer)) {
+            System.out.println("\nCan't add customer\n");
+            return;
+        }
+
+        numberOfCustomers++;
+
         customer.setAccountManager(accountManager);
-        customer.setId();
+        customer.setId(numberOfCustomers);
+        System.out.println("\nAdded customer " + customer.getName() + "\n");
     }
 
     public void removeCustomer(Customer customer) {
-        customers.remove(customer);
+        if(!customers.remove(customer)) {
+            System.out.println("\nCan't remove user\n");
+            return;
+        }
+
+        System.out.println("\nRemoved customer successfully" + "\n");
     }
 
     /**
@@ -61,10 +75,15 @@ public class Bank {
             }
         }
 
+        System.out.println("\nCustomer not found\n");
         return null;
     }
 
     public String getAllCustomersInfo() {
+        if (customers.size() <= 0) {
+            return "\nPlease create a costumer before proceeding...\n";
+        }
+
         StringBuilder stringBuilder = new StringBuilder();
 
         for (Customer customer : customers) {
