@@ -25,6 +25,41 @@ public class MenuHandler {
         bank.removeCustomer(bank.getCustomerFromID(customerNumber));
     }
 
+    protected void addAccount(int customerNumber, AccountType accountType) {
+        Customer customer = bank.getCustomerFromID(customerNumber);
+        if (customer == null) {
+            System.out.println("\nError adding new account\n");
+            return;
+        }
+
+        customer.openAccount(accountType);
+
+        System.out.println("\nAdded new account successfully\n");
+    }
+
+    protected void closeAccount(int customerNumber, int accountNumber) {
+        Customer customer = bank.getCustomerFromID(customerNumber);
+        if (customer == null) {
+            System.out.println("\nError closing account\n");
+            return;
+        }
+
+        customer.closeAccount(customer.getAccountFromID(accountNumber));
+
+        System.out.println("\nSuccessfully closed this account\n");
+    }
+
+    protected void transferMoney(int customerNumber, int accountNumber, int accountToSendMoneyTo, int amountToTransfer) {
+        Customer customer = bank.getCustomerFromID(customerNumber);
+        if (customer == null) {
+            System.out.println("\nError transferring money\n");
+            return;
+        }
+        customer.getAccountManager().transfer(accountNumber, accountToSendMoneyTo, amountToTransfer);
+
+        System.out.println("Successfully sent money to " + bank.getCustomerFromID(accountToSendMoneyTo).getName());
+    }
+
     protected void depositMoney(int customerNumber, int accountNumber, int amountToDeposit) {
         Customer customer = bank.getCustomerFromID(customerNumber);
         if (customer == null) {

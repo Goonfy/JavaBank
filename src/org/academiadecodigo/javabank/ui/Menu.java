@@ -12,11 +12,15 @@ import java.util.Arrays;
 public abstract class Menu {
 
     private final Bank bank;
+    private final MenuHandler menuHandler;
+
     private final Prompt prompt;
 
     public Menu(Prompt prompt, Bank bank) {
         this.prompt = prompt;
         this.bank = bank;
+
+        menuHandler = new MenuHandler(bank);
     }
 
     public void init() {
@@ -28,7 +32,7 @@ public abstract class Menu {
         }
     }
 
-    public int createMenu(MenuItem[] menuItems) {
+    protected int createMenu(MenuItem[] menuItems) {
         String[] menuDescriptions = new String[menuItems.length];
         for (int i = 0; i < menuItems.length; i++) {
             menuDescriptions[i] = menuItems[i].getMenuDescription();
@@ -39,7 +43,7 @@ public abstract class Menu {
         return prompt.getUserInput(menuInputScanner);
     }
 
-    public int createMenu(AccountType[] accountTypes) {
+    protected int createMenu(AccountType[] accountTypes) {
         String[] menuDescriptions = new String[accountTypes.length];
         for (int i = 0; i < accountTypes.length; i++) {
             menuDescriptions[i] = accountTypes[i].getDescription();
@@ -50,13 +54,13 @@ public abstract class Menu {
         return prompt.getUserInput(menuInputScanner);
     }
 
-    public int createSelectionInput(String message) {
+    protected int createSelectionInput(String message) {
         IntegerInputScanner chooseCustomerOption = new IntegerInputScanner();
         chooseCustomerOption.setMessage(message);
         return prompt.getUserInput(chooseCustomerOption);
     }
 
-    public int createCustomerMenu() {
+    protected int createCustomerMenu() {
         System.out.println("\n" + bank.getAllCustomersInfo());
         if (!bank.getAllCustomersInfo().contains("[")) {
             return -1;
@@ -65,7 +69,7 @@ public abstract class Menu {
         return createSelectionInput("Choose one customer from the list: ");
     }
 
-    public int createAccountMenu(Customer customer) {
+    protected int createAccountMenu(Customer customer) {
         if (customer == null) {
             return -1;
         }
@@ -84,5 +88,9 @@ public abstract class Menu {
 
     public Bank getBank() {
         return bank;
+    }
+
+    public MenuHandler getMenuHandler() {
+        return menuHandler;
     }
 }
