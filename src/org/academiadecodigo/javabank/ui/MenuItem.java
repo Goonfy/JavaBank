@@ -6,7 +6,7 @@ public enum MenuItem {
     NEWCUSTOMER("Add new Customer"),
     SHOWCUSTOMERS("Show Customers"),
     EDITCUSTOMERS("Edit Customers"),
-    REMOVECUSTOMERS("Delete Customers"),
+    DELETECUSTOMERS("Delete Customers"),
     ADDACCOUNT("Add Account"),
     SHOWACCOUNTS("Show Accounts"),
     CLOSEACCOUNTS("Close Accounts"),
@@ -14,9 +14,7 @@ public enum MenuItem {
     DEPOSITMONEY("Deposit Money"),
     WITHDRAWMONEY("Withdraw Money"),
     CHECKINGACCOUNT("Checking Account Type"),
-    SAVINGSACCOUNT("Savings Account Type"),
-    BACK("Back"),
-    EXIT("Exit");
+    SAVINGSACCOUNT("Savings Account Type");
 
     private final String menuDescription;
 

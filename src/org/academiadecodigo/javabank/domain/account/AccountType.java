@@ -8,20 +8,10 @@ public enum AccountType {
     /**
      * @see CheckingAccount
      */
-    CHECKING("Checking Type Account"),
+    CHECKING,
 
     /**
      * @see SavingsAccount
      */
-    SAVINGS("Savings Type Account");
-
-    private final String description;
-
-    AccountType(String description) {
-        this.description = description;
-    }
-
-    public String getDescription() {
-        return description;
-    }
+    SAVINGS
 }

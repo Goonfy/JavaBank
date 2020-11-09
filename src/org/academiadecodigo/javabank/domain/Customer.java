@@ -80,8 +80,8 @@ public class Customer {
         return balance;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setId() {
+        id++;
     }
 
     public int getId() {
@@ -101,19 +101,10 @@ public class Customer {
     }
 
     public Account getAccountFromID(int id) {
-        if (accounts.get(id) == null) {
-            System.out.println("\nNo account found with that id\n");
-            return null;
-        }
-
         return accounts.get(id);
     }
 
     public String getAllAccountsInfo() {
-        if (accounts.size() <= 0) {
-            return "\nPlease create an account first...\n";
-        }
-
         StringBuilder stringBuilder = new StringBuilder();
 
         for (Account account : accounts.values()) {
