@@ -96,6 +96,6 @@ public abstract class Account {
     }
 
     public String toString() {
-        return id + " - [ Balance: " + balance + ", Type: " + getAccountType() + " ]\n";
+        return "\n" + id + " - [ Balance: " + balance + ", Type: " + getAccountType() + " ]";
     }
 }

@@ -24,11 +24,6 @@ public class ShowAccountViewer extends Viewer {
 
     @Override
     public void error() {
-        System.out.println("\nPlease create a costumer before proceeding...\n");
-    }
-
-    @Override
-    public int getInput() {
-        return 0;
+        System.out.println("\nPlease create a costumer before proceeding...");
     }
 }

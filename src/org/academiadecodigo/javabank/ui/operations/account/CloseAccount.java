@@ -16,7 +16,7 @@ public class CloseAccount extends Operation {
 
     @Override
     public void execute() {
-        Viewer viewer = new CloseAccountViewer(getCustomerId(), getPrompt(), getMenu(), getBank());
+        CloseAccountViewer viewer = new CloseAccountViewer(getCustomerId(), getPrompt(), getMenu(), getBank());
 
         Customer customer = getBank().getCustomerFromID(getCustomerId());
         if (customer == null) {

@@ -17,14 +17,26 @@ public class TransferMoney extends Operation {
 
     @Override
     public void execute() {
-        Viewer viewer = new TransferMoneyViewer(getPrompt(), getMenu(), getCustomerId(), getBank());
+        TransferMoneyViewer viewer = new TransferMoneyViewer(getPrompt(), getMenu(), getCustomerId(), getBank());
 
-        Customer customer = getBank().getCustomerFromID(customerNumber);
-        if (customer == null) {
-
+        int accountId = viewer.getInputAccount(getCustomerId());
+        if (accountId == -1) {
+            viewer.error();
             return;
         }
 
-        customer.getAccountManager().transfer(accountNumber, accountToSendMoneyTo, amountToTransfer);
+        int customerIdToTransferMoneyTo = viewer.getInput();
+        int accountIdToTransferMoneyTo = viewer.getInputAccount(customerIdToTransferMoneyTo);
+        int amountOfMoney = viewer.getAmount(customerIdToTransferMoneyTo);
+
+        Customer customer = getBank().getCustomerFromID(getCustomerId());
+        if (customer == null) {
+            viewer.error();
+            return;
+        }
+
+        customer.getAccountManager().transfer(accountId, accountIdToTransferMoneyTo, amountOfMoney);
+
+        viewer.success();
     }
 }

@@ -21,7 +21,7 @@ public abstract class Menu {
 
     public void init() {
         try {
-            System.out.println("\nPlease wait...\n");
+            System.out.println("\nPlease wait...");
             Thread.sleep(2000);
         } catch (InterruptedException e) {
             System.out.println(e.getMessage());

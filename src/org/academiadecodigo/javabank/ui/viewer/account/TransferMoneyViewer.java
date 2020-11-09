@@ -10,40 +10,37 @@ import org.academiadecodigo.javabank.ui.viewer.Viewer;
 public class TransferMoneyViewer extends Viewer {
 
     private final Bank bank;
-    private final int costumerId;
+    private final int customerId;
 
     public TransferMoneyViewer(Prompt prompt, Menu menu, int costumerId, Bank bank) {
         super(prompt, menu);
 
-        this.costumerId = costumerId;
+        this.customerId = costumerId;
         this.bank = bank;
     }
 
     @Override
     public void success() {
-        System.out.println("Successfully sent money to " + bank.getCustomerFromID(accountToSendMoneyTo).getName());
+        System.out.println("\nSuccessfully sent money");
     }
 
     @Override
     public void error() {
-        System.out.println("\nError transferring money\n");
+        System.out.println("\nError transferring money");
     }
 
-    @Override
     public int getInput() {
-        int accountId = getMenu().createAccountMenu(bank.getCustomerFromID(costumerId));
-        if (accountId == -1) {
-            return -1;
-        }
+        return getMenu().createCustomerMenu();
+    }
 
-        int customerIdToTransferMoneyTo = getMenu().createCustomerMenu();
-        int accountIdToTransferMoneyTo = getMenu().createAccountMenu(bank.getCustomerFromID(customerIdToTransferMoneyTo));
+    public int getInputAccount(int customerId) {
+        return getMenu().createAccountMenu(bank.getCustomerFromID(customerId));
+    }
 
-        IntegerInputScanner inputScanner = new IntegerRangeInputScanner(1, (int) bank.getBalance());
+    public int getAmount(int customerId) {
+        IntegerInputScanner inputScanner = new IntegerRangeInputScanner(1, (int) bank.getCustomerFromID(customerId).getBalance());
         inputScanner.setMessage("How much money do you want to transfer to "
-                + bank.getCustomerFromID(customerIdToTransferMoneyTo).getName() + ": ");
-        int amountOfMoney = getPrompt().getUserInput(inputScanner);
-
-        return 0;
+                + bank.getCustomerFromID(customerId).getName() + ": ");
+        return getPrompt().getUserInput(inputScanner);
     }
 }

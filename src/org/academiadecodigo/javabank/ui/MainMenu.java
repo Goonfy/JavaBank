@@ -3,6 +3,15 @@ package org.academiadecodigo.javabank.ui;
 import org.academiadecodigo.bootcamp.Prompt;
 import org.academiadecodigo.bootcamp.scanners.string.StringInputScanner;
 import org.academiadecodigo.javabank.domain.Bank;
+import org.academiadecodigo.javabank.ui.operations.Operation;
+import org.academiadecodigo.javabank.ui.operations.account.*;
+import org.academiadecodigo.javabank.ui.operations.customer.AddNewCustomer;
+import org.academiadecodigo.javabank.ui.operations.customer.EditCustomer;
+import org.academiadecodigo.javabank.ui.operations.customer.RemoveCustomer;
+import org.academiadecodigo.javabank.ui.operations.customer.ShowCustomer;
+
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 public class MainMenu extends Menu {
     public MainMenu(Prompt prompt, Bank bank) {
@@ -12,58 +21,23 @@ public class MainMenu extends Menu {
     public void init() {
         super.init();
 
+        Map<Integer, Operation> menuMap = new LinkedHashMap<>();
+
         MenuItem[] menuItems = new MenuItem[]{MenuItem.NEWCUSTOMER, MenuItem.SHOWCUSTOMERS,
                 MenuItem.EDITCUSTOMERS, MenuItem.REMOVECUSTOMERS, MenuItem.EXIT};
-        int option = createMenu(menuItems) - 1;
-        switch (menuItems[option]) {
-            case NEWCUSTOMER:
-                addNewCustomer();
-                break;
-            case SHOWCUSTOMERS:
-                showCustomers();
-                break;
-            case EDITCUSTOMERS:
-                editCustomers();
-                break;
-            case REMOVECUSTOMERS:
-                removeCustomers();
-                break;
-            case EXIT:
-                System.exit(0);
-                break;
+
+        menuMap.put(1, new AddNewCustomer(-1, getPrompt(), getBank(), this));
+        menuMap.put(2, new ShowCustomer(-1, getPrompt(), getBank(), this));
+        menuMap.put(3, new EditCustomer(-1, getPrompt(), getBank(), this));
+        menuMap.put(4, new RemoveCustomer(-1, getPrompt(), getBank(), this));
+
+        int option = createMenu(menuItems);
+        if (option == menuItems.length) {
+            System.exit(0);
         }
 
+        menuMap.get(option).execute();
+
         init();
-    }
-
-    private void addNewCustomer() {
-        StringInputScanner questionName = new StringInputScanner();
-        questionName.setMessage("Type in a name: ");
-
-        StringInputScanner questionEmail = new StringInputScanner();
-        questionEmail.setMessage("Type in an email: ");
-
-        StringInputScanner questionPhoneNumber = new StringInputScanner();
-        questionPhoneNumber.setMessage("Type in a Phone Number: ");
-
-        String name = getPrompt().getUserInput(questionName);
-        String email = getPrompt().getUserInput(questionEmail);
-        String phoneNumber = getPrompt().getUserInput(questionPhoneNumber);
-
-        getMenuHandler().addNewCustomer(name, email, phoneNumber);
-    }
-
-    private void showCustomers() {
-        System.out.println("\n" + getBank().getAllCustomersInfo());
-    }
-
-    private void editCustomers() {
-        Menu menu = new EditCustomerMenu(getPrompt(), getBank());
-        menu.init();
-    }
-
-    private void removeCustomers() {
-        int customerId = createCustomerMenu();
-        getMenuHandler().removeCustomer(customerId);
     }
 }

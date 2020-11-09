@@ -12,15 +12,14 @@ public class AddAccountViewer extends Viewer {
 
     @Override
     public void success() {
-        System.out.println("\nAdded new account successfully\n");
+        System.out.println("\nAdded new account successfully");
     }
 
     @Override
     public void error() {
-        System.out.println("\nError adding new account\n");
+        System.out.println("\nError adding new account");
     }
 
-    @Override
     public int getInput() {
         return getMenu().createMenu(AccountType.values()) - 1;
     }

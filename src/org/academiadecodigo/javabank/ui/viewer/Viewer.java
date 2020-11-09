@@ -21,8 +21,6 @@ public abstract class Viewer {
     public abstract void success();
     public abstract void error();
 
-    public abstract int getInput();
-
     public Prompt getPrompt() {
         return prompt;
     }

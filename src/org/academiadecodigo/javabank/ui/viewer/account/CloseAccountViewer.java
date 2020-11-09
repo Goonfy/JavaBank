@@ -19,15 +19,14 @@ public class CloseAccountViewer extends Viewer {
 
     @Override
     public void success() {
-        System.out.println("\nSuccessfully closed this account\n");
+        System.out.println("\nSuccessfully closed this account");
     }
 
     @Override
     public void error() {
-        System.out.println("\nError closing account\n");
+        System.out.println("\nError closing account");
     }
 
-    @Override
     public int getInput() {
         return getMenu().createAccountMenu(bank.getCustomerFromID(customerId));
     }

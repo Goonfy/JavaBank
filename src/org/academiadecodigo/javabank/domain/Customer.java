@@ -102,7 +102,6 @@ public class Customer {
 
     public Account getAccountFromID(int id) {
         if (accounts.get(id) == null) {
-            System.out.println("\nNo account found with that id\n");
             return null;
         }
 
@@ -110,10 +109,6 @@ public class Customer {
     }
 
     public String getAllAccountsInfo() {
-        if (accounts.size() <= 0) {
-            return "\nPlease create an account first...\n";
-        }
-
         StringBuilder stringBuilder = new StringBuilder();
 
         for (Account account : accounts.values()) {
@@ -129,6 +124,6 @@ public class Customer {
 
     @Override
     public String toString() {
-        return id + " - [ Name: " + name + ", Email: " + email + ", Phone Number: " + phoneNumber + " ]\n";
+        return "\n" + id + " - [ Name: " + name + ", Email: " + email + ", Phone Number: " + phoneNumber + " ]";
     }
 }

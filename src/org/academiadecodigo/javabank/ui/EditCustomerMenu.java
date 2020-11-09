@@ -37,28 +37,15 @@ public class EditCustomerMenu extends Menu {
         menuMap.put(5, new DepositMoney(customerId, getPrompt(), getBank(), this));
         menuMap.put(6, new WithdrawMoney(customerId, getPrompt(), getBank(), this));
 
-        int option = createMenu(menuItems) - 1;
+        int option = createMenu(menuItems);
+        if (option == menuItems.length) {
+            Menu menu = new MainMenu(getPrompt(), getBank());
+            menu.init();
+            return;
+        }
+
         menuMap.get(option).execute();
-    }
 
-    private void depositMoney(int customerId) {
-        int accountId = createAccountMenu(getBank().getCustomerFromID(customerId));
-        if (accountId == -1) {
-            return;
-        }
-
-        int amountToDeposit = createSelectionInput("Please enter the amount of money you want to deposit: ");
-        getMenuHandler().depositMoney(customerId, accountId, amountToDeposit);
-    }
-
-    private void withdrawMoney(int customerId) {
-        int accountId = createAccountMenu(getBank().getCustomerFromID(customerId));
-        if (accountId == -1) {
-            return;
-        }
-
-        int amountToWithdraw = createSelectionInput("Please enter the amount of money you want to withdraw: ");
-
-        getMenuHandler().withdrawMoney(customerId, accountId, amountToWithdraw);
+        init();
     }
 }

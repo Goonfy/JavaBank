@@ -16,7 +16,7 @@ public class AddAccount extends Operation {
 
     @Override
     public void execute() {
-        Viewer viewer = new AddAccountViewer(getPrompt(), getMenu());
+        AddAccountViewer viewer = new AddAccountViewer(getPrompt(), getMenu());
 
         Customer customer = getBank().getCustomerFromID(getCustomerId());
         if (customer == null) {
