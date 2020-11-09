@@ -32,7 +32,6 @@ public class Bank {
      */
     public void addCustomer(Customer customer) {
         if (!customers.add(customer)) {
-            System.out.println("\nCan't add customer\n");
             return;
         }
 
@@ -40,16 +39,10 @@ public class Bank {
 
         customer.setAccountManager(accountManager);
         customer.setId(numberOfCustomers);
-        System.out.println("\nAdded customer " + customer.getName() + "\n");
     }
 
     public void removeCustomer(Customer customer) {
-        if(!customers.remove(customer)) {
-            System.out.println("\nCan't remove user\n");
-            return;
-        }
-
-        System.out.println("\nRemoved customer successfully" + "\n");
+        customers.remove(customer);
     }
 
     /**
@@ -75,15 +68,10 @@ public class Bank {
             }
         }
 
-        System.out.println("\nCustomer not found\n");
         return null;
     }
 
     public String getAllCustomersInfo() {
-        if (customers.size() <= 0) {
-            return "\nPlease create a costumer before proceeding...\n";
-        }
-
         StringBuilder stringBuilder = new StringBuilder();
 
         for (Customer customer : customers) {
