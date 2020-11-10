@@ -14,8 +14,4 @@ public class RemoveCustomerPromptView extends PromptView {
     public void error() {
         System.out.println("\nCan't remove customer");
     }
-
-    public int getInput() {
-        return createCustomerMenu();
-    }
 }

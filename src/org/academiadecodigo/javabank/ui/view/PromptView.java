@@ -3,6 +3,8 @@ package org.academiadecodigo.javabank.ui.view;
 import org.academiadecodigo.bootcamp.Prompt;
 import org.academiadecodigo.bootcamp.scanners.integer.IntegerInputScanner;
 import org.academiadecodigo.bootcamp.scanners.menu.MenuInputScanner;
+import org.academiadecodigo.bootcamp.scanners.string.StringInputScanner;
+import org.academiadecodigo.javabank.domain.Bank;
 import org.academiadecodigo.javabank.domain.Customer;
 import org.academiadecodigo.javabank.Descriptable;
 
@@ -12,6 +14,15 @@ public abstract class PromptView implements View {
 
     public PromptView() {
         this.prompt = new Prompt(System.in, System.out);
+    }
+
+    public void execute() {
+        try {
+            System.out.println("\nPlease wait...");
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     public <T extends Descriptable> int createMenu(T[] menuItems) {
@@ -31,7 +42,12 @@ public abstract class PromptView implements View {
         return prompt.getUserInput(chooseCustomerOption);
     }
 
-    public int createCustomerMenu() {
+    public int createCustomerMenu(Bank bank) {
+        System.out.println("\n" + bank.getAllCustomersInfo());
+        if (!bank.getAllCustomersInfo().contains("[")) {
+            return -1;
+        }
+
         return createSelectionInput("Choose one customer from the list: ");
     }
 
@@ -46,6 +62,28 @@ public abstract class PromptView implements View {
         }
 
         return createSelectionInput("Choose one account from the list: ");
+    }
+
+    public int getAmount() {
+        return createSelectionInput("Please enter the amount of money: ");
+    }
+
+    public String getName() {
+        StringInputScanner questionName = new StringInputScanner();
+        questionName.setMessage("Type in a name: ");
+        return getPrompt().getUserInput(questionName);
+    }
+
+    public String getEmail() {
+        StringInputScanner questionEmail = new StringInputScanner();
+        questionEmail.setMessage("Type in an email: ");
+        return getPrompt().getUserInput(questionEmail);
+    }
+
+    public String getPhone() {
+        StringInputScanner questionPhoneNumber = new StringInputScanner();
+        questionPhoneNumber.setMessage("Type in a Phone Number: ");
+        return getPrompt().getUserInput(questionPhoneNumber);
     }
 
     public Prompt getPrompt() {

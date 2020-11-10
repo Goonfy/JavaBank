@@ -13,16 +13,14 @@ public class RemoveCustomerController extends OperationController {
 
     @Override
     public void execute() {
-        RemoveCustomerPromptView viewer = new RemoveCustomerPromptView(getPrompt(), getMenu());
-
-        int customerId = viewer.getInput();
+        int customerId = getView().createCustomerMenu(getBank());
         if (customerId == -1) {
-            viewer.error();
+            getView().error();
             return;
         }
 
         getBank().removeCustomer(getBank().getCustomerFromID(customerId));
 
-        viewer.success();
+        getView().success();
     }
 }

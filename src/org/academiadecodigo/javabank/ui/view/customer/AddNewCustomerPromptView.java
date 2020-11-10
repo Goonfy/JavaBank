@@ -15,22 +15,4 @@ public class AddNewCustomerPromptView extends PromptView {
     public void error() {
         System.out.println("\nCan't add new customer");
     }
-
-    public String getName() {
-        StringInputScanner questionName = new StringInputScanner();
-        questionName.setMessage("Type in a name: ");
-        return getPrompt().getUserInput(questionName);
-    }
-
-    public String getEmail() {
-        StringInputScanner questionEmail = new StringInputScanner();
-        questionEmail.setMessage("Type in an email: ");
-        return getPrompt().getUserInput(questionEmail);
-    }
-
-    public String getPhone() {
-        StringInputScanner questionPhoneNumber = new StringInputScanner();
-        questionPhoneNumber.setMessage("Type in a Phone Number: ");
-        return getPrompt().getUserInput(questionPhoneNumber);
-    }
 }

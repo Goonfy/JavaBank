@@ -7,19 +7,22 @@ import org.academiadecodigo.javabank.ui.view.PromptView;
 import org.academiadecodigo.javabank.ui.view.account.ShowAccountPromptView;
 
 public class ShowAccountController extends OperationController {
-    public ShowAccountController(Bank bank, PromptView view) {
+
+    private final Customer customer;
+
+    public ShowAccountController(Bank bank, PromptView view, Customer customer) {
         super(bank, view);
+
+        this.customer = customer;
     }
 
     @Override
     public void execute() {
-        PromptView promptView = new ShowAccountPromptView(getCustomerId(), getPrompt(), getMenu(), getBank());
-
-        Customer customer = getBank().getCustomerFromID(getCustomerId());
-        if (customer.getAllAccountsInfo().isEmpty()) {
-            promptView.error();
+        if (customer == null || customer.getAccountManager().getAllAccountsInfo().isEmpty()) {
+            getView().error();
+            return;
         }
 
-        promptView.success();
+        getView().success();
     }
 }

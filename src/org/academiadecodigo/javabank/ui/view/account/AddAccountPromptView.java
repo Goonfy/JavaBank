@@ -7,16 +7,12 @@ import org.academiadecodigo.javabank.ui.view.PromptView;
 public class AddAccountPromptView extends PromptView {
 
     @Override
-    public void success(String message) {
+    public void success() {
         System.out.println("\nAdded new account successfully");
     }
 
     @Override
-    public void error(String message) {
+    public void error() {
         System.out.println("\nError adding new account");
-    }
-
-    public int getInput() {
-        return createMenu(AccountType.values()) - 1;
     }
 }

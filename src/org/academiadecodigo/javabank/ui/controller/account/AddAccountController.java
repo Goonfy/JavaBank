@@ -7,18 +7,24 @@ import org.academiadecodigo.javabank.ui.controller.OperationController;
 import org.academiadecodigo.javabank.ui.view.PromptView;
 
 public class AddAccountController extends OperationController {
-    public AddAccountController(Bank bank, PromptView view) {
+
+    private final Customer customer;
+
+    public AddAccountController(Bank bank, PromptView view, Customer customer) {
         super(bank, view);
+
+        this.customer = customer;
     }
 
     @Override
     public void execute() {
-        int selectedCustomer = getView().createCustomerMenu();
-        Customer customer = getBank().getCustomerFromID(selectedCustomer);
         if (customer == null) {
+            getView().error();
             return;
         }
 
         customer.openAccount(AccountType.values()[getView().createMenu(AccountType.values())]);
+
+        getView().success();
     }
 }

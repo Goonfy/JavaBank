@@ -7,32 +7,30 @@ import org.academiadecodigo.javabank.ui.view.PromptView;
 import org.academiadecodigo.javabank.ui.view.account.TransferMoneyPromptView;
 
 public class TransferMoneyController extends OperationController {
-    public TransferMoneyController(Bank bank, PromptView view) {
+
+    private final Customer customer;
+
+    public TransferMoneyController(Bank bank, PromptView view, Customer customer) {
         super(bank, view);
+
+        this.customer = customer;
     }
 
     @Override
     public void execute() {
-        TransferMoneyPromptView viewer = new TransferMoneyPromptView(getPrompt(), getMenu(), getCustomerId(), getBank());
-
-        int accountId = viewer.getInputAccount(getCustomerId());
-        if (accountId == -1) {
-            viewer.error();
-            return;
-        }
-
-        int customerIdToTransferMoneyTo = viewer.getInput();
-        int accountIdToTransferMoneyTo = viewer.getInputAccount(customerIdToTransferMoneyTo);
-        int amountOfMoney = viewer.getAmount(customerIdToTransferMoneyTo);
-
-        Customer customer = getBank().getCustomerFromID(getCustomerId());
         if (customer == null) {
-            viewer.error();
+            getView().error();
             return;
         }
+
+        int accountId = getView().createAccountMenu(customer);
+
+        int customerIdToTransferMoneyTo = getView().createCustomerMenu(getBank());
+        int accountIdToTransferMoneyTo = getView().createAccountMenu(getBank().getCustomerFromID(customerIdToTransferMoneyTo));
+        int amountOfMoney = getView().getAmount();
 
         customer.getAccountManager().transfer(accountId, accountIdToTransferMoneyTo, amountOfMoney);
 
-        viewer.success();
+        getView().success();
     }
 }

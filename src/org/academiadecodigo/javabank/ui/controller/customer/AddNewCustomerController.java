@@ -14,10 +14,6 @@ public class AddNewCustomerController extends OperationController {
 
     @Override
     public void execute() {
-        AddNewCustomerPromptView viewer = new AddNewCustomerPromptView(getPrompt(), getMenu());
-
-        getBank().addCustomer(new Customer(viewer.getName(), viewer.getEmail(), viewer.getPhone()));
-
-        viewer.success();
+        getBank().addCustomer(new Customer(getView().getName(), getView().getEmail(), getView().getPhone()));
     }
 }

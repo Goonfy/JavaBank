@@ -1,32 +1,16 @@
 package org.academiadecodigo.javabank.ui.view.menu;
 
-import org.academiadecodigo.bootcamp.Prompt;
-import org.academiadecodigo.javabank.domain.Bank;
-import org.academiadecodigo.javabank.ui.view.MenuView;
-import org.academiadecodigo.javabank.ui.controller.OperationController;
-import org.academiadecodigo.javabank.ui.controller.account.*;
+import org.academiadecodigo.javabank.ui.view.PromptView;
 
-import java.util.LinkedHashMap;
-import java.util.Map;
-
-public class EditCustomerMenuView extends MenuView {
-
-    @Override
-    public void execute() {
-        super.execute();
-
-
-
-        execute();
-    }
+public class EditCustomerMenuView extends PromptView {
 
     @Override
     public void success() {
-
+        System.out.println("\nEdit Customer Menu");
     }
 
     @Override
     public void error() {
-
+        System.out.println("Can't create this menu");
     }
 }

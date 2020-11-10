@@ -10,7 +10,7 @@ import org.academiadecodigo.javabank.ui.view.customer.AddNewCustomerPromptView;
 import org.academiadecodigo.javabank.ui.view.customer.RemoveCustomerPromptView;
 import org.academiadecodigo.javabank.ui.view.customer.ShowCustomerPromptView;
 import org.academiadecodigo.javabank.ui.view.menu.EditCustomerMenuView;
-import org.academiadecodigo.javabank.ui.view.menu.MenuItem;
+import org.academiadecodigo.javabank.ui.MenuItem;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -23,13 +23,16 @@ public class MainMenuController extends OperationController {
 
     @Override
     public void execute() {
+        getView().success();
+
         Map<Integer, OperationController> menuMap = new LinkedHashMap<>();
 
         MenuItem[] menuItems = new MenuItem[]{MenuItem.NEWCUSTOMER, MenuItem.SHOWCUSTOMERS,
                 MenuItem.EDITCUSTOMERS, MenuItem.REMOVECUSTOMERS, MenuItem.EXIT};
 
         menuMap.put(1, new AddNewCustomerController(getBank(), new AddNewCustomerPromptView()));
-        menuMap.put(2, new ShowCustomerController(getBank(), new ShowCustomerPromptView()));
+        menuMap.put(2, new ShowCustomerController(getBank(),
+                new ShowCustomerPromptView(getBank().getAllCustomersInfo())));
         menuMap.put(3, new EditCustomerMenuController(getBank(), new EditCustomerMenuView()));
         menuMap.put(4, new RemoveCustomerController(getBank(), new RemoveCustomerPromptView()));
 
@@ -39,5 +42,7 @@ public class MainMenuController extends OperationController {
         }
 
         menuMap.get(option).execute();
+
+        execute();
     }
 }

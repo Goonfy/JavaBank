@@ -1,4 +1,4 @@
-package org.academiadecodigo.javabank.ui.view.menu;
+package org.academiadecodigo.javabank.ui;
 
 import org.academiadecodigo.javabank.Descriptable;
 

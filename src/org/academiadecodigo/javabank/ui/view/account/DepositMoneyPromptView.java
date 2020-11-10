@@ -14,12 +14,4 @@ public class DepositMoneyPromptView extends PromptView {
     public void error() {
         System.out.println("\nError depositing money");
     }
-
-    public int getInput() {
-        return createAccountMenu();
-    }
-
-    public int getAmount() {
-        return createSelectionInput("Please enter the amount of money you want to deposit: ");
-    }
 }

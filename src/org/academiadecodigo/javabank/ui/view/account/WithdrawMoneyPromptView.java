@@ -14,12 +14,4 @@ public class WithdrawMoneyPromptView extends PromptView {
     public void error() {
         System.out.println("\nError withdrawing money");
     }
-
-    public int getInput() {
-        return createAccountMenu();
-    }
-
-    public int getAmount() {
-        return createSelectionInput("Please enter the amount of money you want to withdraw: ");
-    }
 }

@@ -14,8 +14,4 @@ public class CloseAccountPromptView extends PromptView {
     public void error() {
         System.out.println("\nError closing account");
     }
-
-    public int getInput() {
-        return createAccountMenu();
-    }
 }
