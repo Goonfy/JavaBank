@@ -2,25 +2,21 @@ package org.academiadecodigo.javabank.ui.view.account;
 
 import org.academiadecodigo.bootcamp.Prompt;
 import org.academiadecodigo.javabank.domain.account.AccountType;
-import org.academiadecodigo.javabank.ui.Menu;
-import org.academiadecodigo.javabank.ui.view.View;
+import org.academiadecodigo.javabank.ui.view.PromptView;
 
-public class AddAccountView extends View {
-    public AddAccountView(Prompt prompt, Menu menu) {
-        super(prompt, menu);
-    }
+public class AddAccountPromptView extends PromptView {
 
     @Override
-    public void success() {
+    public void success(String message) {
         System.out.println("\nAdded new account successfully");
     }
 
     @Override
-    public void error() {
+    public void error(String message) {
         System.out.println("\nError adding new account");
     }
 
     public int getInput() {
-        return getMenu().createMenu(AccountType.values()) - 1;
+        return createMenu(AccountType.values()) - 1;
     }
 }

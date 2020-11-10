@@ -1,8 +1,8 @@
-package org.academiadecodigo.javabank.ui;
+package org.academiadecodigo.javabank.ui.view.menu;
 
-import org.academiadecodigo.javabank.domain.Customer;
+import org.academiadecodigo.javabank.Descriptable;
 
-public enum MenuItem {
+public enum MenuItem implements Descriptable {
     NEWCUSTOMER("Add new Customer"),
     SHOWCUSTOMERS("Show Customers"),
     EDITCUSTOMERS("Edit Customers"),
@@ -24,7 +24,8 @@ public enum MenuItem {
         this.menuDescription = menuDescription;
     }
 
-    public String getMenuDescription() {
+    @Override
+    public String getDescription() {
         return menuDescription;
     }
 }

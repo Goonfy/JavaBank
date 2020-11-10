@@ -90,4 +90,22 @@ public class AccountManager {
             dstAccount.credit(amount);
         }
     }
+
+    public Account getAccountFromID(int id) {
+        if (accountMap.get(id) == null) {
+            return null;
+        }
+
+        return accountMap.get(id);
+    }
+
+    public String getAllAccountsInfo() {
+        StringBuilder stringBuilder = new StringBuilder();
+
+        for (Account account : accountMap.values()) {
+            stringBuilder.append(account.toString());
+        }
+
+        return stringBuilder.toString();
+    }
 }

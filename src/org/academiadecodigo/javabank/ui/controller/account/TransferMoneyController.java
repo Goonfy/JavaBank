@@ -1,20 +1,19 @@
 package org.academiadecodigo.javabank.ui.controller.account;
 
-import org.academiadecodigo.bootcamp.Prompt;
 import org.academiadecodigo.javabank.domain.Bank;
 import org.academiadecodigo.javabank.domain.Customer;
-import org.academiadecodigo.javabank.ui.Menu;
 import org.academiadecodigo.javabank.ui.controller.OperationController;
-import org.academiadecodigo.javabank.ui.view.account.TransferMoneyView;
+import org.academiadecodigo.javabank.ui.view.PromptView;
+import org.academiadecodigo.javabank.ui.view.account.TransferMoneyPromptView;
 
 public class TransferMoneyController extends OperationController {
-    public TransferMoneyController(int customerId, Prompt prompt, Bank bank, Menu menu) {
-        super(customerId, prompt, bank, menu);
+    public TransferMoneyController(Bank bank, PromptView view) {
+        super(bank, view);
     }
 
     @Override
     public void execute() {
-        TransferMoneyView viewer = new TransferMoneyView(getPrompt(), getMenu(), getCustomerId(), getBank());
+        TransferMoneyPromptView viewer = new TransferMoneyPromptView(getPrompt(), getMenu(), getCustomerId(), getBank());
 
         int accountId = viewer.getInputAccount(getCustomerId());
         if (accountId == -1) {

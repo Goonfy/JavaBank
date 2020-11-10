@@ -1,14 +1,9 @@
 package org.academiadecodigo.javabank.ui.view.customer;
 
 import org.academiadecodigo.bootcamp.Prompt;
-import org.academiadecodigo.javabank.ui.Menu;
-import org.academiadecodigo.javabank.ui.view.View;
+import org.academiadecodigo.javabank.ui.view.PromptView;
 
-public class RemoveCustomerView extends View {
-
-    public RemoveCustomerView(Prompt prompt, Menu menu) {
-        super(prompt, menu);
-    }
+public class RemoveCustomerPromptView extends PromptView {
 
     @Override
     public void success() {
@@ -21,6 +16,6 @@ public class RemoveCustomerView extends View {
     }
 
     public int getInput() {
-        return getMenu().createCustomerMenu();
+        return createCustomerMenu();
     }
 }

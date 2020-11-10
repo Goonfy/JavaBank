@@ -1,37 +1,24 @@
 package org.academiadecodigo.javabank.ui.controller;
 
-import org.academiadecodigo.bootcamp.Prompt;
 import org.academiadecodigo.javabank.domain.Bank;
-import org.academiadecodigo.javabank.ui.Menu;
+import org.academiadecodigo.javabank.ui.view.PromptView;
+import org.academiadecodigo.javabank.ui.view.View;
 
 public abstract class OperationController implements Controller {
 
-    private final Prompt prompt;
     private final Bank bank;
-    private final int customerId;
-    private final Menu menu;
+    private final PromptView view;
 
-    //TODO leave only BANK
-    public OperationController(int customerId, Prompt prompt, Bank bank, Menu menu) {
-        this.customerId = customerId;
-        this.prompt = prompt;
+    public OperationController(Bank bank, PromptView view) {
         this.bank = bank;
-        this.menu = menu;
-    }
-
-    public int getCustomerId() {
-        return customerId;
-    }
-
-    public Prompt getPrompt() {
-        return prompt;
+        this.view = view;
     }
 
     public Bank getBank() {
         return bank;
     }
 
-    public Menu getMenu() {
-        return menu;
+    public PromptView getView() {
+        return view;
     }
 }

@@ -1,22 +1,21 @@
 package org.academiadecodigo.javabank.ui.controller.account;
 
-import org.academiadecodigo.bootcamp.Prompt;
 import org.academiadecodigo.javabank.domain.Bank;
 import org.academiadecodigo.javabank.domain.Customer;
 import org.academiadecodigo.javabank.domain.account.Account;
 import org.academiadecodigo.javabank.domain.account.AccountType;
-import org.academiadecodigo.javabank.ui.Menu;
 import org.academiadecodigo.javabank.ui.controller.OperationController;
-import org.academiadecodigo.javabank.ui.view.account.WithdrawMoneyView;
+import org.academiadecodigo.javabank.ui.view.PromptView;
+import org.academiadecodigo.javabank.ui.view.account.WithdrawMoneyPromptView;
 
 public class WithdrawMoneyController extends OperationController {
-    public WithdrawMoneyController(int customerId, Prompt prompt, Bank bank, Menu menu) {
-        super(customerId, prompt, bank, menu);
+    public WithdrawMoneyController(Bank bank, PromptView view) {
+        super(bank, view);
     }
 
     @Override
     public void execute() {
-        WithdrawMoneyView viewer = new WithdrawMoneyView(getPrompt(), getMenu(), getCustomerId(), getBank());
+        WithdrawMoneyPromptView viewer = new WithdrawMoneyPromptView(getPrompt(), getMenu(), getCustomerId(), getBank());
 
         Customer customer = getBank().getCustomerFromID(getCustomerId());
         int accountId = viewer.getInput();

@@ -100,24 +100,6 @@ public class Customer {
         return phoneNumber;
     }
 
-    public Account getAccountFromID(int id) {
-        if (accounts.get(id) == null) {
-            return null;
-        }
-
-        return accounts.get(id);
-    }
-
-    public String getAllAccountsInfo() {
-        StringBuilder stringBuilder = new StringBuilder();
-
-        for (Account account : accounts.values()) {
-            stringBuilder.append(account.toString());
-        }
-
-        return stringBuilder.toString();
-    }
-
     public AccountManager getAccountManager() {
         return accountManager;
     }

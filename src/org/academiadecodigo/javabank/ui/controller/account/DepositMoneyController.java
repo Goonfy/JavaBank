@@ -1,21 +1,20 @@
 package org.academiadecodigo.javabank.ui.controller.account;
 
-import org.academiadecodigo.bootcamp.Prompt;
 import org.academiadecodigo.javabank.domain.Bank;
 import org.academiadecodigo.javabank.domain.Customer;
 import org.academiadecodigo.javabank.domain.account.Account;
-import org.academiadecodigo.javabank.ui.Menu;
 import org.academiadecodigo.javabank.ui.controller.OperationController;
-import org.academiadecodigo.javabank.ui.view.account.DepositMoneyView;
+import org.academiadecodigo.javabank.ui.view.PromptView;
+import org.academiadecodigo.javabank.ui.view.account.DepositMoneyPromptView;
 
 public class DepositMoneyController extends OperationController {
-    public DepositMoneyController(int customerId, Prompt prompt, Bank bank, Menu menu) {
-        super(customerId, prompt, bank, menu);
+    public DepositMoneyController(Bank bank, PromptView view) {
+        super(bank, view);
     }
 
     @Override
     public void execute() {
-        DepositMoneyView viewer = new DepositMoneyView(getPrompt(), getMenu(), getCustomerId(), getBank());
+        DepositMoneyPromptView viewer = new DepositMoneyPromptView(getPrompt(), getMenu(), getCustomerId(), getBank());
 
         Customer customer = getBank().getCustomerFromID(getCustomerId());
         if (customer == null) {
