@@ -1,16 +1,16 @@
-package org.academiadecodigo.javabank.ui.viewer.account;
+package org.academiadecodigo.javabank.ui.view.account;
 
 import org.academiadecodigo.bootcamp.Prompt;
 import org.academiadecodigo.javabank.domain.Bank;
 import org.academiadecodigo.javabank.ui.Menu;
-import org.academiadecodigo.javabank.ui.viewer.Viewer;
+import org.academiadecodigo.javabank.ui.view.View;
 
-public class ShowAccountViewer extends Viewer {
+public class ShowAccountView extends View {
 
     private final Bank bank;
     private final int customerId;
 
-    public ShowAccountViewer(int customerId, Prompt prompt, Menu menu, Bank bank) {
+    public ShowAccountView(int customerId, Prompt prompt, Menu menu, Bank bank) {
         super(prompt, menu);
 
         this.customerId = customerId;

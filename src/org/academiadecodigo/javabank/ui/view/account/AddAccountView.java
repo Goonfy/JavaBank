@@ -1,12 +1,12 @@
-package org.academiadecodigo.javabank.ui.viewer.account;
+package org.academiadecodigo.javabank.ui.view.account;
 
 import org.academiadecodigo.bootcamp.Prompt;
 import org.academiadecodigo.javabank.domain.account.AccountType;
 import org.academiadecodigo.javabank.ui.Menu;
-import org.academiadecodigo.javabank.ui.viewer.Viewer;
+import org.academiadecodigo.javabank.ui.view.View;
 
-public class AddAccountViewer extends Viewer {
-    public AddAccountViewer(Prompt prompt, Menu menu) {
+public class AddAccountView extends View {
+    public AddAccountView(Prompt prompt, Menu menu) {
         super(prompt, menu);
     }
 

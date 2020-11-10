@@ -1,22 +1,20 @@
-package org.academiadecodigo.javabank.ui.operations.account;
+package org.academiadecodigo.javabank.ui.controller.account;
 
 import org.academiadecodigo.bootcamp.Prompt;
 import org.academiadecodigo.javabank.domain.Bank;
 import org.academiadecodigo.javabank.domain.Customer;
-import org.academiadecodigo.javabank.ui.EditCustomerMenu;
 import org.academiadecodigo.javabank.ui.Menu;
-import org.academiadecodigo.javabank.ui.operations.Operation;
-import org.academiadecodigo.javabank.ui.viewer.Viewer;
-import org.academiadecodigo.javabank.ui.viewer.account.CloseAccountViewer;
+import org.academiadecodigo.javabank.ui.controller.OperationController;
+import org.academiadecodigo.javabank.ui.view.account.CloseAccountView;
 
-public class CloseAccount extends Operation {
-    public CloseAccount(int customerId, Prompt prompt, Bank bank, Menu menu) {
+public class CloseAccountController extends OperationController {
+    public CloseAccountController(int customerId, Prompt prompt, Bank bank, Menu menu) {
         super(customerId, prompt, bank, menu);
     }
 
     @Override
     public void execute() {
-        CloseAccountViewer viewer = new CloseAccountViewer(getCustomerId(), getPrompt(), getMenu(), getBank());
+        CloseAccountView viewer = new CloseAccountView(getCustomerId(), getPrompt(), getMenu(), getBank());
 
         Customer customer = getBank().getCustomerFromID(getCustomerId());
         if (customer == null) {

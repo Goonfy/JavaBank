@@ -1,18 +1,18 @@
-package org.academiadecodigo.javabank.ui.viewer.account;
+package org.academiadecodigo.javabank.ui.view.account;
 
 import org.academiadecodigo.bootcamp.Prompt;
 import org.academiadecodigo.bootcamp.scanners.integer.IntegerInputScanner;
 import org.academiadecodigo.bootcamp.scanners.integer.IntegerRangeInputScanner;
 import org.academiadecodigo.javabank.domain.Bank;
 import org.academiadecodigo.javabank.ui.Menu;
-import org.academiadecodigo.javabank.ui.viewer.Viewer;
+import org.academiadecodigo.javabank.ui.view.View;
 
-public class TransferMoneyViewer extends Viewer {
+public class TransferMoneyView extends View {
 
     private final Bank bank;
     private final int customerId;
 
-    public TransferMoneyViewer(Prompt prompt, Menu menu, int costumerId, Bank bank) {
+    public TransferMoneyView(Prompt prompt, Menu menu, int costumerId, Bank bank) {
         super(prompt, menu);
 
         this.customerId = costumerId;

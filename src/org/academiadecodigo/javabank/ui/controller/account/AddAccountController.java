@@ -1,22 +1,21 @@
-package org.academiadecodigo.javabank.ui.operations.account;
+package org.academiadecodigo.javabank.ui.controller.account;
 
 import org.academiadecodigo.bootcamp.Prompt;
 import org.academiadecodigo.javabank.domain.Bank;
 import org.academiadecodigo.javabank.domain.Customer;
 import org.academiadecodigo.javabank.domain.account.AccountType;
 import org.academiadecodigo.javabank.ui.Menu;
-import org.academiadecodigo.javabank.ui.operations.Operation;
-import org.academiadecodigo.javabank.ui.viewer.account.AddAccountViewer;
-import org.academiadecodigo.javabank.ui.viewer.Viewer;
+import org.academiadecodigo.javabank.ui.controller.OperationController;
+import org.academiadecodigo.javabank.ui.view.account.AddAccountView;
 
-public class AddAccount extends Operation {
-    public AddAccount(int customerId, Prompt prompt, Bank bank, Menu menu) {
+public class AddAccountController extends OperationController {
+    public AddAccountController(int customerId, Prompt prompt, Bank bank, Menu menu) {
         super(customerId, prompt, bank, menu);
     }
 
     @Override
     public void execute() {
-        AddAccountViewer viewer = new AddAccountViewer(getPrompt(), getMenu());
+        AddAccountView viewer = new AddAccountView(getPrompt(), getMenu());
 
         Customer customer = getBank().getCustomerFromID(getCustomerId());
         if (customer == null) {

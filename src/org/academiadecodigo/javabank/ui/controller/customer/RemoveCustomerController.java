@@ -1,20 +1,20 @@
-package org.academiadecodigo.javabank.ui.operations.customer;
+package org.academiadecodigo.javabank.ui.controller.customer;
 
 import org.academiadecodigo.bootcamp.Prompt;
 import org.academiadecodigo.javabank.domain.Bank;
 import org.academiadecodigo.javabank.ui.Menu;
-import org.academiadecodigo.javabank.ui.operations.Operation;
-import org.academiadecodigo.javabank.ui.viewer.customer.RemoveCustomerViewer;
+import org.academiadecodigo.javabank.ui.controller.OperationController;
+import org.academiadecodigo.javabank.ui.view.customer.RemoveCustomerView;
 
-public class RemoveCustomer extends Operation {
+public class RemoveCustomerController extends OperationController {
 
-    public RemoveCustomer(int customerId, Prompt prompt, Bank bank, Menu menu) {
+    public RemoveCustomerController(int customerId, Prompt prompt, Bank bank, Menu menu) {
         super(customerId, prompt, bank, menu);
     }
 
     @Override
     public void execute() {
-        RemoveCustomerViewer viewer = new RemoveCustomerViewer(getPrompt(), getMenu());
+        RemoveCustomerView viewer = new RemoveCustomerView(getPrompt(), getMenu());
 
         int customerId = viewer.getInput();
         if (customerId == -1) {
