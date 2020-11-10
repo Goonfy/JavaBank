@@ -4,6 +4,7 @@ import org.academiadecodigo.bootcamp.Prompt;
 import org.academiadecodigo.javabank.domain.Bank;
 import org.academiadecodigo.javabank.domain.Customer;
 import org.academiadecodigo.javabank.domain.account.Account;
+import org.academiadecodigo.javabank.domain.account.AccountType;
 import org.academiadecodigo.javabank.ui.Menu;
 import org.academiadecodigo.javabank.ui.operations.Operation;
 import org.academiadecodigo.javabank.ui.viewer.Viewer;
@@ -20,14 +21,14 @@ public class WithdrawMoney extends Operation {
 
         Customer customer = getBank().getCustomerFromID(getCustomerId());
         int accountId = viewer.getInput();
-        if (accountId == -1) {
+
+        Account account = customer.getAccountFromID(accountId);
+        if (account == null || account.getAccountType() != AccountType.CHECKING) {
             viewer.error();
             return;
         }
 
         int amountToWithdraw = viewer.getAmount();
-
-        Account account = customer.getAccountFromID(accountId);
         account.debit(amountToWithdraw);
 
         viewer.success();
