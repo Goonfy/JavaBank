@@ -7,20 +7,24 @@ import org.academiadecodigo.javabank.ui.view.customer.RemoveCustomerPromptView;
 
 public class RemoveCustomerController extends OperationController {
 
-    public RemoveCustomerController(Bank bank, PromptView view) {
-        super(bank, view);
+    private final RemoveCustomerPromptView view;
+
+    public RemoveCustomerController(Bank bank) {
+        super(bank);
+
+        view = new RemoveCustomerPromptView();
     }
 
     @Override
     public void execute() {
-        int customerId = getView().createCustomerMenu(getBank());
+        int customerId = view.createCustomerMenu(getBank());
         if (customerId == -1) {
-            getView().error();
+            view.error();
             return;
         }
 
         getBank().removeCustomer(getBank().getCustomerFromID(customerId));
 
-        getView().success();
+        view.success();
     }
 }

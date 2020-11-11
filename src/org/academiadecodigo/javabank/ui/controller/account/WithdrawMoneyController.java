@@ -11,20 +11,22 @@ import org.academiadecodigo.javabank.ui.view.account.WithdrawMoneyPromptView;
 public class WithdrawMoneyController extends OperationController {
 
     private final Customer customer;
+    private final WithdrawMoneyPromptView view;
 
-    public WithdrawMoneyController(Bank bank, PromptView view, Customer customer) {
-        super(bank, view);
+    public WithdrawMoneyController(Bank bank, Customer customer) {
+        super(bank);
 
         this.customer = customer;
+        view = new WithdrawMoneyPromptView();
     }
 
     @Override
     public void execute() {
-        int accountId = getView().createAccountMenu(customer);
+        int accountId = view.createAccountMenu(customer);
 
-        int amountToWithdraw = getView().getAmount();
+        int amountToWithdraw = view.getAmount();
         customer.getAccountManager().withdraw(accountId, amountToWithdraw);
 
-        getView().success();
+        view.success();
     }
 }

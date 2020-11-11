@@ -8,12 +8,16 @@ import org.academiadecodigo.javabank.ui.view.customer.AddNewCustomerPromptView;
 
 public class AddNewCustomerController extends OperationController {
 
-    public AddNewCustomerController(Bank bank, PromptView view) {
-        super(bank, view);
+    private final AddNewCustomerPromptView view;
+
+    public AddNewCustomerController(Bank bank) {
+        super(bank);
+
+        view = new AddNewCustomerPromptView();
     }
 
     @Override
     public void execute() {
-        getBank().addCustomer(new Customer(getView().getName(), getView().getEmail(), getView().getPhone()));
+        getBank().addCustomer(new Customer(view.getName(), view.getEmail(), view.getPhone()));
     }
 }

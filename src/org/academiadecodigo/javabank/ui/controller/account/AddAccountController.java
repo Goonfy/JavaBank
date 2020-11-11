@@ -5,26 +5,29 @@ import org.academiadecodigo.javabank.domain.Customer;
 import org.academiadecodigo.javabank.domain.account.AccountType;
 import org.academiadecodigo.javabank.ui.controller.OperationController;
 import org.academiadecodigo.javabank.ui.view.PromptView;
+import org.academiadecodigo.javabank.ui.view.account.AddAccountPromptView;
 
 public class AddAccountController extends OperationController {
 
     private final Customer customer;
+    private final AddAccountPromptView view;
 
-    public AddAccountController(Bank bank, PromptView view, Customer customer) {
-        super(bank, view);
+    public AddAccountController(Bank bank, Customer customer) {
+        super(bank);
 
         this.customer = customer;
+        view = new AddAccountPromptView();
     }
 
     @Override
     public void execute() {
         if (customer == null) {
-            getView().error();
+            view.error();
             return;
         }
 
-        customer.openAccount(AccountType.values()[getView().createMenu(AccountType.values())]);
+        customer.openAccount(AccountType.values()[view.createMenu(AccountType.values())]);
 
-        getView().success();
+        view.success();
     }
 }

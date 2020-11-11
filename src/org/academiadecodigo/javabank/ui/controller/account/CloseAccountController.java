@@ -4,26 +4,29 @@ import org.academiadecodigo.javabank.domain.Bank;
 import org.academiadecodigo.javabank.domain.Customer;
 import org.academiadecodigo.javabank.ui.controller.OperationController;
 import org.academiadecodigo.javabank.ui.view.PromptView;
+import org.academiadecodigo.javabank.ui.view.account.CloseAccountPromptView;
 
 public class CloseAccountController extends OperationController {
 
     private final Customer customer;
+    private final CloseAccountPromptView view;
 
-    public CloseAccountController(Bank bank, PromptView view, Customer customer) {
-        super(bank, view);
+    public CloseAccountController(Bank bank, Customer customer) {
+        super(bank);
 
         this.customer = customer;
+        view = new CloseAccountPromptView();
     }
 
     @Override
     public void execute() {
-        int accountId = getView().createAccountMenu(customer);
+        int accountId = view.createAccountMenu(customer);
         if (accountId == -1) {
-            getView().error();
+            view.error();
             return;
         }
 
         customer.closeAccount(customer.getAccountManager().getAccountFromID(accountId));
-        getView().success();
+        view.success();
     }
 }

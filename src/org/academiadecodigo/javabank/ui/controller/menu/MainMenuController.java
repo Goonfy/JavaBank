@@ -11,32 +11,36 @@ import org.academiadecodigo.javabank.ui.view.customer.RemoveCustomerPromptView;
 import org.academiadecodigo.javabank.ui.view.customer.ShowCustomerPromptView;
 import org.academiadecodigo.javabank.ui.view.menu.EditCustomerMenuView;
 import org.academiadecodigo.javabank.ui.MenuItem;
+import org.academiadecodigo.javabank.ui.view.menu.MainMenuView;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class MainMenuController extends OperationController {
 
-    public MainMenuController(Bank bank, PromptView view) {
-        super(bank, view);
+    private final MainMenuView view;
+
+    public MainMenuController(Bank bank) {
+        super(bank);
+
+        this.view = new MainMenuView();
     }
 
     @Override
     public void execute() {
-        getView().success();
+        view.success();
 
         Map<Integer, OperationController> menuMap = new LinkedHashMap<>();
 
         MenuItem[] menuItems = new MenuItem[]{MenuItem.NEWCUSTOMER, MenuItem.SHOWCUSTOMERS,
                 MenuItem.EDITCUSTOMERS, MenuItem.REMOVECUSTOMERS, MenuItem.EXIT};
 
-        menuMap.put(1, new AddNewCustomerController(getBank(), new AddNewCustomerPromptView()));
-        menuMap.put(2, new ShowCustomerController(getBank(),
-                new ShowCustomerPromptView(getBank().getAllCustomersInfo())));
-        menuMap.put(3, new EditCustomerMenuController(getBank(), new EditCustomerMenuView()));
-        menuMap.put(4, new RemoveCustomerController(getBank(), new RemoveCustomerPromptView()));
+        menuMap.put(1, new AddNewCustomerController(getBank()));
+        menuMap.put(2, new ShowCustomerController(getBank()));
+        menuMap.put(3, new EditCustomerMenuController(getBank()));
+        menuMap.put(4, new RemoveCustomerController(getBank()));
 
-        int option = getView().createMenu(menuItems);
+        int option = view.createMenu(menuItems);
         if (option == menuItems.length) {
             System.exit(0);
         }

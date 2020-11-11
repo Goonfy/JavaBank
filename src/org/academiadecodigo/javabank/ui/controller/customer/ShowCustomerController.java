@@ -8,17 +8,21 @@ import org.academiadecodigo.javabank.ui.view.customer.ShowCustomerPromptView;
 
 public class ShowCustomerController extends OperationController {
 
-    public ShowCustomerController(Bank bank, PromptView view) {
-        super(bank, view);
+    private final ShowCustomerPromptView view;
+
+    public ShowCustomerController(Bank bank) {
+        super(bank);
+
+        view = new ShowCustomerPromptView(bank.getAllCustomersInfo());
     }
 
     @Override
     public void execute() {
         if (getBank().getNumberOfCustomers() <= 0) {
-            getView().error();
+            view.error();
             return;
         }
 
-        getView().success();
+        view.success();
     }
 }

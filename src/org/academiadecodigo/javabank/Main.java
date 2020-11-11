@@ -11,7 +11,7 @@ public class Main {
     public static void main(String[] args) {
         Bank bank = new Bank(new AccountManager());
 
-        OperationController operationController = new MainMenuController(bank, new MainMenuView());
+        OperationController operationController = new MainMenuController(bank);
         operationController.execute();
     }
 }

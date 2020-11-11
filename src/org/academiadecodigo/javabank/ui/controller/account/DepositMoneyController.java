@@ -10,26 +10,28 @@ import org.academiadecodigo.javabank.ui.view.account.DepositMoneyPromptView;
 public class DepositMoneyController extends OperationController {
 
     private final Customer customer;
+    private final DepositMoneyPromptView view;
 
-    public DepositMoneyController(Bank bank, PromptView view, Customer customer) {
-        super(bank, view);
+    public DepositMoneyController(Bank bank, Customer customer) {
+        super(bank);
 
         this.customer = customer;
+        view = new DepositMoneyPromptView();
     }
 
     @Override
     public void execute() {
-        int accountId = getView().createAccountMenu(customer);
+        int accountId = view.createAccountMenu(customer);
         if (accountId == -1) {
-            getView().error();
+            view.error();
             return;
         }
 
-        int amountToDeposit = getView().getAmount();
+        int amountToDeposit = view.getAmount();
 
         Account account = customer.getAccountManager().getAccountFromID(accountId);
         account.credit(amountToDeposit);
 
-        getView().success();
+        view.success();
     }
 }
