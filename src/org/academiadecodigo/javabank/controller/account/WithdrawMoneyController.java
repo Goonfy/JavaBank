@@ -1,6 +1,6 @@
 package org.academiadecodigo.javabank.controller.account;
 
-import org.academiadecodigo.javabank.domain.Bank;
+import org.academiadecodigo.javabank.service.AccountService;
 import org.academiadecodigo.javabank.domain.Customer;
 import org.academiadecodigo.javabank.controller.AccountController;
 import org.academiadecodigo.javabank.view.account.WithdrawMoneyPromptView;
@@ -9,18 +9,18 @@ public class WithdrawMoneyController extends AccountController {
 
     private final WithdrawMoneyPromptView view;
 
-    public WithdrawMoneyController(Bank bank, Customer customer) {
-        super(bank, customer);
+    public WithdrawMoneyController(AccountService customerServiceImplementation, Customer customer) {
+        super(customerServiceImplementation, customer);
 
         view = new WithdrawMoneyPromptView();
     }
 
     @Override
     public void execute() {
-        int accountId = view.createAccountMenu(getCustomer());
+        int accountId = view.createAccountMenu(getAccountService());
 
         int amountToWithdraw = view.getAmount();
-        getCustomer().getAccountManager().withdraw(accountId, amountToWithdraw);
+        getAccountService().withdraw(accountId, amountToWithdraw);
 
         view.success();
     }

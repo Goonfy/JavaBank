@@ -36,7 +36,7 @@ Represents the Banking service, contains costumers
 * Customer
 
 ### Customer
-Represents bank customers, contains accounts
+Represents customerServiceImplementation customers, contains accounts
 
 #### Responsibilities
 * add a new account

@@ -4,9 +4,10 @@ import org.academiadecodigo.bootcamp.Prompt;
 import org.academiadecodigo.bootcamp.scanners.integer.IntegerInputScanner;
 import org.academiadecodigo.bootcamp.scanners.menu.MenuInputScanner;
 import org.academiadecodigo.bootcamp.scanners.string.StringInputScanner;
-import org.academiadecodigo.javabank.domain.Bank;
+import org.academiadecodigo.javabank.service.AccountService;
 import org.academiadecodigo.javabank.domain.Customer;
 import org.academiadecodigo.javabank.Descriptable;
+import org.academiadecodigo.javabank.service.CustomerService;
 
 public abstract class PromptView implements View {
 
@@ -42,22 +43,22 @@ public abstract class PromptView implements View {
         return prompt.getUserInput(chooseCustomerOption);
     }
 
-    public int createCustomerMenu(Bank bank) {
-        System.out.println("\n" + bank.getAllCustomersInfo());
-        if (!bank.getAllCustomersInfo().contains("[")) {
+    public int createCustomerMenu(CustomerService customerService) {
+        System.out.println("\n" + customerService.getAllCustomersInfo());
+        if (!customerService.getAllCustomersInfo().contains("[")) {
             return -1;
         }
 
         return createSelectionInput("Choose one customer from the list: ");
     }
 
-    public int createAccountMenu(Customer customer) {
-        if (customer == null) {
+    public int createAccountMenu(AccountService accountService) {
+        if (accountService == null) {
             return -1;
         }
 
-        System.out.println("\n" + customer.getAccountManager().getAllAccountsInfo());
-        if (!customer.getAccountManager().getAllAccountsInfo().contains("[")) {
+        System.out.println("\n" + accountService.getAllAccountsInfo());
+        if (!accountService.getAllAccountsInfo().contains("[")) {
             return -1;
         }
 

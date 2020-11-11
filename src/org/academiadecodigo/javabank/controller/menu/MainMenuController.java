@@ -1,7 +1,7 @@
 package org.academiadecodigo.javabank.controller.menu;
 
-import org.academiadecodigo.javabank.controller.CostumerController;
-import org.academiadecodigo.javabank.domain.Bank;
+import org.academiadecodigo.javabank.controller.CustomerController;
+import org.academiadecodigo.javabank.service.AccountService;
 import org.academiadecodigo.javabank.controller.customer.AddNewCustomerController;
 import org.academiadecodigo.javabank.controller.customer.RemoveCustomerController;
 import org.academiadecodigo.javabank.controller.customer.ShowCustomerController;
@@ -11,12 +11,12 @@ import org.academiadecodigo.javabank.view.menu.MainMenuView;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-public class MainMenuController extends CostumerController {
+public class MainMenuController extends CustomerController {
 
     private final MainMenuView view;
 
-    public MainMenuController(Bank bank) {
-        super(bank);
+    public MainMenuController(AccountService customerServiceImplementation) {
+        super(customerServiceImplementation);
 
         this.view = new MainMenuView();
     }
@@ -25,7 +25,7 @@ public class MainMenuController extends CostumerController {
     public void execute() {
         view.success();
 
-        Map<Integer, CostumerController> menuMap = new LinkedHashMap<>();
+        Map<Integer, CustomerController> menuMap = new LinkedHashMap<>();
 
         MenuItem[] menuItems = new MenuItem[]{MenuItem.NEWCUSTOMER, MenuItem.SHOWCUSTOMERS,
                 MenuItem.EDITCUSTOMERS, MenuItem.REMOVECUSTOMERS, MenuItem.EXIT};

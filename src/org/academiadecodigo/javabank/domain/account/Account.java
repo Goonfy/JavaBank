@@ -35,65 +35,16 @@ public abstract class Account {
         return balance;
     }
 
+    public void setBalance(double balance) {
+        this.balance = balance;
+    }
+
     /**
      * Gets the account type
      *
      * @return the account type
      */
     public abstract AccountType getAccountType();
-
-    /**
-     * Credits the account if possible
-     *
-     * @param amount the amount to credit
-     * @see Account#canCredit(double)
-     */
-    public void credit(double amount) {
-        if (canCredit(amount)) {
-            balance += amount;
-        }
-    }
-
-    /**
-     * Debits the account if possible
-     *
-     * @param amount the amount to debit
-     * @see Account#canDebit(double)
-     */
-    public void debit(double amount) {
-        if (canDebit(amount)) {
-            balance -= amount;
-        }
-    }
-
-    /**
-     * Checks if a specific amount can be credited on the account
-     *
-     * @param amount the amount to check
-     * @return {@code true} if the account can be credited
-     */
-    public boolean canCredit(double amount) {
-        return amount > 0;
-    }
-
-    /**
-     * Checks if a specific amount can be debited from the account
-     *
-     * @param amount the amount to check
-     * @return {@code true} if the account can be debited
-     */
-    public boolean canDebit(double amount) {
-        return amount > 0 && amount <= balance;
-    }
-
-    /**
-     * Checks if the account can be withdrawn
-     *
-     * @return {@code true} if withdraw can be done
-     */
-    public boolean canWithdraw() {
-        return getAccountType() == AccountType.CHECKING;
-    }
 
     public String toString() {
         return "\n" + id + " - [ Balance: " + balance + ", Type: " + getAccountType() + " ]";

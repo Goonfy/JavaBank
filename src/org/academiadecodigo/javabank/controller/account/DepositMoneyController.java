@@ -1,6 +1,6 @@
 package org.academiadecodigo.javabank.controller.account;
 
-import org.academiadecodigo.javabank.domain.Bank;
+import org.academiadecodigo.javabank.service.AccountService;
 import org.academiadecodigo.javabank.domain.Customer;
 import org.academiadecodigo.javabank.domain.account.Account;
 import org.academiadecodigo.javabank.controller.AccountController;
@@ -10,8 +10,8 @@ public class DepositMoneyController extends AccountController {
 
     private final DepositMoneyPromptView view;
 
-    public DepositMoneyController(Bank bank, Customer customer) {
-        super(bank, customer);
+    public DepositMoneyController(AccountService accountService, Customer customer) {
+        super(accountService, customer);
 
         view = new DepositMoneyPromptView();
     }
@@ -26,8 +26,7 @@ public class DepositMoneyController extends AccountController {
 
         int amountToDeposit = view.getAmount();
 
-        Account account = getCustomer().getAccountManager().getAccountFromID(accountId);
-        account.credit(amountToDeposit);
+        getAccountService().deposit(accountId, amountToDeposit);
 
         view.success();
     }

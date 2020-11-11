@@ -1,6 +1,6 @@
-package org.academiadecodigo.javabank.domain;
+package org.academiadecodigo.javabank.service;
 
-import org.academiadecodigo.javabank.managers.AccountManager;
+import org.academiadecodigo.javabank.domain.Customer;
 
 import java.util.LinkedHashSet;
 import java.util.Set;
@@ -8,36 +8,20 @@ import java.util.Set;
 /**
  * The bank entity
  */
-public class Bank {
+public class CustomerService implements CustomerServiceInterface {
 
     private int numberOfCustomers;
 
-    private final AccountManager accountManager;
     private final Set<Customer> customers = new LinkedHashSet<>();
 
-    /**
-     * Creates a new instance of Bank and initializes it with the given account manager
-     *
-     * @param accountManager the account manager
-     */
-    public Bank(AccountManager accountManager) {
-        this.accountManager = accountManager;
-    }
-
-    /**
-     * Adds a new customer to the bank
-     *
-     * @param customer the new bank customer
-     * @see Customer#setAccountManager(AccountManager)
-     */
-    public void addCustomer(Customer customer) {
+    @Override
+    public void add(Customer customer) {
         if (!customers.add(customer)) {
             return;
         }
 
         numberOfCustomers++;
 
-        customer.setAccountManager(accountManager);
         customer.setId(numberOfCustomers);
     }
 
@@ -45,23 +29,38 @@ public class Bank {
         customers.remove(customer);
     }
 
-    /**
-     * Gets the total balance of the bank
-     *
-     * @return the bank total balance
-     */
-    public double getBalance() {
+    @Override
+    public double getBalance(int customerId) {
 
         double balance = 0;
 
         for (Customer customer : customers) {
-            balance += customer.getBalance();
+            if (customer.getId() == customerId) {
+                balance = customer.getBalance();
+                break;
+            }
         }
 
         return balance;
     }
 
-    public Customer getCustomerFromID(int id) {
+    @Override
+    public Set<Customer> list() {
+        return customers;
+    }
+
+    @Override
+    public Set<Integer> listCustomerAccountIds(Integer id) {
+        Set<Integer> set = new LinkedHashSet<>();
+
+        for (Customer customer : customers) {
+            set.add(customer.getId());
+        }
+
+        return set;
+    }
+
+    public Customer get(int id) {
         for (Customer customer : customers) {
             if (customer.getId() == id) {
                 return customer;

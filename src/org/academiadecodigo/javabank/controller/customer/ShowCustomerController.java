@@ -1,22 +1,23 @@
 package org.academiadecodigo.javabank.controller.customer;
 
-import org.academiadecodigo.javabank.controller.CostumerController;
-import org.academiadecodigo.javabank.domain.Bank;
+import org.academiadecodigo.javabank.controller.CustomerController;
+import org.academiadecodigo.javabank.service.AccountService;
+import org.academiadecodigo.javabank.service.CustomerService;
 import org.academiadecodigo.javabank.view.customer.ShowCustomerPromptView;
 
-public class ShowCustomerController extends CostumerController {
+public class ShowCustomerController extends CustomerController {
 
     private final ShowCustomerPromptView view;
 
-    public ShowCustomerController(Bank bank) {
-        super(bank);
+    public ShowCustomerController(CustomerService customerService) {
+        super(customerService);
 
-        view = new ShowCustomerPromptView(bank.getAllCustomersInfo());
+        view = new ShowCustomerPromptView(customerService.getAllCustomersInfo());
     }
 
     @Override
     public void execute() {
-        if (getBank().getNumberOfCustomers() <= 0) {
+        if (getCustomerService().getNumberOfCustomers() <= 0) {
             view.error();
             return;
         }

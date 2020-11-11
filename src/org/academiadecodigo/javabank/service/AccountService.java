@@ -1,4 +1,4 @@
-package org.academiadecodigo.javabank.managers;
+package org.academiadecodigo.javabank.service;
 
 import org.academiadecodigo.javabank.domain.account.Account;
 import org.academiadecodigo.javabank.domain.account.AccountType;
@@ -11,7 +11,7 @@ import java.util.Map;
 /**
  * Responsible for account management
  */
-public class AccountManager {
+public class AccountService implements AccountServiceInterface {
 
     private static int numberAccounts = 0;
     private final Map<Integer, Account> accountMap;
@@ -19,7 +19,7 @@ public class AccountManager {
     /**
      * Creates a new {@code AccountManager}
      */
-    public AccountManager() {
+    public AccountService() {
         this.accountMap = new HashMap<>();
     }
 
@@ -29,7 +29,8 @@ public class AccountManager {
      * @param accountType the account type
      * @return the new account
      */
-    public Account openAccount(AccountType accountType) {
+    @Override
+    public Account add(AccountType accountType) {
 
         Account newAccount;
         numberAccounts++;
@@ -45,14 +46,21 @@ public class AccountManager {
         return newAccount;
     }
 
+    public void close(Account account) {
+        accountMap.remove(account.getId());
+    }
+
     /**
      * Perform an {@link Account} deposit if possible
      *
      * @param id     the id of the account
      * @param amount the amount to deposit
      */
+    @Override
     public void deposit(int id, double amount) {
-        accountMap.get(id).credit(amount);
+        if (canCredit(amount)) {
+            accountMap.get(id).setBalance(amount);
+        }
     }
 
     /**
@@ -61,15 +69,16 @@ public class AccountManager {
      * @param id     the id of the account
      * @param amount the amount to withdraw
      */
+    @Override
     public void withdraw(int id, double amount) {
 
         Account account = accountMap.get(id);
 
-        if (!account.canWithdraw()) {
+        if (!canWithdraw(account)) {
             return;
         }
 
-        accountMap.get(id).debit(amount);
+        accountMap.get(id).setBalance(amount);
     }
 
     /**
@@ -79,19 +88,19 @@ public class AccountManager {
      * @param dstId  the destination account id
      * @param amount the amount to transfer
      */
+    @Override
     public void transfer(int srcId, int dstId, double amount) {
 
         Account srcAccount = accountMap.get(srcId);
-        Account dstAccount = accountMap.get(dstId);
 
         // make sure transaction can be performed
-        if (srcAccount.canDebit(amount) && dstAccount.canCredit(amount)) {
-            srcAccount.debit(amount);
-            dstAccount.credit(amount);
+        if (canDebit(srcAccount, amount) && canCredit(amount)) {
+            withdraw(srcId, amount);
+            deposit(dstId, amount);
         }
     }
 
-    public Account getAccountFromID(int id) {
+    public Account get(int id) {
         if (accountMap.get(id) == null) {
             return null;
         }
@@ -107,5 +116,34 @@ public class AccountManager {
         }
 
         return stringBuilder.toString();
+    }
+
+    /**
+     * Checks if a specific amount can be credited on the account
+     *
+     * @param amount the amount to check
+     * @return {@code true} if the account can be credited
+     */
+    public boolean canCredit(double amount) {
+        return amount > 0;
+    }
+
+    /**
+     * Checks if a specific amount can be debited from the account
+     *
+     * @param amount the amount to check
+     * @return {@code true} if the account can be debited
+     */
+    public boolean canDebit(Account account, double amount) {
+        return amount > 0 && amount <= account.getBalance();
+    }
+
+    /**
+     * Checks if the account can be withdrawn
+     *
+     * @return {@code true} if withdraw can be done
+     */
+    public boolean canWithdraw(Account account) {
+        return account.getAccountType() == AccountType.CHECKING;
     }
 }

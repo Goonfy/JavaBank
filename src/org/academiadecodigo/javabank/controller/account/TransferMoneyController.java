@@ -1,6 +1,6 @@
 package org.academiadecodigo.javabank.controller.account;
 
-import org.academiadecodigo.javabank.domain.Bank;
+import org.academiadecodigo.javabank.service.AccountService;
 import org.academiadecodigo.javabank.domain.Customer;
 import org.academiadecodigo.javabank.controller.AccountController;
 import org.academiadecodigo.javabank.view.account.TransferMoneyPromptView;
@@ -9,8 +9,8 @@ public class TransferMoneyController extends AccountController {
 
     private final TransferMoneyPromptView view;
 
-    public TransferMoneyController(Bank bank, Customer customer) {
-        super(bank, customer);
+    public TransferMoneyController(AccountService accountService, Customer customer) {
+        super(accountService, customer);
 
         view = new TransferMoneyPromptView();
     }
@@ -22,13 +22,13 @@ public class TransferMoneyController extends AccountController {
             return;
         }
 
-        int accountId = view.createAccountMenu(getCustomer());
+        int accountId = view.createAccountMenu(getAccountService());
 
-        int customerIdToTransferMoneyTo = view.createCustomerMenu(getBank());
-        int accountIdToTransferMoneyTo = view.createAccountMenu(getBank().getCustomerFromID(customerIdToTransferMoneyTo));
+        int customerIdToTransferMoneyTo = view.createCustomerMenu(getAccountService());
+        int accountIdToTransferMoneyTo = view.createAccountMenu(getAccountService().get(customerIdToTransferMoneyTo));
         int amountOfMoney = view.getAmount();
 
-        getCustomer().getAccountManager().transfer(accountId, accountIdToTransferMoneyTo, amountOfMoney);
+        getAccountService().transfer(accountId, accountIdToTransferMoneyTo, amountOfMoney);
 
         view.success();
     }

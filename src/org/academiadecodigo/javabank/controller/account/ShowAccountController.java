@@ -1,6 +1,6 @@
 package org.academiadecodigo.javabank.controller.account;
 
-import org.academiadecodigo.javabank.domain.Bank;
+import org.academiadecodigo.javabank.service.AccountService;
 import org.academiadecodigo.javabank.domain.Customer;
 import org.academiadecodigo.javabank.controller.AccountController;
 import org.academiadecodigo.javabank.view.account.ShowAccountPromptView;
@@ -9,15 +9,15 @@ public class ShowAccountController extends AccountController {
 
     private final ShowAccountPromptView view;
 
-    public ShowAccountController(Bank bank, Customer customer) {
-        super(bank, customer);
+    public ShowAccountController(AccountService accountService, Customer customer) {
+        super(accountService, customer);
 
-        view = new ShowAccountPromptView(customer.getAccountManager().getAllAccountsInfo());
+        view = new ShowAccountPromptView(getAccountService().getAllAccountsInfo());
     }
 
     @Override
     public void execute() {
-        if (getCustomer() == null || getCustomer().getAccountManager().getAllAccountsInfo().isEmpty()) {
+        if (getCustomer() == null || getAccountService().getAllAccountsInfo().isEmpty()) {
             view.error();
             return;
         }

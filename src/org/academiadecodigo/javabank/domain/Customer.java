@@ -1,8 +1,6 @@
 package org.academiadecodigo.javabank.domain;
 
 import org.academiadecodigo.javabank.domain.account.Account;
-import org.academiadecodigo.javabank.domain.account.AccountType;
-import org.academiadecodigo.javabank.managers.AccountManager;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -13,45 +11,16 @@ import java.util.Map;
 public class Customer {
 
     private int id;
-    private String name;
-    private String email;
-    private String phoneNumber;
+    private final String name;
+    private final String email;
+    private final String phoneNumber;
 
-    private AccountManager accountManager;
     private final Map<Integer, Account> accounts = new HashMap<>();
-
-    public Customer() {}
 
     public Customer(String name, String email, String phoneNumber) {
         this.name = name;
         this.email = email;
         this.phoneNumber = phoneNumber;
-    }
-
-    /**
-     * Sets the account manager
-     *
-     * @param accountManager the account manager to set
-     */
-    public void setAccountManager(AccountManager accountManager) {
-        this.accountManager = accountManager;
-    }
-
-    /**
-     * Opens a new account
-     *
-     * @param accountType the account type to be opened
-     * @return the new account id
-     * @see AccountManager#openAccount(AccountType)
-     */
-    public int openAccount(AccountType accountType) {
-        Account account = accountManager.openAccount(accountType);
-        accounts.put(account.getId(), account);
-        return account.getId();
-    }
-
-    public void closeAccount(Account account) {
-        accounts.remove(account.getId());
     }
 
     /**
@@ -100,8 +69,8 @@ public class Customer {
         return phoneNumber;
     }
 
-    public AccountManager getAccountManager() {
-        return accountManager;
+    public Map<Integer, Account> getAccounts() {
+        return accounts;
     }
 
     @Override

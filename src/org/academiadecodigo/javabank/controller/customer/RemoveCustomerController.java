@@ -1,28 +1,29 @@
 package org.academiadecodigo.javabank.controller.customer;
 
-import org.academiadecodigo.javabank.controller.CostumerController;
-import org.academiadecodigo.javabank.domain.Bank;
+import org.academiadecodigo.javabank.controller.CustomerController;
+import org.academiadecodigo.javabank.service.AccountService;
+import org.academiadecodigo.javabank.service.CustomerService;
 import org.academiadecodigo.javabank.view.customer.RemoveCustomerPromptView;
 
-public class RemoveCustomerController extends CostumerController {
+public class RemoveCustomerController extends CustomerController {
 
     private final RemoveCustomerPromptView view;
 
-    public RemoveCustomerController(Bank bank) {
-        super(bank);
+    public RemoveCustomerController(CustomerService customerService) {
+        super(customerService);
 
         view = new RemoveCustomerPromptView();
     }
 
     @Override
     public void execute() {
-        int customerId = view.createCustomerMenu(getBank());
+        int customerId = view.createCustomerMenu(getCustomerService());
         if (customerId == -1) {
             view.error();
             return;
         }
 
-        getBank().removeCustomer(getBank().getCustomerFromID(customerId));
+        getCustomerService().removeCustomer(getCustomerService().get(customerId));
 
         view.success();
     }

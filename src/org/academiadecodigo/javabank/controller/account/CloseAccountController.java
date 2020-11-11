@@ -1,6 +1,6 @@
 package org.academiadecodigo.javabank.controller.account;
 
-import org.academiadecodigo.javabank.domain.Bank;
+import org.academiadecodigo.javabank.service.AccountService;
 import org.academiadecodigo.javabank.domain.Customer;
 import org.academiadecodigo.javabank.controller.AccountController;
 import org.academiadecodigo.javabank.view.account.CloseAccountPromptView;
@@ -9,8 +9,8 @@ public class CloseAccountController extends AccountController {
 
     private final CloseAccountPromptView view;
 
-    public CloseAccountController(Bank bank, Customer customer) {
-        super(bank, customer);
+    public CloseAccountController(AccountService accountService, Customer customer) {
+        super(accountService, customer);
 
         view = new CloseAccountPromptView();
     }
@@ -23,7 +23,7 @@ public class CloseAccountController extends AccountController {
             return;
         }
 
-        getCustomer().closeAccount(getCustomer().getAccountManager().getAccountFromID(accountId));
+        getAccountService().close(getAccountService().get(accountId));
         view.success();
     }
 }
