@@ -4,9 +4,9 @@ import org.academiadecodigo.bootcamp.Prompt;
 import org.academiadecodigo.bootcamp.scanners.integer.IntegerInputScanner;
 import org.academiadecodigo.bootcamp.scanners.menu.MenuInputScanner;
 import org.academiadecodigo.bootcamp.scanners.string.StringInputScanner;
-import org.academiadecodigo.javabank.service.AccountService;
-import org.academiadecodigo.javabank.domain.Customer;
 import org.academiadecodigo.javabank.Descriptable;
+import org.academiadecodigo.javabank.domain.Customer;
+import org.academiadecodigo.javabank.service.AuthenticationService;
 import org.academiadecodigo.javabank.service.CustomerService;
 
 public abstract class PromptView implements View {
@@ -52,13 +52,13 @@ public abstract class PromptView implements View {
         return createSelectionInput("Choose one customer from the list: ");
     }
 
-    public int createAccountMenu(AccountService accountService) {
-        if (accountService == null) {
+    public int createAccountMenu(Customer customer) {
+        if (customer == null) {
             return -1;
         }
 
-        System.out.println("\n" + accountService.getAllAccountsInfo());
-        if (!accountService.getAllAccountsInfo().contains("[")) {
+        System.out.println("\n" + customer.getAllAccountsInfo());
+        if (!customer.getAllAccountsInfo().contains("[")) {
             return -1;
         }
 

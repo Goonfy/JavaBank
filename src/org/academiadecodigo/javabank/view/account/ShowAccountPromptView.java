@@ -17,6 +17,6 @@ public class ShowAccountPromptView extends PromptView {
 
     @Override
     public void error() {
-        System.out.println("\nPlease create a costumer before proceeding...");
+        System.out.println("\nPlease create an account before proceeding...");
     }
 }

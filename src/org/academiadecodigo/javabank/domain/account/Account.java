@@ -17,6 +17,10 @@ public abstract class Account {
         this.id = id;
     }
 
+    public void setBalance(double balance) {
+        this.balance = balance;
+    }
+
     /**
      * Gets the account id
      *
@@ -35,8 +39,33 @@ public abstract class Account {
         return balance;
     }
 
-    public void setBalance(double balance) {
-        this.balance = balance;
+    /**
+     * Checks if a specific amount can be credited on the account
+     *
+     * @param amount the amount to check
+     * @return {@code true} if the account can be credited
+     */
+    public boolean canCredit(double amount) {
+        return amount > 0;
+    }
+
+    /**
+     * Checks if a specific amount can be debited from the account
+     *
+     * @param amount the amount to check
+     * @return {@code true} if the account can be debited
+     */
+    public boolean canDebit(double amount) {
+        return amount > 0 && amount <= getBalance();
+    }
+
+    /**
+     * Checks if the account can be withdrawn
+     *
+     * @return {@code true} if withdraw can be done
+     */
+    public boolean canWithdraw() {
+        return getAccountType() == AccountType.CHECKING;
     }
 
     /**

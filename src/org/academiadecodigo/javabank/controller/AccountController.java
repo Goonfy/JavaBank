@@ -1,23 +1,23 @@
 package org.academiadecodigo.javabank.controller;
 
-import org.academiadecodigo.javabank.domain.Customer;
 import org.academiadecodigo.javabank.service.AccountService;
+import org.academiadecodigo.javabank.service.AuthenticationService;
 
 public abstract class AccountController implements Controller {
 
     private final AccountService accountService;
-    private final Customer customer;
+    private final AuthenticationService authenticationService;
 
-    public AccountController(AccountService accountService, Customer customer) {
+    public AccountController(AccountService accountService, AuthenticationService authenticationService) {
         this.accountService = accountService;
-        this.customer = customer;
+        this.authenticationService = authenticationService;
     }
 
     public AccountService getAccountService() {
         return accountService;
     }
 
-    public Customer getCustomer() {
-        return customer;
+    public AuthenticationService getAuthenticationService() {
+        return authenticationService;
     }
 }

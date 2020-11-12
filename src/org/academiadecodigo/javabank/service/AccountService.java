@@ -1,12 +1,10 @@
 package org.academiadecodigo.javabank.service;
 
+import org.academiadecodigo.javabank.domain.Customer;
 import org.academiadecodigo.javabank.domain.account.Account;
 import org.academiadecodigo.javabank.domain.account.AccountType;
 import org.academiadecodigo.javabank.domain.account.CheckingAccount;
 import org.academiadecodigo.javabank.domain.account.SavingsAccount;
-
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Responsible for account management
@@ -14,14 +12,6 @@ import java.util.Map;
 public class AccountService implements AccountServiceInterface {
 
     private static int numberAccounts = 0;
-    private final Map<Integer, Account> accountMap;
-
-    /**
-     * Creates a new {@code AccountManager}
-     */
-    public AccountService() {
-        this.accountMap = new HashMap<>();
-    }
 
     /**
      * Creates a new {@link Account}
@@ -30,7 +20,7 @@ public class AccountService implements AccountServiceInterface {
      * @return the new account
      */
     @Override
-    public Account add(AccountType accountType) {
+    public Account add(Customer customer, AccountType accountType) {
 
         Account newAccount;
         numberAccounts++;
@@ -42,12 +32,12 @@ public class AccountService implements AccountServiceInterface {
             newAccount = new SavingsAccount(numberAccounts);
         }
 
-        accountMap.put(newAccount.getId(), newAccount);
+        customer.getAccounts().put(newAccount.getId(), newAccount);
         return newAccount;
     }
 
-    public void close(Account account) {
-        accountMap.remove(account.getId());
+    public void close(Customer customer, Account account) {
+        customer.getAccounts().remove(account.getId());
     }
 
     /**
@@ -57,9 +47,11 @@ public class AccountService implements AccountServiceInterface {
      * @param amount the amount to deposit
      */
     @Override
-    public void deposit(int id, double amount) {
-        if (canCredit(amount)) {
-            accountMap.get(id).setBalance(amount);
+    public void deposit(Customer customer, int id, double amount) {
+        Account account = customer.getAccounts().get(id);
+
+        if (account.canCredit(amount)) {
+            customer.getAccounts().get(id).setBalance(amount);
         }
     }
 
@@ -70,15 +62,15 @@ public class AccountService implements AccountServiceInterface {
      * @param amount the amount to withdraw
      */
     @Override
-    public void withdraw(int id, double amount) {
+    public void withdraw(Customer customer, int id, double amount) {
 
-        Account account = accountMap.get(id);
+        Account account = customer.getAccounts().get(id);
 
-        if (!canWithdraw(account)) {
+        if (!account.canWithdraw()) {
             return;
         }
 
-        accountMap.get(id).setBalance(amount);
+        customer.getAccounts().get(id).setBalance(amount);
     }
 
     /**
@@ -89,61 +81,15 @@ public class AccountService implements AccountServiceInterface {
      * @param amount the amount to transfer
      */
     @Override
-    public void transfer(int srcId, int dstId, double amount) {
+    public void transfer(Customer customer, int srcId, int dstId, double amount) {
 
-        Account srcAccount = accountMap.get(srcId);
+        Account srcAccount = customer.get(srcId);
+        Account dstAccount = customer.get(dstId);
 
         // make sure transaction can be performed
-        if (canDebit(srcAccount, amount) && canCredit(amount)) {
-            withdraw(srcId, amount);
-            deposit(dstId, amount);
+        if (srcAccount.canDebit(amount) && dstAccount.canCredit(amount)) {
+            withdraw(customer, srcId, amount);
+            deposit(customer, dstId, amount);
         }
-    }
-
-    public Account get(int id) {
-        if (accountMap.get(id) == null) {
-            return null;
-        }
-
-        return accountMap.get(id);
-    }
-
-    public String getAllAccountsInfo() {
-        StringBuilder stringBuilder = new StringBuilder();
-
-        for (Account account : accountMap.values()) {
-            stringBuilder.append(account.toString());
-        }
-
-        return stringBuilder.toString();
-    }
-
-    /**
-     * Checks if a specific amount can be credited on the account
-     *
-     * @param amount the amount to check
-     * @return {@code true} if the account can be credited
-     */
-    public boolean canCredit(double amount) {
-        return amount > 0;
-    }
-
-    /**
-     * Checks if a specific amount can be debited from the account
-     *
-     * @param amount the amount to check
-     * @return {@code true} if the account can be debited
-     */
-    public boolean canDebit(Account account, double amount) {
-        return amount > 0 && amount <= account.getBalance();
-    }
-
-    /**
-     * Checks if the account can be withdrawn
-     *
-     * @return {@code true} if withdraw can be done
-     */
-    public boolean canWithdraw(Account account) {
-        return account.getAccountType() == AccountType.CHECKING;
     }
 }

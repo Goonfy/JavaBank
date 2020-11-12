@@ -2,7 +2,6 @@ package org.academiadecodigo.javabank.service;
 
 import org.academiadecodigo.javabank.domain.Customer;
 
-import java.util.List;
 import java.util.Set;
 
 public interface CustomerServiceInterface {

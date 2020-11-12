@@ -5,9 +5,6 @@ import org.academiadecodigo.javabank.domain.Customer;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
-/**
- * The bank entity
- */
 public class CustomerService implements CustomerServiceInterface {
 
     private int numberOfCustomers;

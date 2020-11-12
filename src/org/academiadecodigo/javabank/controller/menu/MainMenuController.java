@@ -5,6 +5,8 @@ import org.academiadecodigo.javabank.service.AccountService;
 import org.academiadecodigo.javabank.controller.customer.AddNewCustomerController;
 import org.academiadecodigo.javabank.controller.customer.RemoveCustomerController;
 import org.academiadecodigo.javabank.controller.customer.ShowCustomerController;
+import org.academiadecodigo.javabank.service.AuthenticationService;
+import org.academiadecodigo.javabank.service.CustomerService;
 import org.academiadecodigo.javabank.ui.MenuItem;
 import org.academiadecodigo.javabank.view.menu.MainMenuView;
 
@@ -15,8 +17,8 @@ public class MainMenuController extends CustomerController {
 
     private final MainMenuView view;
 
-    public MainMenuController(AccountService customerServiceImplementation) {
-        super(customerServiceImplementation);
+    public MainMenuController(CustomerService customerService, AccountService accountService, AuthenticationService authenticationService) {
+        super(customerService, accountService, authenticationService);
 
         this.view = new MainMenuView();
     }
@@ -30,10 +32,10 @@ public class MainMenuController extends CustomerController {
         MenuItem[] menuItems = new MenuItem[]{MenuItem.NEWCUSTOMER, MenuItem.SHOWCUSTOMERS,
                 MenuItem.EDITCUSTOMERS, MenuItem.REMOVECUSTOMERS, MenuItem.EXIT};
 
-        menuMap.put(1, new AddNewCustomerController(getBank()));
-        menuMap.put(2, new ShowCustomerController(getBank()));
-        menuMap.put(3, new EditCustomerMenuController(getBank()));
-        menuMap.put(4, new RemoveCustomerController(getBank()));
+        menuMap.put(1, new AddNewCustomerController(getCustomerService(), getAccountService(), getAuthenticationService()));
+        menuMap.put(2, new ShowCustomerController(getCustomerService(), getAccountService(), getAuthenticationService()));
+        menuMap.put(3, new EditCustomerMenuController(getCustomerService(), getAccountService(), getAuthenticationService()));
+        menuMap.put(4, new RemoveCustomerController(getCustomerService(), getAccountService(), getAuthenticationService()));
 
         int option = view.createMenu(menuItems);
         if (option == menuItems.length) {

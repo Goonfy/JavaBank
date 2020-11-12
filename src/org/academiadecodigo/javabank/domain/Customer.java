@@ -23,6 +23,10 @@ public class Customer {
         this.phoneNumber = phoneNumber;
     }
 
+    public void setId(int id) {
+        this.id = id;
+    }
+
     /**
      * Gets the balance of an {@link Account}
      *
@@ -49,8 +53,22 @@ public class Customer {
         return balance;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public Account get(int id) {
+        if (accounts.get(id) == null) {
+            return null;
+        }
+
+        return accounts.get(id);
+    }
+
+    public String getAllAccountsInfo() {
+        StringBuilder stringBuilder = new StringBuilder();
+
+        for (Account account : accounts.values()) {
+            stringBuilder.append(account.toString());
+        }
+
+        return stringBuilder.toString();
     }
 
     public int getId() {
