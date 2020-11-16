@@ -31,6 +31,6 @@ public class AuthenticationServiceTest {
         authenticationService.authenticate(id);
 
         // verify
-        //verify(customerService).get(id);
+        verify(customerService).get(id);
     }
 }
