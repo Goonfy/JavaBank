@@ -6,12 +6,16 @@ import org.academiadecodigo.javabank.domain.account.AccountType;
 import org.academiadecodigo.javabank.domain.account.CheckingAccount;
 import org.academiadecodigo.javabank.domain.account.SavingsAccount;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * Responsible for account management
  */
 public class AccountService implements AccountServiceInterface {
 
     private static int numberAccounts = 0;
+    private final Map<Integer, Account> accounts = new HashMap<>();
 
     /**
      * Creates a new {@link Account}
@@ -27,13 +31,11 @@ public class AccountService implements AccountServiceInterface {
 
         if (accountType == AccountType.CHECKING) {
             newAccount = new CheckingAccount(numberAccounts);
-
         } else {
             newAccount = new SavingsAccount(numberAccounts);
         }
 
-        customer.getAccounts().put(newAccount.getId(), newAccount);
-        return newAccount;
+        return customer.addAccount(newAccount.getId(), newAccount);
     }
 
     public void close(Customer customer, Account account) {
@@ -51,7 +53,7 @@ public class AccountService implements AccountServiceInterface {
         Account account = customer.getAccounts().get(id);
 
         if (account.canCredit(amount)) {
-            customer.getAccounts().get(id).setBalance(amount);
+            customer.getAccounts().get(id).changeBalance(amount);
         }
     }
 
@@ -70,7 +72,7 @@ public class AccountService implements AccountServiceInterface {
             return;
         }
 
-        customer.getAccounts().get(id).setBalance(amount);
+        customer.getAccounts().get(id).changeBalance(amount);
     }
 
     /**

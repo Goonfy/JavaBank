@@ -1,6 +1,7 @@
 package org.academiadecodigo.javabank.domain;
 
 import org.academiadecodigo.javabank.domain.account.Account;
+import org.academiadecodigo.javabank.domain.account.AccountType;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -25,6 +26,10 @@ public class Customer {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public Account addAccount(int id, Account account) {
+        return accounts.put(id, account);
     }
 
     /**
@@ -85,10 +90,6 @@ public class Customer {
 
     public String getPhoneNumber() {
         return phoneNumber;
-    }
-
-    public Map<Integer, Account> getAccounts() {
-        return accounts;
     }
 
     @Override
