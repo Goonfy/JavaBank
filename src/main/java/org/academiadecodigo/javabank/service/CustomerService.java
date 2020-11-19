@@ -12,17 +12,11 @@ public class CustomerService implements CustomerServiceInterface {
     private final Set<Customer> customers = new LinkedHashSet<>();
 
     @Override
-    public void add(Customer customer) {
-        if (!customers.add(customer)) {
-            return;
-        }
-
-        numberOfCustomers++;
-
-        customer.setId(numberOfCustomers);
+    public void add(String name, String email, String phoneNumber) {
+        customers.add(new Customer(++numberOfCustomers, name, email, phoneNumber));
     }
 
-    public void removeCustomer(Customer customer) {
+    public void remove(Customer customer) {
         customers.remove(customer);
     }
 
@@ -33,7 +27,7 @@ public class CustomerService implements CustomerServiceInterface {
 
         for (Customer customer : customers) {
             if (customer.getId() == customerId) {
-                balance = customer.getBalance();
+                balance = customer.getTotalBalance();
                 break;
             }
         }

@@ -23,7 +23,7 @@ public class AddAccountController extends AccountController {
             return;
         }
 
-        getAccountService().add(getAuthenticationService().getAccessingCustomer(), AccountType.values()[view.createMenu(AccountType.values()) - 1]);
+        getAccountService().add(AccountType.values()[view.createMenu(AccountType.values()) - 1]);
 
         view.success();
     }

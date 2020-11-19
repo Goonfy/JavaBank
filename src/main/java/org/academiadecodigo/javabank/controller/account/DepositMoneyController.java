@@ -25,7 +25,7 @@ public class DepositMoneyController extends AccountController {
 
         int amountToDeposit = view.getAmount();
 
-        getAccountService().deposit(getAuthenticationService().getAccessingCustomer(), accountId, amountToDeposit);
+        getAccountService().deposit(accountId, amountToDeposit);
 
         view.success();
     }

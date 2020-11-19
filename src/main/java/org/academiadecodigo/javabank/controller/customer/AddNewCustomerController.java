@@ -19,6 +19,6 @@ public class AddNewCustomerController extends CustomerController {
 
     @Override
     public void execute() {
-        getCustomerService().add(new Customer(view.getName(), view.getEmail(), view.getPhone()));
+        getCustomerService().add(view.getName(), view.getEmail(), view.getPhone());
     }
 }

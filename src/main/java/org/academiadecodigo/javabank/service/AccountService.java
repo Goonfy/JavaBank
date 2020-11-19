@@ -8,6 +8,7 @@ import org.academiadecodigo.javabank.domain.account.SavingsAccount;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 /**
  * Responsible for account management
@@ -17,6 +18,8 @@ public class AccountService implements AccountServiceInterface {
     private static int numberAccounts = 0;
     private final Map<Integer, Account> accounts = new HashMap<>();
 
+    private Customer customer;
+
     /**
      * Creates a new {@link Account}
      *
@@ -24,7 +27,7 @@ public class AccountService implements AccountServiceInterface {
      * @return the new account
      */
     @Override
-    public Account add(Customer customer, AccountType accountType) {
+    public Account add(AccountType accountType) {
 
         Account newAccount;
         numberAccounts++;
@@ -35,11 +38,15 @@ public class AccountService implements AccountServiceInterface {
             newAccount = new SavingsAccount(numberAccounts);
         }
 
+        accounts.put(newAccount.getId(), newAccount);
+
         return customer.addAccount(newAccount.getId(), newAccount);
     }
 
-    public void close(Customer customer, Account account) {
-        customer.getAccounts().remove(account.getId());
+    @Override
+    public void close(int id) {
+        accounts.remove(id);
+        customer.removeAccount(id);
     }
 
     /**
@@ -49,11 +56,11 @@ public class AccountService implements AccountServiceInterface {
      * @param amount the amount to deposit
      */
     @Override
-    public void deposit(Customer customer, int id, double amount) {
-        Account account = customer.getAccounts().get(id);
+    public void deposit(int id, double amount) {
+        Account account = customer.getAccount(id);
 
         if (account.canCredit(amount)) {
-            customer.getAccounts().get(id).changeBalance(amount);
+            customer.getAccount(id).addBalance(amount);
         }
     }
 
@@ -64,15 +71,15 @@ public class AccountService implements AccountServiceInterface {
      * @param amount the amount to withdraw
      */
     @Override
-    public void withdraw(Customer customer, int id, double amount) {
+    public void withdraw(int id, double amount) {
 
-        Account account = customer.getAccounts().get(id);
+        Account account = customer.getAccount(id);
 
         if (!account.canWithdraw()) {
             return;
         }
 
-        customer.getAccounts().get(id).changeBalance(amount);
+        customer.getAccount(id).addBalance(amount);
     }
 
     /**
@@ -83,15 +90,29 @@ public class AccountService implements AccountServiceInterface {
      * @param amount the amount to transfer
      */
     @Override
-    public void transfer(Customer customer, int srcId, int dstId, double amount) {
+    public void transfer(int srcId, int dstId, double amount) {
 
-        Account srcAccount = customer.get(srcId);
-        Account dstAccount = customer.get(dstId);
+        Account srcAccount = customer.getAccount(srcId);
+        Account dstAccount = customer.getAccount(dstId);
 
         // make sure transaction can be performed
         if (srcAccount.canDebit(amount) && dstAccount.canCredit(amount)) {
-            withdraw(customer, srcId, amount);
-            deposit(customer, dstId, amount);
+            withdraw(srcId, amount);
+            deposit(dstId, amount);
         }
+    }
+
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
+    }
+
+    public int getBalanceFromAllAccounts() {
+        int balance = 0;
+
+        for (Account account : accounts.values()) {
+            balance += account.getBalance();
+        }
+
+        return balance;
     }
 }

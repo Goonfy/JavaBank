@@ -11,25 +11,26 @@ import java.util.Map;
  */
 public class Customer {
 
-    private int id;
+    private final int id;
     private final String name;
     private final String email;
     private final String phoneNumber;
 
     private final Map<Integer, Account> accounts = new HashMap<>();
 
-    public Customer(String name, String email, String phoneNumber) {
+    public Customer(int id, String name, String email, String phoneNumber) {
+        this.id = id;
         this.name = name;
         this.email = email;
         this.phoneNumber = phoneNumber;
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
     public Account addAccount(int id, Account account) {
         return accounts.put(id, account);
+    }
+
+    public void removeAccount(int id) {
+        accounts.remove(id);
     }
 
     /**
@@ -47,7 +48,7 @@ public class Customer {
      *
      * @return the customer balance
      */
-    public double getBalance() {
+    public double getTotalBalance() {
 
         double balance = 0;
 
@@ -58,7 +59,7 @@ public class Customer {
         return balance;
     }
 
-    public Account get(int id) {
+    public Account getAccount(int id) {
         if (accounts.get(id) == null) {
             return null;
         }

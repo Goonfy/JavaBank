@@ -10,6 +10,6 @@ public interface CustomerServiceInterface {
     Set<Customer> list();
     Set<Integer> listCustomerAccountIds(Integer id);
     double getBalance(int customerId);
-    void add(Customer customer);
+    void add(String name, String email, String phoneNumber);
 
 }

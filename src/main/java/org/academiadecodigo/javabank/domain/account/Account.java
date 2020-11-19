@@ -17,7 +17,7 @@ public abstract class Account {
         this.id = id;
     }
 
-    public void changeBalance(double balance) {
+    public void addBalance(double balance) {
         this.balance += balance;
     }
 

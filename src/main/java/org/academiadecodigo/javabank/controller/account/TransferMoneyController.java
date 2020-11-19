@@ -30,7 +30,7 @@ public class TransferMoneyController extends AccountController {
         int accountIdToTransferMoneyTo = view.createAccountMenu(customerService.get(customerIdToTransferMoneyTo));
         int amountOfMoney = view.getAmount();
 
-        getAccountService().transfer(getAuthenticationService().getAccessingCustomer(), accountId, accountIdToTransferMoneyTo, amountOfMoney);
+        getAccountService().transfer(accountId, accountIdToTransferMoneyTo, amountOfMoney);
 
         view.success();
     }

@@ -28,11 +28,15 @@ public class EditCustomerMenuController extends CustomerController {
     public void execute() {
         if (getAuthenticationService().getAccessingCustomer() == null) {
             getAuthenticationService().setCustomerService(getCustomerService());
+
             int chosenCostumer = view.createCustomerMenu(getCustomerService());
+
             if (!getAuthenticationService().authenticate(chosenCostumer)) {
                 view.error();
                 return;
             }
+
+            getAccountService().setCustomer(getAuthenticationService().getAccessingCustomer());
         }
 
         view.success();

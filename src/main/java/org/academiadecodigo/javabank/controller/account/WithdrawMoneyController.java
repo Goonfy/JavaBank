@@ -20,7 +20,7 @@ public class WithdrawMoneyController extends AccountController {
         int accountId = view.createAccountMenu(getAuthenticationService().getAccessingCustomer());
 
         int amountToWithdraw = view.getAmount();
-        getAccountService().withdraw(getAuthenticationService().getAccessingCustomer(), accountId, amountToWithdraw);
+        getAccountService().withdraw(accountId, amountToWithdraw);
 
         view.success();
     }
