@@ -6,7 +6,7 @@ import org.academiadecodigo.javabank.domain.account.AccountType;
 
 public interface AccountServiceInterface {
 
-    Account add(AccountType accountType);
+    void add(Account account);
     void close(int id);
     void deposit(int id, double amount);
     void withdraw(int id, double amount);

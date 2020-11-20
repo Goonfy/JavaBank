@@ -6,6 +6,12 @@ import org.academiadecodigo.javabank.domain.account.AccountType;
 import org.academiadecodigo.javabank.domain.account.CheckingAccount;
 import org.academiadecodigo.javabank.domain.account.SavingsAccount;
 
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.RollbackException;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -15,46 +21,37 @@ import java.util.Optional;
  */
 public class AccountService implements AccountServiceInterface {
 
-    private static int numberAccounts = 0;
-    private final Map<Integer, Account> accounts = new HashMap<>();
-
     private Customer customer;
 
-    /**
-     * Creates a new {@link Account}
-     *
-     * @param accountType the account type
-     * @return the new account
-     */
+    private final EntityManagerFactory entityManagerFactory;
+
+    public AccountService(EntityManagerFactory entityManagerFactory) {
+        this.entityManagerFactory = entityManagerFactory;
+    }
+
     @Override
-    public Account add(AccountType accountType) {
+    public void add(Account account) {
+        EntityManager entityManager = null;
 
-        Account newAccount;
-        numberAccounts++;
+        try {
+            entityManager = entityManagerFactory.createEntityManager();
 
-        if (accountType == AccountType.CHECKING) {
-            newAccount = new CheckingAccount(numberAccounts);
-        } else {
-            newAccount = new SavingsAccount(numberAccounts);
+            entityManager.getTransaction().begin();
+            entityManager.persist(account);
+            entityManager.getTransaction().commit();
+
+        } catch (RollbackException e) {
+            Optional.ofNullable(entityManager).ifPresent(manager -> manager.getTransaction().rollback());
+        } finally {
+            closeEntityManager(entityManager);
         }
-
-        accounts.put(newAccount.getId(), newAccount);
-
-        return customer.addAccount(newAccount.getId(), newAccount);
     }
 
     @Override
     public void close(int id) {
-        accounts.remove(id);
         customer.removeAccount(id);
     }
 
-    /**
-     * Perform an {@link Account} deposit if possible
-     *
-     * @param id     the id of the account
-     * @param amount the amount to deposit
-     */
     @Override
     public void deposit(int id, double amount) {
         Account account = customer.getAccount(id);
@@ -64,12 +61,6 @@ public class AccountService implements AccountServiceInterface {
         }
     }
 
-    /**
-     * Perform an {@link Account} withdrawal if possible
-     *
-     * @param id     the id of the account
-     * @param amount the amount to withdraw
-     */
     @Override
     public void withdraw(int id, double amount) {
 
@@ -82,13 +73,6 @@ public class AccountService implements AccountServiceInterface {
         customer.getAccount(id).addBalance(amount);
     }
 
-    /**
-     * Performs a transfer between two {@link Account} if possible
-     *
-     * @param srcId  the source account id
-     * @param dstId  the destination account id
-     * @param amount the amount to transfer
-     */
     @Override
     public void transfer(int srcId, int dstId, double amount) {
 
@@ -109,10 +93,22 @@ public class AccountService implements AccountServiceInterface {
     public int getBalanceFromAllAccounts() {
         int balance = 0;
 
-        for (Account account : accounts.values()) {
-            balance += account.getBalance();
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+
+        try {
+            return entityManager.get; // always the primary key
+        } finally {
+            closeEntityManager(entityManager);
         }
 
+        /*for (Account account : accounts.values()) {
+            balance += account.getBalance();
+        }*/
+
         return balance;
+    }
+
+    private void closeEntityManager(EntityManager entityManager) {
+        Optional.ofNullable(entityManager).ifPresent(EntityManager::close);
     }
 }
