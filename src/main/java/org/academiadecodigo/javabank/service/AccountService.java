@@ -48,7 +48,32 @@ public class AccountService implements AccountServiceInterface {
             entityManager = entityManagerFactory.createEntityManager();
 
             entityManager.getTransaction().begin();
-            entityManager.remove(get(id));
+            entityManager.remove(entityManager.merge(get(id)));
+            entityManager.getTransaction().commit();
+        } catch (RollbackException e) {
+            Optional.ofNullable(entityManager).ifPresent(manager -> manager.getTransaction().rollback());
+        } finally {
+            close(entityManager);
+        }
+    }
+
+    @Override
+    public void deposit(int id, double amount) {
+        EntityManager entityManager = null;
+
+        try {
+            entityManager = entityManagerFactory.createEntityManager();
+
+            Account account = get(id);
+
+            if (!account.canCredit(amount)) {
+                return;
+            }
+
+            account.addBalance(amount);
+
+            entityManager.getTransaction().begin();
+            entityManager.persist(entityManager.merge(account));
             entityManager.getTransaction().commit();
 
         } catch (RollbackException e) {
@@ -59,25 +84,29 @@ public class AccountService implements AccountServiceInterface {
     }
 
     @Override
-    public void deposit(int id, double amount) {
-        Account account = get(id);
-
-        if (!account.canCredit(amount)) {
-            return;
-        }
-
-        account.addBalance(amount);
-    }
-
-    @Override
     public void withdraw(int id, double amount) {
-        Account account = get(id);
+        EntityManager entityManager = null;
 
-        if (!account.canWithdraw()) {
-            return;
+        try {
+            entityManager = entityManagerFactory.createEntityManager();
+
+            Account account = get(id);
+
+            if (!account.canWithdraw()) {
+                return;
+            }
+
+            account.removeBalance(amount);
+
+            entityManager.getTransaction().begin();
+            entityManager.persist(entityManager.merge(account));
+            entityManager.getTransaction().commit();
+
+        } catch (RollbackException e) {
+            Optional.ofNullable(entityManager).ifPresent(manager -> manager.getTransaction().rollback());
+        } finally {
+            close(entityManager);
         }
-
-        account.removeBalance(amount);
     }
 
     @Override
@@ -106,9 +135,11 @@ public class AccountService implements AccountServiceInterface {
     }
 
     public Account get(int id) {
-        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        EntityManager entityManager = null;
 
         try {
+            entityManager = entityManagerFactory.createEntityManager();
+
             CriteriaBuilder builder = entityManager.getCriteriaBuilder();
             CriteriaQuery<Account> criteriaQuery = builder.createQuery(Account.class);
             Root<Account> root = criteriaQuery.from(Account.class);
@@ -124,9 +155,11 @@ public class AccountService implements AccountServiceInterface {
     }
 
     public List<Account> listAll() {
-        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        EntityManager entityManager = null;
 
         try {
+            entityManager = entityManagerFactory.createEntityManager();
+
             CriteriaBuilder builder = entityManager.getCriteriaBuilder();
             CriteriaQuery<Account> criteriaQuery = builder.createQuery(Account.class);
             Root<Account> root = criteriaQuery.from(Account.class);

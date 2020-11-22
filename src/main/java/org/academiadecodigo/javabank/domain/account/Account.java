@@ -1,8 +1,6 @@
 package org.academiadecodigo.javabank.domain.account;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 /**
  * A generic account domain entity to be used as a base for concrete types of accounts
@@ -12,15 +10,10 @@ import javax.persistence.Table;
 public abstract class Account {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    private double balance = 0;
-
-    private final AccountType accountType;
-
-    public Account(AccountType accountType) {
-        this.accountType = accountType;
-    }
+    private double balance;
 
     public void addBalance(double amount) {
         balance += amount;

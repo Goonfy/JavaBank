@@ -47,7 +47,7 @@ public class CustomerService implements CustomerServiceInterface {
             entityManager = entityManagerFactory.createEntityManager();
 
             entityManager.getTransaction().begin();
-            entityManager.remove(get(id));
+            entityManager.remove(entityManager.merge(get(id)));
             entityManager.getTransaction().commit();
 
         } catch (RollbackException e) {
@@ -59,9 +59,11 @@ public class CustomerService implements CustomerServiceInterface {
 
     @Override
     public List<Customer> listAll() {
-        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        EntityManager entityManager = null;
 
         try {
+            entityManager = entityManagerFactory.createEntityManager();
+
             CriteriaBuilder builder = entityManager.getCriteriaBuilder();
             CriteriaQuery<Customer> criteriaQuery = builder.createQuery(Customer.class);
             Root<Customer> root = criteriaQuery.from(Customer.class);
@@ -74,9 +76,11 @@ public class CustomerService implements CustomerServiceInterface {
     }
 
     public Customer get(int id) {
-        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        EntityManager entityManager = null;
 
         try {
+            entityManager = entityManagerFactory.createEntityManager();
+
             CriteriaBuilder builder = entityManager.getCriteriaBuilder();
             CriteriaQuery<Customer> criteriaQuery = builder.createQuery(Customer.class);
             Root<Customer> root = criteriaQuery.from(Customer.class);

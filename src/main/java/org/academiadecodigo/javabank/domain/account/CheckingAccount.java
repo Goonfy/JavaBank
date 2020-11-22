@@ -1,10 +1,13 @@
 package org.academiadecodigo.javabank.domain.account;
 
+import javax.persistence.Entity;
+
 /**
  * A checking account with no restrictions
  * @see Account
  * @see AccountType#CHECKING
  */
+@Entity
 public class CheckingAccount extends Account {
 
     /**
@@ -12,9 +15,9 @@ public class CheckingAccount extends Account {
      *
      * @see Account#Account(int)
      */
-    public CheckingAccount(AccountType accountType) {
+    /*public CheckingAccount(AccountType accountType) {
         super(accountType);
-    }
+    }*/
 
     /**
      * @see Account#getAccountType()

@@ -32,14 +32,13 @@ public class AddAccountController extends AccountController {
         switch (accountType) {
 
             case CHECKING:
-                account = new CheckingAccount(accountType);
+                account = new CheckingAccount();
                 break;
             case SAVINGS:
-                account = new SavingsAccount(accountType);
+                account = new SavingsAccount();
                 break;
         }
 
-        getAuthenticationService().getAccessingCustomer().addAccount(account.getId());
         getAccountService().add(account);
 
         view.success();
