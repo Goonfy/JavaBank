@@ -1,10 +1,6 @@
 package org.academiadecodigo.javabank.service;
 
-import org.academiadecodigo.javabank.domain.Customer;
 import org.academiadecodigo.javabank.domain.account.Account;
-import org.academiadecodigo.javabank.domain.account.AccountType;
-import org.academiadecodigo.javabank.domain.account.CheckingAccount;
-import org.academiadecodigo.javabank.domain.account.SavingsAccount;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -12,16 +8,13 @@ import javax.persistence.RollbackException;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.List;
 import java.util.Optional;
 
 /**
  * Responsible for account management
  */
 public class AccountService implements AccountServiceInterface {
-
-    private Customer customer;
 
     private final EntityManagerFactory entityManagerFactory;
 
@@ -43,72 +36,109 @@ public class AccountService implements AccountServiceInterface {
         } catch (RollbackException e) {
             Optional.ofNullable(entityManager).ifPresent(manager -> manager.getTransaction().rollback());
         } finally {
-            closeEntityManager(entityManager);
+            close(entityManager);
         }
     }
 
     @Override
-    public void close(int id) {
-        customer.removeAccount(id);
+    public void remove(int id) {
+        EntityManager entityManager = null;
+
+        try {
+            entityManager = entityManagerFactory.createEntityManager();
+
+            entityManager.getTransaction().begin();
+            entityManager.remove(get(id));
+            entityManager.getTransaction().commit();
+
+        } catch (RollbackException e) {
+            Optional.ofNullable(entityManager).ifPresent(manager -> manager.getTransaction().rollback());
+        } finally {
+            close(entityManager);
+        }
     }
 
     @Override
     public void deposit(int id, double amount) {
-        Account account = customer.getAccount(id);
+        Account account = get(id);
 
-        if (account.canCredit(amount)) {
-            customer.getAccount(id).addBalance(amount);
+        if (!account.canCredit(amount)) {
+            return;
         }
+
+        account.addBalance(amount);
     }
 
     @Override
     public void withdraw(int id, double amount) {
-
-        Account account = customer.getAccount(id);
+        Account account = get(id);
 
         if (!account.canWithdraw()) {
             return;
         }
 
-        customer.getAccount(id).addBalance(amount);
+        account.removeBalance(amount);
     }
 
     @Override
     public void transfer(int srcId, int dstId, double amount) {
+        Account srcAccount = get(srcId);
+        Account dstAccount = get(dstId);
 
-        Account srcAccount = customer.getAccount(srcId);
-        Account dstAccount = customer.getAccount(dstId);
-
-        // make sure transaction can be performed
         if (srcAccount.canDebit(amount) && dstAccount.canCredit(amount)) {
             withdraw(srcId, amount);
             deposit(dstId, amount);
         }
     }
 
-    public void setCustomer(Customer customer) {
-        this.customer = customer;
+    public double getBalance(int id) {
+        return get(id).getBalance();
     }
 
     public int getBalanceFromAllAccounts() {
         int balance = 0;
 
-        EntityManager entityManager = entityManagerFactory.createEntityManager();
-
-        try {
-            return entityManager.get; // always the primary key
-        } finally {
-            closeEntityManager(entityManager);
-        }
-
-        /*for (Account account : accounts.values()) {
+        for (Account account : listAll()) {
             balance += account.getBalance();
-        }*/
+        }
 
         return balance;
     }
 
-    private void closeEntityManager(EntityManager entityManager) {
+    public Account get(int id) {
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+
+        try {
+            CriteriaBuilder builder = entityManager.getCriteriaBuilder();
+            CriteriaQuery<Account> criteriaQuery = builder.createQuery(Account.class);
+            Root<Account> root = criteriaQuery.from(Account.class);
+            criteriaQuery.select(root);
+            criteriaQuery.where(
+                    builder.equal(root.get("id"), id)
+            );
+
+            return entityManager.createQuery(criteriaQuery).getSingleResult();
+        } finally {
+            close(entityManager);
+        }
+    }
+
+    public List<Account> listAll() {
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+
+        try {
+            CriteriaBuilder builder = entityManager.getCriteriaBuilder();
+            CriteriaQuery<Account> criteriaQuery = builder.createQuery(Account.class);
+            Root<Account> root = criteriaQuery.from(Account.class);
+            criteriaQuery.select(root);
+
+            return entityManager.createQuery(criteriaQuery).getResultList();
+        } finally {
+           close(entityManager);
+        }
+    }
+
+    private void close(EntityManager entityManager) {
         Optional.ofNullable(entityManager).ifPresent(EntityManager::close);
     }
 }

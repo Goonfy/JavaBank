@@ -18,8 +18,8 @@ public class SavingsAccount extends Account {
      *
      * @see Account#Account(int)
      */
-    public SavingsAccount(int id) {
-        super(id);
+    public SavingsAccount(AccountType accountType) {
+        super(accountType);
     }
 
     /**

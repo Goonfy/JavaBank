@@ -1,5 +1,8 @@
 package org.academiadecodigo.javabank.controller.account;
 
+import org.academiadecodigo.javabank.domain.account.Account;
+import org.academiadecodigo.javabank.domain.account.CheckingAccount;
+import org.academiadecodigo.javabank.domain.account.SavingsAccount;
 import org.academiadecodigo.javabank.service.AccountService;
 import org.academiadecodigo.javabank.domain.account.AccountType;
 import org.academiadecodigo.javabank.controller.AccountController;
@@ -23,7 +26,21 @@ public class AddAccountController extends AccountController {
             return;
         }
 
-        getAccountService().add(AccountType.values()[view.createMenu(AccountType.values()) - 1]);
+        Account account = null;
+        AccountType accountType = AccountType.values()[view.createMenu(AccountType.values()) - 1];
+
+        switch (accountType) {
+
+            case CHECKING:
+                account = new CheckingAccount(accountType);
+                break;
+            case SAVINGS:
+                account = new SavingsAccount(accountType);
+                break;
+        }
+
+        getAuthenticationService().getAccessingCustomer().addAccount(account.getId());
+        getAccountService().add(account);
 
         view.success();
     }

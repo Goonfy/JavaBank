@@ -35,8 +35,6 @@ public class EditCustomerMenuController extends CustomerController {
                 view.error();
                 return;
             }
-
-            getAccountService().setCustomer(getAuthenticationService().getAccessingCustomer());
         }
 
         view.success();

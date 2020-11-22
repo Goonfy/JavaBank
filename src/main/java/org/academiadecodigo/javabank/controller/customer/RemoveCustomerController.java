@@ -24,7 +24,7 @@ public class RemoveCustomerController extends CustomerController {
             return;
         }
 
-        getCustomerService().remove(getCustomerService().get(customerId));
+        getCustomerService().remove(getCustomerService().get(customerId).getId());
 
         view.success();
     }

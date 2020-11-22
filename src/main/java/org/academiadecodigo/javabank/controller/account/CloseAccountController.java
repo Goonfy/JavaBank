@@ -23,7 +23,8 @@ public class CloseAccountController extends AccountController {
             return;
         }
 
-        getAccountService().close(accountId);
+        getAuthenticationService().getAccessingCustomer().removeAccount(accountId);
+        getAccountService().remove(accountId);
         view.success();
     }
 }

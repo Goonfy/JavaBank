@@ -1,70 +1,100 @@
 package org.academiadecodigo.javabank.service;
 
 import org.academiadecodigo.javabank.domain.Customer;
+import org.academiadecodigo.javabank.domain.account.Account;
 
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.RollbackException;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 public class CustomerService implements CustomerServiceInterface {
 
-    private int numberOfCustomers;
+    private final EntityManagerFactory entityManagerFactory;
 
-    private final Set<Customer> customers = new LinkedHashSet<>();
+    public CustomerService(EntityManagerFactory entityManagerFactory) {
+        this.entityManagerFactory = entityManagerFactory;
+    }
 
     @Override
     public void add(String name, String email, String phoneNumber) {
-        customers.add(new Customer(++numberOfCustomers, name, email, phoneNumber));
-    }
+        EntityManager entityManager = null;
 
-    public void remove(Customer customer) {
-        customers.remove(customer);
-    }
+        try {
+            entityManager = entityManagerFactory.createEntityManager();
 
-    @Override
-    public double getBalance(int customerId) {
+            entityManager.getTransaction().begin();
+            entityManager.persist(new Customer(name, email, phoneNumber));
+            entityManager.getTransaction().commit();
 
-        double balance = 0;
-
-        for (Customer customer : customers) {
-            if (customer.getId() == customerId) {
-                balance = customer.getTotalBalance();
-                break;
-            }
+        } catch (RollbackException e) {
+            Optional.ofNullable(entityManager).ifPresent(manager -> manager.getTransaction().rollback());
+        } finally {
+            close(entityManager);
         }
-
-        return balance;
     }
 
-    @Override
-    public Set<Customer> list() {
-        return customers;
-    }
+    public void remove(int id) {
+        EntityManager entityManager = null;
 
-    @Override
-    public Set<Integer> listCustomerAccountIds(Integer id) {
-        Set<Integer> set = new LinkedHashSet<>();
+        try {
+            entityManager = entityManagerFactory.createEntityManager();
 
-        for (Customer customer : customers) {
-            set.add(customer.getId());
+            entityManager.getTransaction().begin();
+            entityManager.remove(get(id));
+            entityManager.getTransaction().commit();
+
+        } catch (RollbackException e) {
+            Optional.ofNullable(entityManager).ifPresent(manager -> manager.getTransaction().rollback());
+        } finally {
+            close(entityManager);
         }
+    }
 
-        return set;
+    @Override
+    public List<Customer> listAll() {
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+
+        try {
+            CriteriaBuilder builder = entityManager.getCriteriaBuilder();
+            CriteriaQuery<Customer> criteriaQuery = builder.createQuery(Customer.class);
+            Root<Customer> root = criteriaQuery.from(Customer.class);
+            criteriaQuery.select(root);
+
+            return entityManager.createQuery(criteriaQuery).getResultList();
+        } finally {
+            close(entityManager);
+        }
     }
 
     public Customer get(int id) {
-        for (Customer customer : customers) {
-            if (customer.getId() == id) {
-                return customer;
-            }
-        }
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
 
-        return null;
+        try {
+            CriteriaBuilder builder = entityManager.getCriteriaBuilder();
+            CriteriaQuery<Customer> criteriaQuery = builder.createQuery(Customer.class);
+            Root<Customer> root = criteriaQuery.from(Customer.class);
+            criteriaQuery.select(root);
+            criteriaQuery.where(
+                    builder.equal(root.get("id"), id)
+            );
+
+            return entityManager.createQuery(criteriaQuery).getSingleResult();
+        } finally {
+            close(entityManager);
+        }
     }
 
     public String getAllCustomersInfo() {
         StringBuilder stringBuilder = new StringBuilder();
 
-        for (Customer customer : customers) {
+        for (Customer customer : listAll()) {
             stringBuilder.append(customer.toString());
         }
 
@@ -72,6 +102,10 @@ public class CustomerService implements CustomerServiceInterface {
     }
 
     public int getNumberOfCustomers() {
-        return customers.size();
+        return listAll().size();
+    }
+
+    private void close(EntityManager entityManager) {
+        Optional.ofNullable(entityManager).ifPresent(EntityManager::close);
     }
 }

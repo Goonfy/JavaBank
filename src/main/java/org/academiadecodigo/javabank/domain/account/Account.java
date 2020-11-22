@@ -1,24 +1,33 @@
 package org.academiadecodigo.javabank.domain.account;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
 /**
  * A generic account domain entity to be used as a base for concrete types of accounts
  */
+@Entity
+@Table(name = "accounts")
 public abstract class Account {
 
+    @Id
     private int id;
+
     private double balance = 0;
 
-    /**
-     * Initializes a new {@code Account} instance with an id
-     *
-     * @param id the account id
-     */
-    public Account(int id) {
-        this.id = id;
+    private final AccountType accountType;
+
+    public Account(AccountType accountType) {
+        this.accountType = accountType;
     }
 
-    public void addBalance(double balance) {
-        this.balance += balance;
+    public void addBalance(double amount) {
+        balance += amount;
+    }
+
+    public void removeBalance(double amount) {
+        balance -= amount;
     }
 
     /**
