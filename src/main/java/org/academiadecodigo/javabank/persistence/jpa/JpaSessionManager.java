@@ -5,7 +5,7 @@ import javax.persistence.EntityManagerFactory;
 
 public class JpaSessionManager {
 
-    private EntityManagerFactory emf; // the persistence unit
+    private final EntityManagerFactory emf; // the persistence unit
     private EntityManager em; // the persistence context
 
     public JpaSessionManager(EntityManagerFactory emf) {

@@ -1,7 +1,8 @@
 package org.academiadecodigo.javabank.service;
 
-import org.academiadecodigo.javabank.domain.Customer;
 import org.academiadecodigo.javabank.domain.account.Account;
+import org.academiadecodigo.javabank.persistence.dao.AccountDao;
+import org.academiadecodigo.javabank.persistence.dao.jpa.JpaAccountDao;
 import org.academiadecodigo.javabank.persistence.jpa.JpaSessionManager;
 import org.academiadecodigo.javabank.persistence.jpa.JpaTransactionManager;
 
@@ -17,13 +18,13 @@ import java.util.List;
 public class AccountService implements AccountServiceInterface {
 
     private final AuthenticationService authenticationService;
-    private final JpaSessionManager sessionManager;
+    private final AccountDao<Account> accountDao;
     private final JpaTransactionManager transactionManager;
 
-    public AccountService(AuthenticationService authenticationService, JpaTransactionManager transactionManager, JpaSessionManager sessionManager) {
+    public AccountService(AuthenticationService authenticationService, JpaTransactionManager transactionManager, AccountDao<Account> accountDao) {
         this.authenticationService = authenticationService;
         this.transactionManager = transactionManager;
-        this.sessionManager = sessionManager;
+        this.accountDao = accountDao;
     }
 
     @Override
@@ -32,78 +33,68 @@ public class AccountService implements AccountServiceInterface {
             account.setCustomer(authenticationService.getAccessingCustomer());
 
             transactionManager.beginWrite();
-            sessionManager.getCurrentSession().persist(account);
+            Account acc = accountDao.saveOrUpdate(account);
             transactionManager.commit();
-        } catch (RollbackException e) {
-            transactionManager.rollback();
+
+            authenticationService.getAccessingCustomer().addAccount(acc);
         } finally {
-            sessionManager.stopSession();
+            transactionManager.rollback();
         }
     }
 
     @Override
     public void remove(int id) {
         try {
-            Account account = get(id);
+            Account account = accountDao.findById(id);
 
             transactionManager.beginWrite();
-            sessionManager.getCurrentSession().remove(sessionManager.getCurrentSession().merge(account));
+            accountDao.delete(id);
             transactionManager.commit();
 
             authenticationService.getAccessingCustomer().removeAccount(account);
-        } catch (RollbackException e) {
-            transactionManager.rollback();
         } finally {
-            sessionManager.stopSession();
+            transactionManager.rollback();
         }
     }
 
     @Override
     public void deposit(int id, double amount) {
         try {
-            Account account = get(id);
+            Account account = accountDao.findById(id);
 
             if (!account.canCredit(amount)) {
                 return;
             }
 
-            account.addBalance(amount);
-
             transactionManager.beginWrite();
-            sessionManager.getCurrentSession().persist(sessionManager.getCurrentSession().merge(account));
+            accountDao.saveOrUpdate(account).addBalance(amount);
             transactionManager.commit();
-
-        } catch (RollbackException e) {
-            transactionManager.rollback();
         } finally {
-            sessionManager.stopSession();
+            transactionManager.rollback();
         }
     }
 
     @Override
     public void withdraw(int id, double amount) {
         try {
-            Account account = get(id);
+            Account account = accountDao.findById(id);
 
             if (!account.canWithdraw() || !account.canDebit(amount)) {
                 return;
             }
 
             transactionManager.beginWrite();
-            sessionManager.getCurrentSession().merge(account).removeBalance(amount);
+            accountDao.saveOrUpdate(account).removeBalance(amount);
             transactionManager.commit();
-
-        } catch (RollbackException e) {
-            transactionManager.rollback();
         } finally {
-            sessionManager.stopSession();
+            transactionManager.rollback();
         }
     }
 
     @Override
     public void transfer(int srcId, int dstId, double amount) {
-        Account srcAccount = get(srcId);
-        Account dstAccount = get(dstId);
+        Account srcAccount = accountDao.findById(srcId);
+        Account dstAccount = accountDao.findById(dstId);
 
         if (srcAccount.canDebit(amount) && dstAccount.canCredit(amount)) {
             withdraw(srcId, amount);
@@ -112,45 +103,16 @@ public class AccountService implements AccountServiceInterface {
     }
 
     public double getBalance(int id) {
-        return get(id).getBalance();
+        return accountDao.findById(id).getBalance();
     }
 
     public int getBalanceFromAllAccounts() {
         int balance = 0;
 
-        for (Account account : listAll()) {
+        for (Account account : accountDao.findAll()) {
             balance += account.getBalance();
         }
 
         return balance;
-    }
-
-    public Account get(int id) {
-        try {
-            CriteriaBuilder builder = sessionManager.getCurrentSession().getCriteriaBuilder();
-            CriteriaQuery<Account> criteriaQuery = builder.createQuery(Account.class);
-            Root<Account> root = criteriaQuery.from(Account.class);
-            criteriaQuery.select(root);
-            criteriaQuery.where(
-                    builder.equal(root.get("id"), id)
-            );
-
-            return sessionManager.getCurrentSession().createQuery(criteriaQuery).getSingleResult();
-        } finally {
-            sessionManager.stopSession();
-        }
-    }
-
-    public List<Account> listAll() {
-        try {
-            CriteriaBuilder builder = sessionManager.getCurrentSession().getCriteriaBuilder();
-            CriteriaQuery<Account> criteriaQuery = builder.createQuery(Account.class);
-            Root<Account> root = criteriaQuery.from(Account.class);
-            criteriaQuery.select(root);
-
-            return sessionManager.getCurrentSession().createQuery(criteriaQuery).getResultList();
-        } finally {
-            sessionManager.stopSession();
-        }
     }
 }
