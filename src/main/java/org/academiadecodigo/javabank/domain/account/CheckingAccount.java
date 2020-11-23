@@ -15,9 +15,9 @@ public class CheckingAccount extends Account {
      *
      * @see Account#Account(int)
      */
-    /*public CheckingAccount(AccountType accountType) {
-        super(accountType);
-    }*/
+    public CheckingAccount() {
+        super();
+    }
 
     /**
      * @see Account#getAccountType()

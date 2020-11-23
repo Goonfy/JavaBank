@@ -12,11 +12,11 @@ public class ShowCustomerPromptView extends PromptView {
 
     @Override
     public void success() {
-        System.err.println("\n" + allCustomersInfo);
+        System.out.println("\n" + allCustomersInfo);
     }
 
     @Override
     public void error() {
-        System.err.println("\nPlease create a costumer before proceeding...");
+        System.out.println("\nPlease create a costumer before proceeding...");
     }
 }

@@ -1,5 +1,7 @@
 package org.academiadecodigo.javabank.domain.account;
 
+import org.academiadecodigo.javabank.domain.Customer;
+
 import javax.persistence.*;
 
 /**
@@ -15,12 +17,23 @@ public abstract class Account {
 
     private double balance;
 
+    @ManyToOne
+    private Customer customer;
+
     public void addBalance(double amount) {
         balance += amount;
     }
 
     public void removeBalance(double amount) {
         balance -= amount;
+    }
+
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
+    }
+
+    public Customer getCustomer() {
+        return customer;
     }
 
     /**

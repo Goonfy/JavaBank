@@ -9,12 +9,6 @@ public class AuthenticationService implements AuthenticationServiceInterface {
     private CustomerService customerService;
     private Customer accessingCustomer;
 
-    private final EntityManagerFactory entityManagerFactory;
-
-    public AuthenticationService(EntityManagerFactory entityManagerFactory) {
-        this.entityManagerFactory = entityManagerFactory;
-    }
-
     public void setCustomerService(CustomerService customerService) {
         this.customerService = customerService;
     }

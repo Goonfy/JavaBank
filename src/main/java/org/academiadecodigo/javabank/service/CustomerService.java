@@ -1,87 +1,69 @@
 package org.academiadecodigo.javabank.service;
 
 import org.academiadecodigo.javabank.domain.Customer;
-import org.academiadecodigo.javabank.domain.account.Account;
+import org.academiadecodigo.javabank.persistence.jpa.JpaSessionManager;
+import org.academiadecodigo.javabank.persistence.jpa.JpaTransactionManager;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
 import javax.persistence.RollbackException;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
-import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.Optional;
-import java.util.Set;
 
 public class CustomerService implements CustomerServiceInterface {
 
-    private final EntityManagerFactory entityManagerFactory;
+    private final JpaTransactionManager transactionManager;
+    private final JpaSessionManager sessionManager;
 
-    public CustomerService(EntityManagerFactory entityManagerFactory) {
-        this.entityManagerFactory = entityManagerFactory;
+    public CustomerService(JpaTransactionManager transactionManager, JpaSessionManager sessionManager) {
+        this.transactionManager = transactionManager;
+        this.sessionManager = sessionManager;
     }
 
     @Override
     public void add(String name, String email, String phoneNumber) {
-        EntityManager entityManager = null;
-
         try {
-            entityManager = entityManagerFactory.createEntityManager();
-
-            entityManager.getTransaction().begin();
-            entityManager.persist(new Customer(name, email, phoneNumber));
-            entityManager.getTransaction().commit();
+            transactionManager.beginWrite();
+            sessionManager.getCurrentSession().persist(new Customer(name, email, phoneNumber));
+            transactionManager.commit();
 
         } catch (RollbackException e) {
-            Optional.ofNullable(entityManager).ifPresent(manager -> manager.getTransaction().rollback());
+            transactionManager.rollback();
         } finally {
-            close(entityManager);
+            sessionManager.stopSession();
         }
     }
 
     public void remove(int id) {
-        EntityManager entityManager = null;
-
         try {
-            entityManager = entityManagerFactory.createEntityManager();
-
-            entityManager.getTransaction().begin();
-            entityManager.remove(entityManager.merge(get(id)));
-            entityManager.getTransaction().commit();
+            transactionManager.beginWrite();
+            sessionManager.getCurrentSession().remove(sessionManager.getCurrentSession().merge(get(id)));
+            transactionManager.commit();
 
         } catch (RollbackException e) {
-            Optional.ofNullable(entityManager).ifPresent(manager -> manager.getTransaction().rollback());
+            transactionManager.rollback();
         } finally {
-            close(entityManager);
+            sessionManager.stopSession();
         }
     }
 
     @Override
     public List<Customer> listAll() {
-        EntityManager entityManager = null;
-
         try {
-            entityManager = entityManagerFactory.createEntityManager();
-
-            CriteriaBuilder builder = entityManager.getCriteriaBuilder();
+            CriteriaBuilder builder = sessionManager.getCurrentSession().getCriteriaBuilder();
             CriteriaQuery<Customer> criteriaQuery = builder.createQuery(Customer.class);
             Root<Customer> root = criteriaQuery.from(Customer.class);
             criteriaQuery.select(root);
 
-            return entityManager.createQuery(criteriaQuery).getResultList();
+            return sessionManager.getCurrentSession().createQuery(criteriaQuery).getResultList();
         } finally {
-            close(entityManager);
+            sessionManager.stopSession();
         }
     }
 
     public Customer get(int id) {
-        EntityManager entityManager = null;
-
         try {
-            entityManager = entityManagerFactory.createEntityManager();
-
-            CriteriaBuilder builder = entityManager.getCriteriaBuilder();
+            CriteriaBuilder builder = sessionManager.getCurrentSession().getCriteriaBuilder();
             CriteriaQuery<Customer> criteriaQuery = builder.createQuery(Customer.class);
             Root<Customer> root = criteriaQuery.from(Customer.class);
             criteriaQuery.select(root);
@@ -89,9 +71,9 @@ public class CustomerService implements CustomerServiceInterface {
                     builder.equal(root.get("id"), id)
             );
 
-            return entityManager.createQuery(criteriaQuery).getSingleResult();
+            return sessionManager.getCurrentSession().createQuery(criteriaQuery).getSingleResult();
         } finally {
-            close(entityManager);
+            sessionManager.stopSession();
         }
     }
 
@@ -107,9 +89,5 @@ public class CustomerService implements CustomerServiceInterface {
 
     public int getNumberOfCustomers() {
         return listAll().size();
-    }
-
-    private void close(EntityManager entityManager) {
-        Optional.ofNullable(entityManager).ifPresent(EntityManager::close);
     }
 }

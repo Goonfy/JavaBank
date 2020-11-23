@@ -1,24 +1,27 @@
 package org.academiadecodigo.javabank;
 
 import org.academiadecodigo.javabank.controller.Controller;
+import org.academiadecodigo.javabank.persistence.jpa.JpaSessionManager;
+import org.academiadecodigo.javabank.persistence.jpa.JpaTransactionManager;
 import org.academiadecodigo.javabank.service.AuthenticationService;
 import org.academiadecodigo.javabank.service.CustomerService;
 import org.academiadecodigo.javabank.service.AccountService;
 import org.academiadecodigo.javabank.controller.menu.MainMenuController;
-import org.hibernate.engine.spi.SessionFactoryDelegatingImpl;
-import org.hibernate.internal.SessionFactoryImpl;
 
-import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
-import javax.swing.text.html.parser.Entity;
 
 public class App {
     public static void main(String[] args) {
         String persistenceUnit = "dev";
 
-        EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory(persistenceUnit);
+        JpaSessionManager sessionManager = new JpaSessionManager(Persistence.createEntityManagerFactory(persistenceUnit));
+        JpaTransactionManager transactionManager = new JpaTransactionManager(sessionManager);
 
-        Controller controller = new MainMenuController(new CustomerService(entityManagerFactory), new AccountService(entityManagerFactory), new AuthenticationService(entityManagerFactory));
+        AuthenticationService authenticationService = new AuthenticationService();
+        CustomerService customerService = new CustomerService(transactionManager, sessionManager);
+        AccountService accountService = new AccountService(authenticationService, transactionManager, sessionManager);
+
+        Controller controller = new MainMenuController(customerService, accountService, authenticationService);
         controller.execute();
     }
 }

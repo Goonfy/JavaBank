@@ -3,8 +3,7 @@ package org.academiadecodigo.javabank.domain;
 import org.academiadecodigo.javabank.domain.account.Account;
 
 import javax.persistence.*;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 /**
  * The customer domain entity
@@ -22,8 +21,11 @@ public class Customer {
     @Column(name = "phone_number")
     private final String phoneNumber;
 
-    @OneToMany(fetch = FetchType.EAGER)
-    private final Set<Account> accounts;
+    @OneToMany(
+            mappedBy = "customer",
+            fetch = FetchType.EAGER
+    )
+    private final List<Account> accounts;
 
     public Customer() {
         this("", "", "");
@@ -34,7 +36,7 @@ public class Customer {
         this.email = email;
         this.phoneNumber = phoneNumber;
 
-        accounts = new HashSet<>();
+        accounts = new ArrayList<>();
     }
 
     public void addAccount(Account account) {
@@ -43,6 +45,18 @@ public class Customer {
 
     public void removeAccount(Account account) {
         accounts.remove(account);
+    }
+
+    public Account get(int id) {
+        Account account = null;
+
+        for (Account acc : accounts) {
+            if (acc.getId() == id) {
+                account = acc;
+            }
+        }
+
+        return account;
     }
 
     public String getAllAccountsInfo() {

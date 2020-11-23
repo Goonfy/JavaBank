@@ -21,9 +21,9 @@ public class SavingsAccount extends Account {
      *
      * @see Account#Account(int)
      */
-    /*public SavingsAccount(AccountType accountType) {
-        super(accountType);
-    }*/
+    public SavingsAccount() {
+        super();
+    }
 
     /**
      * @see Account#getAccountType()

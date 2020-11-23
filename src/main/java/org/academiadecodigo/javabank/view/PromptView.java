@@ -6,6 +6,7 @@ import org.academiadecodigo.bootcamp.scanners.menu.MenuInputScanner;
 import org.academiadecodigo.bootcamp.scanners.string.StringInputScanner;
 import org.academiadecodigo.javabank.Descriptable;
 import org.academiadecodigo.javabank.domain.Customer;
+import org.academiadecodigo.javabank.service.AccountService;
 import org.academiadecodigo.javabank.service.CustomerService;
 
 public abstract class PromptView implements View {
@@ -52,10 +53,6 @@ public abstract class PromptView implements View {
     }
 
     public int createAccountMenu(Customer customer) {
-        if (customer == null) {
-            return -1;
-        }
-
         System.out.println("\n" + customer.getAllAccountsInfo());
         if (!customer.getAllAccountsInfo().contains("[")) {
             return -1;
