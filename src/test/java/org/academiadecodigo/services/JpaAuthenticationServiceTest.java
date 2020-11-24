@@ -3,21 +3,21 @@ package org.academiadecodigo.services;
 import static org.mockito.Mockito.*;
 
 import org.academiadecodigo.javabank.domain.Customer;
-import org.academiadecodigo.javabank.service.AuthenticationService;
-import org.academiadecodigo.javabank.service.CustomerService;
+import org.academiadecodigo.javabank.service.JpaAuthenticationService;
+import org.academiadecodigo.javabank.service.JpaCustomerService;
 import org.junit.*;
 
-public class AuthenticationServiceTest {
+public class JpaAuthenticationServiceTest {
 
-    private AuthenticationService authenticationService;
-    private CustomerService customerService;
+    private JpaAuthenticationService authenticationService;
+    private JpaCustomerService customerService;
     private Customer accessingCustomer;
 
     @Before
     public void setup() {
-        customerService = mock(CustomerService.class);
+        customerService = mock(JpaCustomerService.class);
         accessingCustomer = mock(Customer.class);
-        authenticationService = mock(AuthenticationService.class);
+        authenticationService = mock(JpaAuthenticationService.class);
         authenticationService.setCustomerService(customerService);
     }
 

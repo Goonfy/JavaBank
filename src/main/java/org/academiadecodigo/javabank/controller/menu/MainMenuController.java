@@ -1,12 +1,12 @@
 package org.academiadecodigo.javabank.controller.menu;
 
 import org.academiadecodigo.javabank.controller.CustomerController;
-import org.academiadecodigo.javabank.service.AccountService;
+import org.academiadecodigo.javabank.service.JpaAccountService;
 import org.academiadecodigo.javabank.controller.customer.AddNewCustomerController;
 import org.academiadecodigo.javabank.controller.customer.RemoveCustomerController;
 import org.academiadecodigo.javabank.controller.customer.ShowCustomerController;
-import org.academiadecodigo.javabank.service.AuthenticationService;
-import org.academiadecodigo.javabank.service.CustomerService;
+import org.academiadecodigo.javabank.service.JpaAuthenticationService;
+import org.academiadecodigo.javabank.service.JpaCustomerService;
 import org.academiadecodigo.javabank.ui.MenuItem;
 import org.academiadecodigo.javabank.view.menu.MainMenuView;
 
@@ -17,7 +17,7 @@ public class MainMenuController extends CustomerController {
 
     private final MainMenuView view;
 
-    public MainMenuController(CustomerService customerService, AccountService accountService, AuthenticationService authenticationService) {
+    public MainMenuController(JpaCustomerService customerService, JpaAccountService accountService, JpaAuthenticationService authenticationService) {
         super(customerService, accountService, authenticationService);
 
         this.view = new MainMenuView();

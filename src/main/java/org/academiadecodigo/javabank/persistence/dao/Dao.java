@@ -6,6 +6,6 @@ public interface Dao<T> {
 
     List<T> findAll();
     T findById(Integer id);
-    T saveOrUpdate(T t);
+    T saveOrUpdate(T data);
     void delete(Integer id);
 }

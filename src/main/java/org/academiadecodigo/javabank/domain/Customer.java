@@ -1,5 +1,6 @@
 package org.academiadecodigo.javabank.domain;
 
+import org.academiadecodigo.javabank.domain.account.AbstractAccount;
 import org.academiadecodigo.javabank.domain.account.Account;
 
 import javax.persistence.*;
@@ -25,7 +26,7 @@ public class Customer {
             mappedBy = "customer",
             fetch = FetchType.EAGER
     )
-    private final List<Account> accounts;
+    private final List<AbstractAccount> accounts;
 
     public Customer() {
         this("", "", "");
@@ -39,34 +40,12 @@ public class Customer {
         accounts = new ArrayList<>();
     }
 
-    public void addAccount(Account account) {
+    public void addAccount(AbstractAccount account) {
         accounts.add(account);
     }
 
-    public void removeAccount(Account account) {
+    public void removeAccount(AbstractAccount account) {
         accounts.remove(account);
-    }
-
-    public Account get(int id) {
-        Account account = null;
-
-        for (Account acc : accounts) {
-            if (acc.getId() == id) {
-                account = acc;
-            }
-        }
-
-        return account;
-    }
-
-    public String getAllAccountsInfo() {
-        StringBuilder stringBuilder = new StringBuilder();
-
-        for (Account account : accounts) {
-            stringBuilder.append(account.toString());
-        }
-
-        return stringBuilder.toString();
     }
 
     public int getId() {
@@ -88,5 +67,15 @@ public class Customer {
     @Override
     public String toString() {
         return "\n" + id + " - [ Name: " + name + ", Email: " + email + ", Phone Number: " + phoneNumber + " ]";
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        return object instanceof Customer && id == ((Customer) object).id;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 }

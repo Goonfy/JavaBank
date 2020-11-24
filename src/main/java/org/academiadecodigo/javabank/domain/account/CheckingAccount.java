@@ -9,7 +9,7 @@ import javax.persistence.Entity;
  * @see AccountType#CHECKING
  */
 @Entity
-public class CheckingAccount extends Account {
+public class CheckingAccount extends AbstractAccount {
 
     /**
      * Creates a new {@code CheckingAccount} instance

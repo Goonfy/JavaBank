@@ -1,23 +1,26 @@
 package org.academiadecodigo.javabank.controller.account;
 
-import org.academiadecodigo.javabank.service.AccountService;
+import org.academiadecodigo.javabank.domain.account.AbstractAccount;
+import org.academiadecodigo.javabank.service.JpaAccountService;
 import org.academiadecodigo.javabank.controller.AccountController;
-import org.academiadecodigo.javabank.service.AuthenticationService;
+import org.academiadecodigo.javabank.service.JpaAuthenticationService;
+import org.academiadecodigo.javabank.view.PromptView;
 import org.academiadecodigo.javabank.view.account.ShowAccountPromptView;
+
+import java.util.List;
 
 public class ShowAccountController extends AccountController {
 
-    private final ShowAccountPromptView view;
-
-    public ShowAccountController(AccountService accountService, AuthenticationService authenticationService) {
+    public ShowAccountController(JpaAccountService accountService, JpaAuthenticationService authenticationService) {
         super(accountService, authenticationService);
-
-        view = new ShowAccountPromptView(authenticationService.getAccessingCustomer().getAllAccountsInfo());
     }
 
     @Override
     public void execute() {
-        if (getAuthenticationService().getAccessingCustomer().getAllAccountsInfo().isEmpty()) {
+        List<AbstractAccount> accounts = getAccountService().getAllAccountsInfoFrom(getAuthenticationService().getAccessingCustomer());
+        PromptView view = new ShowAccountPromptView(accounts.toString());
+
+        if (accounts.isEmpty()) {
             view.error();
             return;
         }

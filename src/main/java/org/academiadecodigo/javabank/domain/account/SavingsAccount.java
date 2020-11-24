@@ -10,7 +10,7 @@ import javax.persistence.Entity;
  * @see AccountType#SAVINGS
  */
 @Entity
-public class SavingsAccount extends Account {
+public class SavingsAccount extends AbstractAccount {
 
     /**
      * The minimum balance to maintain on the account

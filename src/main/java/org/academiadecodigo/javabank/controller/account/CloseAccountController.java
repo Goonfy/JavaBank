@@ -1,15 +1,15 @@
 package org.academiadecodigo.javabank.controller.account;
 
-import org.academiadecodigo.javabank.service.AccountService;
+import org.academiadecodigo.javabank.service.JpaAccountService;
 import org.academiadecodigo.javabank.controller.AccountController;
-import org.academiadecodigo.javabank.service.AuthenticationService;
+import org.academiadecodigo.javabank.service.JpaAuthenticationService;
 import org.academiadecodigo.javabank.view.account.CloseAccountPromptView;
 
 public class CloseAccountController extends AccountController {
 
     private final CloseAccountPromptView view;
 
-    public CloseAccountController(AccountService accountService, AuthenticationService authenticationService) {
+    public CloseAccountController(JpaAccountService accountService, JpaAuthenticationService authenticationService) {
         super(accountService, authenticationService);
 
         view = new CloseAccountPromptView();
@@ -17,7 +17,7 @@ public class CloseAccountController extends AccountController {
 
     @Override
     public void execute() {
-        int accountId = view.createAccountMenu(getAuthenticationService().getAccessingCustomer());
+        int accountId = view.createAccountMenu(getAccountService(), getAuthenticationService().getAccessingCustomer());
         if (accountId == -1) {
             view.error();
             return;

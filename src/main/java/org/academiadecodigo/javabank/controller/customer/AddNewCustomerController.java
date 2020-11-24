@@ -1,17 +1,16 @@
 package org.academiadecodigo.javabank.controller.customer;
 
 import org.academiadecodigo.javabank.controller.CustomerController;
-import org.academiadecodigo.javabank.service.AccountService;
-import org.academiadecodigo.javabank.domain.Customer;
-import org.academiadecodigo.javabank.service.AuthenticationService;
-import org.academiadecodigo.javabank.service.CustomerService;
+import org.academiadecodigo.javabank.service.JpaAccountService;
+import org.academiadecodigo.javabank.service.JpaAuthenticationService;
+import org.academiadecodigo.javabank.service.JpaCustomerService;
 import org.academiadecodigo.javabank.view.customer.AddNewCustomerPromptView;
 
 public class AddNewCustomerController extends CustomerController {
 
     private final AddNewCustomerPromptView view;
 
-    public AddNewCustomerController(CustomerService customerService, AccountService accountService, AuthenticationService authenticationService) {
+    public AddNewCustomerController(JpaCustomerService customerService, JpaAccountService accountService, JpaAuthenticationService authenticationService) {
         super(customerService, accountService, authenticationService);
 
         view = new AddNewCustomerPromptView();

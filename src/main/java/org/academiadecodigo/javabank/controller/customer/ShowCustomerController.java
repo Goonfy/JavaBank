@@ -1,24 +1,26 @@
 package org.academiadecodigo.javabank.controller.customer;
 
 import org.academiadecodigo.javabank.controller.CustomerController;
-import org.academiadecodigo.javabank.service.AccountService;
-import org.academiadecodigo.javabank.service.AuthenticationService;
-import org.academiadecodigo.javabank.service.CustomerService;
+import org.academiadecodigo.javabank.domain.Customer;
+import org.academiadecodigo.javabank.service.JpaAccountService;
+import org.academiadecodigo.javabank.service.JpaAuthenticationService;
+import org.academiadecodigo.javabank.service.JpaCustomerService;
 import org.academiadecodigo.javabank.view.customer.ShowCustomerPromptView;
+
+import java.util.List;
 
 public class ShowCustomerController extends CustomerController {
 
-    private final ShowCustomerPromptView view;
-
-    public ShowCustomerController(CustomerService customerService, AccountService accountService, AuthenticationService authenticationService) {
+    public ShowCustomerController(JpaCustomerService customerService, JpaAccountService accountService, JpaAuthenticationService authenticationService) {
         super(customerService, accountService, authenticationService);
-
-        view = new ShowCustomerPromptView(customerService.getAllCustomersInfo());
     }
 
     @Override
     public void execute() {
-        if (getCustomerService().getNumberOfCustomers() <= 0) {
+        List<Customer> customers = getCustomerService().listAll();
+        ShowCustomerPromptView view = new ShowCustomerPromptView(customers.toString());
+
+        if (customers.isEmpty()) {
             view.error();
             return;
         }

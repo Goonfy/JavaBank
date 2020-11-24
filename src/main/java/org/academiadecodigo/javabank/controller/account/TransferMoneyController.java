@@ -1,17 +1,17 @@
 package org.academiadecodigo.javabank.controller.account;
 
-import org.academiadecodigo.javabank.service.AccountService;
+import org.academiadecodigo.javabank.service.JpaAccountService;
 import org.academiadecodigo.javabank.controller.AccountController;
-import org.academiadecodigo.javabank.service.AuthenticationService;
-import org.academiadecodigo.javabank.service.CustomerService;
+import org.academiadecodigo.javabank.service.JpaAuthenticationService;
+import org.academiadecodigo.javabank.service.JpaCustomerService;
 import org.academiadecodigo.javabank.view.account.TransferMoneyPromptView;
 
 public class TransferMoneyController extends AccountController {
 
     private final TransferMoneyPromptView view;
-    private final CustomerService customerService;
+    private final JpaCustomerService customerService;
 
-    public TransferMoneyController(AccountService accountService, AuthenticationService authenticationService, CustomerService customerService) {
+    public TransferMoneyController(JpaAccountService accountService, JpaAuthenticationService authenticationService, JpaCustomerService customerService) {
         super(accountService, authenticationService);
 
         view = new TransferMoneyPromptView();
@@ -20,14 +20,14 @@ public class TransferMoneyController extends AccountController {
 
     @Override
     public void execute() {
-        int accountId = view.createAccountMenu(getAuthenticationService().getAccessingCustomer());
+        int accountId = view.createAccountMenu(getAccountService(), getAuthenticationService().getAccessingCustomer());
         if (accountId == -1) {
             view.error();
             return;
         }
 
         int customerIdToTransferMoneyTo = view.createCustomerMenu(customerService);
-        int accountIdToTransferMoneyTo = view.createAccountMenu(customerService.get(customerIdToTransferMoneyTo));
+        int accountIdToTransferMoneyTo = view.createAccountMenu(getAccountService(), customerService.get(customerIdToTransferMoneyTo));
         int amountOfMoney = view.getAmount();
 
         getAccountService().transfer(accountId, accountIdToTransferMoneyTo, amountOfMoney);
