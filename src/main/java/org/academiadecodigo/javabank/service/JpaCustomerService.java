@@ -1,15 +1,9 @@
 package org.academiadecodigo.javabank.service;
 
-import org.academiadecodigo.javabank.domain.Customer;
-import org.academiadecodigo.javabank.domain.account.AbstractAccount;
-import org.academiadecodigo.javabank.domain.account.Account;
+import org.academiadecodigo.javabank.model.Customer;
 import org.academiadecodigo.javabank.persistence.dao.CustomerDao;
 import org.academiadecodigo.javabank.persistence.jpa.JpaTransactionManager;
 
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Root;
-import java.util.ArrayList;
 import java.util.List;
 
 public class JpaCustomerService implements CustomerService {

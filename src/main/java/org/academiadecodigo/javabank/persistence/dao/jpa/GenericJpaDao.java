@@ -1,6 +1,5 @@
 package org.academiadecodigo.javabank.persistence.dao.jpa;
 
-import org.academiadecodigo.javabank.domain.account.Account;
 import org.academiadecodigo.javabank.persistence.dao.Dao;
 import org.academiadecodigo.javabank.persistence.jpa.JpaSessionManager;
 

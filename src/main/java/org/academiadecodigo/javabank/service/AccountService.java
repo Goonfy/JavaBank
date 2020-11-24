@@ -1,9 +1,7 @@
 package org.academiadecodigo.javabank.service;
 
-import org.academiadecodigo.javabank.domain.Customer;
-import org.academiadecodigo.javabank.domain.account.AbstractAccount;
-import org.academiadecodigo.javabank.domain.account.Account;
-import org.academiadecodigo.javabank.domain.account.AccountType;
+import org.academiadecodigo.javabank.model.Customer;
+import org.academiadecodigo.javabank.model.account.AbstractAccount;
 
 import java.util.List;
 

@@ -1,11 +1,6 @@
-package org.academiadecodigo.javabank.domain.account;
+package org.academiadecodigo.javabank.model.account;
 
 import org.academiadecodigo.javabank.Descriptable;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
 
 /**
  * The possible {@link Account} types

@@ -1,7 +1,7 @@
 package org.academiadecodigo.javabank.controller.customer;
 
 import org.academiadecodigo.javabank.controller.CustomerController;
-import org.academiadecodigo.javabank.domain.Customer;
+import org.academiadecodigo.javabank.model.Customer;
 import org.academiadecodigo.javabank.service.JpaAccountService;
 import org.academiadecodigo.javabank.service.JpaAuthenticationService;
 import org.academiadecodigo.javabank.service.JpaCustomerService;

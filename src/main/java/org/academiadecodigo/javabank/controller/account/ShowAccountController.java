@@ -1,6 +1,6 @@
 package org.academiadecodigo.javabank.controller.account;
 
-import org.academiadecodigo.javabank.domain.account.AbstractAccount;
+import org.academiadecodigo.javabank.model.account.AbstractAccount;
 import org.academiadecodigo.javabank.service.JpaAccountService;
 import org.academiadecodigo.javabank.controller.AccountController;
 import org.academiadecodigo.javabank.service.JpaAuthenticationService;

@@ -1,7 +1,6 @@
-package org.academiadecodigo.javabank.domain;
+package org.academiadecodigo.javabank.model;
 
-import org.academiadecodigo.javabank.domain.account.AbstractAccount;
-import org.academiadecodigo.javabank.domain.account.Account;
+import org.academiadecodigo.javabank.model.account.AbstractAccount;
 
 import javax.persistence.*;
 import java.util.*;

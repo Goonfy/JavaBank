@@ -16,6 +16,7 @@ import java.util.Map;
 public class MainMenuController extends CustomerController {
 
     private final MainMenuView view;
+    private Map<Integer, CustomerController> menuMap;
 
     public MainMenuController(JpaCustomerService customerService, JpaAccountService accountService, JpaAuthenticationService authenticationService) {
         super(customerService, accountService, authenticationService);
@@ -27,15 +28,8 @@ public class MainMenuController extends CustomerController {
     public void execute() {
         view.success();
 
-        Map<Integer, CustomerController> menuMap = new LinkedHashMap<>();
-
         MenuItem[] menuItems = new MenuItem[]{MenuItem.NEWCUSTOMER, MenuItem.SHOWCUSTOMERS,
                 MenuItem.EDITCUSTOMERS, MenuItem.REMOVECUSTOMERS, MenuItem.EXIT};
-
-        menuMap.put(1, new AddNewCustomerController(getCustomerService(), getAccountService(), getAuthenticationService()));
-        menuMap.put(2, new ShowCustomerController(getCustomerService(), getAccountService(), getAuthenticationService()));
-        menuMap.put(3, new EditCustomerMenuController(getCustomerService(), getAccountService(), getAuthenticationService()));
-        menuMap.put(4, new RemoveCustomerController(getCustomerService(), getAccountService(), getAuthenticationService()));
 
         int option = view.createMenu(menuItems);
         if (option == menuItems.length) {
@@ -45,5 +39,9 @@ public class MainMenuController extends CustomerController {
         menuMap.get(option).execute();
 
         execute();
+    }
+
+    public void setMenuMap(Map<Integer, CustomerController> menuMap) {
+        this.menuMap = menuMap;
     }
 }

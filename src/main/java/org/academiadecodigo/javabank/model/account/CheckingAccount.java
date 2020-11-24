@@ -1,6 +1,5 @@
-package org.academiadecodigo.javabank.domain.account;
+package org.academiadecodigo.javabank.model.account;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 
 /**

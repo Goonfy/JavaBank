@@ -2,14 +2,16 @@ package org.academiadecodigo.javabank.persistence.jpa;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.PersistenceUnit;
 
 public class JpaSessionManager {
 
-    private final EntityManagerFactory emf; // the persistence unit
+    @PersistenceUnit
+    private EntityManagerFactory emf; // the persistence unit
     private EntityManager em; // the persistence context
 
-    public JpaSessionManager(EntityManagerFactory emf) {
-        this.emf = emf;
+    public JpaSessionManager() {
+
     }
 
     public void startSession() {

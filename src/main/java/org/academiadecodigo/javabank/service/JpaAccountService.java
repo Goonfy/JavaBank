@@ -1,12 +1,11 @@
 package org.academiadecodigo.javabank.service;
 
-import org.academiadecodigo.javabank.domain.Customer;
-import org.academiadecodigo.javabank.domain.account.AbstractAccount;
-import org.academiadecodigo.javabank.domain.account.Account;
+import org.academiadecodigo.javabank.model.Customer;
+import org.academiadecodigo.javabank.model.account.AbstractAccount;
+import org.academiadecodigo.javabank.model.account.Account;
 import org.academiadecodigo.javabank.persistence.dao.AccountDao;
 import org.academiadecodigo.javabank.persistence.jpa.JpaTransactionManager;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 

@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean class="org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor"/>
+
+    <!-- c3p0 database connection pool management -->
+    <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close">
+        <property name="driverClass" value="com.mysql.cj.jdbc.Driver"/>
+        <property name="jdbcUrl" value="jdbc:mysql://localhost:3306/java_bank"/>
+        <property name="user" value="root"/>
+        <property name="password" value=""/>
+
+        <!-- c3p0 database connection pool management properties -->
+        <property name="minPoolSize" value="1"/>
+        <property name="maxPoolSize" value="10"/>
+        <property name="acquireIncrement" value="1"/>
+        <property name="maxStatements" value="0"/>
+
+        <!-- destroy idle pool after 300ms -->
+        <property name="idleConnectionTestPeriod" value="300"/>
+
+        <!-- destroy db connection if it fails to login after 7200ms -->
+        <property name="loginTimeout" value="7200"/>
+
+    </bean>
+
+    <!-- spring jpa entity manager factory configuration -->
+    <bean id="emFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+        <property name="dataSource" ref="dataSource"/>
+        <property name="packagesToScan" value="org.academiadecodigo.javabank.model"/>
+        <property name="jpaVendorAdapter">
+            <bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter"/>
+        </property>
+        <property name="jpaProperties">
+            <map>
+                <entry key="hibernate.dialect" value="org.hibernate.dialect.MySQL8Dialect"/>
+                <entry key="hibernate.show_sql" value="true"/>
+                <!-- WARNING: Will re-create the database schema, causing data loss -->
+                <entry key="hibernate.hbm2ddl.auto" value="create"/>
+            </map>
+        </property>
+    </bean>
+
+    <bean id="jpaSessionManager" class="org.academiadecodigo.javabank.persistence.jpa.JpaSessionManager"/>
+
+    <bean id="jpaTransactionManager" class="org.academiadecodigo.javabank.persistence.jpa.JpaTransactionManager">
+        <constructor-arg index="0" ref="jpaSessionManager"/>
+    </bean>
+
+    <bean id="jpaCustomerDao" class="org.academiadecodigo.javabank.persistence.dao.jpa.JpaCustomerDao">
+        <constructor-arg index="0" ref="jpaSessionManager"/>
+    </bean>
+
+    <bean id="jpaAccountDao" class="org.academiadecodigo.javabank.persistence.dao.jpa.JpaAccountDao">
+        <constructor-arg index="0" ref="jpaSessionManager"/>
+    </bean>
+
+    <bean id="jpaAuthenticationService" class="org.academiadecodigo.javabank.service.JpaAuthenticationService"/>
+
+    <bean id="jpaCustomerService" class="org.academiadecodigo.javabank.service.JpaCustomerService">
+        <constructor-arg index="0" ref="jpaTransactionManager"/>
+        <constructor-arg index="1" ref="jpaCustomerDao"/>
+    </bean>
+
+    <bean id="jpaAccountService" class="org.academiadecodigo.javabank.service.JpaAccountService">
+        <constructor-arg index="0" ref="jpaAuthenticationService"/>
+        <constructor-arg index="1" ref="jpaTransactionManager"/>
+        <constructor-arg index="2" ref="jpaAccountDao"/>
+    </bean>
+
+    <bean id="addNewCustomerController" class="org.academiadecodigo.javabank.controller.customer.AddNewCustomerController">
+        <constructor-arg name="customerService" ref="jpaCustomerService"/>
+        <constructor-arg name="accountService" ref="jpaAccountService"/>
+        <constructor-arg name="authenticationService" ref="jpaAuthenticationService"/>
+    </bean>
+    <bean id="showCustomerController" class="org.academiadecodigo.javabank.controller.customer.ShowCustomerController">
+        <constructor-arg name="customerService" ref="jpaCustomerService"/>
+        <constructor-arg name="accountService" ref="jpaAccountService"/>
+        <constructor-arg name="authenticationService" ref="jpaAuthenticationService"/>
+    </bean>
+    <bean id="editCustomerMenuController" class="org.academiadecodigo.javabank.controller.menu.EditCustomerMenuController">
+        <constructor-arg name="customerService" ref="jpaCustomerService"/>
+        <constructor-arg name="accountService" ref="jpaAccountService"/>
+        <constructor-arg name="authenticationService" ref="jpaAuthenticationService"/>
+    </bean>
+    <bean id="removeCustomerController" class="org.academiadecodigo.javabank.controller.customer.RemoveCustomerController">
+        <constructor-arg name="customerService" ref="jpaCustomerService"/>
+        <constructor-arg name="accountService" ref="jpaAccountService"/>
+        <constructor-arg name="authenticationService" ref="jpaAuthenticationService"/>
+    </bean>
+
+    <bean id="mainMenuController" class="org.academiadecodigo.javabank.controller.menu.MainMenuController">
+        <constructor-arg index="0" ref="jpaCustomerService"/>
+        <constructor-arg index="1" ref="jpaAccountService"/>
+        <constructor-arg index="2" ref="jpaAuthenticationService"/>
+        <property name="menuMap">
+            <map>
+                <entry key="1" value-ref="addNewCustomerController"/>
+                <entry key="2" value-ref="showCustomerController"/>
+                <entry key="3" value-ref="editCustomerMenuController"/>
+                <entry key="4" value-ref="removeCustomerController"/>
+            </map>
+        </property>
+    </bean>
+</beans>
