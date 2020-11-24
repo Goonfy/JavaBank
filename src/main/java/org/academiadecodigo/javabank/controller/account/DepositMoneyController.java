@@ -7,12 +7,10 @@ import org.academiadecodigo.javabank.view.account.DepositMoneyPromptView;
 
 public class DepositMoneyController extends AccountController {
 
-    private final DepositMoneyPromptView view;
+    private DepositMoneyPromptView view;
 
     public DepositMoneyController(JpaAccountService accountService, JpaAuthenticationService authenticationService) {
         super(accountService, authenticationService);
-
-        view = new DepositMoneyPromptView();
     }
 
     @Override
@@ -28,5 +26,9 @@ public class DepositMoneyController extends AccountController {
         getAccountService().deposit(accountId, amountToDeposit);
 
         view.success();
+    }
+
+    public void setView(DepositMoneyPromptView view) {
+        this.view = view;
     }
 }

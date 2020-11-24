@@ -11,6 +11,8 @@ import java.util.List;
 
 public class ShowAccountController extends AccountController {
 
+    private ShowAccountPromptView view;
+
     public ShowAccountController(JpaAccountService accountService, JpaAuthenticationService authenticationService) {
         super(accountService, authenticationService);
     }
@@ -18,13 +20,15 @@ public class ShowAccountController extends AccountController {
     @Override
     public void execute() {
         List<AbstractAccount> accounts = getAccountService().getAllAccountsInfoFrom(getAuthenticationService().getAccessingCustomer());
-        PromptView view = new ShowAccountPromptView(accounts.toString());
-
         if (accounts.isEmpty()) {
             view.error();
             return;
         }
 
         view.success();
+    }
+
+    public void setView(ShowAccountPromptView view) {
+        this.view = view;
     }
 }

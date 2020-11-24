@@ -8,12 +8,11 @@ import org.academiadecodigo.javabank.view.customer.RemoveCustomerPromptView;
 
 public class RemoveCustomerController extends CustomerController {
 
-    private final RemoveCustomerPromptView view;
+    private RemoveCustomerPromptView view;
 
     public RemoveCustomerController(JpaCustomerService customerService, JpaAccountService accountService, JpaAuthenticationService authenticationService) {
         super(customerService, accountService, authenticationService);
 
-        view = new RemoveCustomerPromptView();
     }
 
     @Override
@@ -27,5 +26,9 @@ public class RemoveCustomerController extends CustomerController {
         getCustomerService().remove(getCustomerService().get(customerId).getId());
 
         view.success();
+    }
+
+    public void setView(RemoveCustomerPromptView view) {
+        this.view = view;
     }
 }

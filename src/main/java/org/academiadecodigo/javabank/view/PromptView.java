@@ -16,19 +16,19 @@ import java.util.List;
 
 public abstract class PromptView implements View {
 
-    private final Prompt prompt;
+    private Prompt prompt;
 
-    public PromptView() {
-        this.prompt = new Prompt(System.in, System.out);
+    public PromptView(Prompt prompt) {
+        this.prompt = prompt;
     }
 
     public void execute() {
-        try {
+        /*try {
             System.out.println("\nPlease wait...");
             Thread.sleep(2000);
         } catch (InterruptedException e) {
             System.out.println(e.getMessage());
-        }
+        }*/
     }
 
     public <T extends Descriptable> int createMenu(T[] menuItems) {
@@ -50,7 +50,7 @@ public abstract class PromptView implements View {
 
     public int createCustomerMenu(JpaCustomerService customerService) {
         List<Customer> customers = customerService.listAll();
-        new ShowCustomerPromptView(customers.toString());
+        new ShowCustomerPromptView(getPrompt(), customers.toString());
         if (customers.isEmpty()) {
             return -1;
         }
@@ -60,7 +60,7 @@ public abstract class PromptView implements View {
 
     public int createAccountMenu(JpaAccountService accountService, Customer customer) {
         List<AbstractAccount> accounts = accountService.getAllAccountsInfoFrom(customer);
-        new ShowAccountPromptView(accounts.toString());
+        new ShowAccountPromptView(getPrompt(), accounts.toString());
         if (accounts.isEmpty()) {
             return -1;
         }

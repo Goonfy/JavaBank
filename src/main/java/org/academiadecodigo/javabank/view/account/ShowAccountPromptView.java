@@ -1,12 +1,14 @@
 package org.academiadecodigo.javabank.view.account;
 
+import org.academiadecodigo.bootcamp.Prompt;
 import org.academiadecodigo.javabank.view.PromptView;
 
 public class ShowAccountPromptView extends PromptView {
 
     private final String allAccountsInfo;
 
-    public ShowAccountPromptView(String allAccountsInfo) {
+    public ShowAccountPromptView(Prompt prompt, String allAccountsInfo) {
+        super(prompt);
         this.allAccountsInfo = allAccountsInfo;
     }
 

@@ -8,16 +8,18 @@ import org.academiadecodigo.javabank.view.customer.AddNewCustomerPromptView;
 
 public class AddNewCustomerController extends CustomerController {
 
-    private final AddNewCustomerPromptView view;
+    private AddNewCustomerPromptView view;
 
     public AddNewCustomerController(JpaCustomerService customerService, JpaAccountService accountService, JpaAuthenticationService authenticationService) {
         super(customerService, accountService, authenticationService);
-
-        view = new AddNewCustomerPromptView();
     }
 
     @Override
     public void execute() {
         getCustomerService().add(view.getName(), view.getEmail(), view.getPhone());
+    }
+
+    public void setView(AddNewCustomerPromptView view) {
+        this.view = view;
     }
 }

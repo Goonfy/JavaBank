@@ -16,12 +16,11 @@ import java.util.Map;
 
 public class EditCustomerMenuController extends CustomerController {
 
-    private final EditCustomerMenuView view;
+    private EditCustomerMenuView view;
+    private Map<Integer, AccountController> menuMap;
 
     public EditCustomerMenuController(JpaCustomerService customerService, JpaAccountService accountService, JpaAuthenticationService authenticationService) {
         super(customerService, accountService, authenticationService);
-
-        view = new EditCustomerMenuView();
     }
 
     @Override
@@ -39,28 +38,20 @@ public class EditCustomerMenuController extends CustomerController {
 
         view.success();
 
-        Map<Integer, AccountController> menuMap = new LinkedHashMap<>();
-
         MenuItem[] menuItems = new MenuItem[]{ MenuItem.ADDACCOUNT, MenuItem.CLOSEACCOUNTS, MenuItem.SHOWACCOUNTS,
                 MenuItem.TRANSFERMONEY, MenuItem.DEPOSITMONEY, MenuItem.WITHDRAWMONEY, MenuItem.BACK };
 
-        menuMap.put(1, new AddAccountController(getAccountService(), getAuthenticationService()));
-        menuMap.put(2, new CloseAccountController(getAccountService(), getAuthenticationService()));
-        menuMap.put(3, new ShowAccountController(getAccountService(), getAuthenticationService()));
-        menuMap.put(4, new TransferMoneyController(getAccountService(), getAuthenticationService(), getCustomerService()));
-        menuMap.put(5, new DepositMoneyController(getAccountService(), getAuthenticationService()));
-        menuMap.put(6, new WithdrawMoneyController(getAccountService(), getAuthenticationService()));
-
         int option = view.createMenu(menuItems);
-        if (option == menuItems.length) {
-            PromptView menuView = new MainMenuView();
-            menuView.execute();
-            getAuthenticationService().setCustomerService(null);
-            return;
-        }
-
         menuMap.get(option).execute();
 
         execute();
+    }
+
+    public void setMenuMap(Map<Integer, AccountController> menuMap) {
+        this.menuMap = menuMap;
+    }
+
+    public void setView(EditCustomerMenuView view) {
+        this.view = view;
     }
 }

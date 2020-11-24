@@ -1,8 +1,13 @@
 package org.academiadecodigo.javabank.view.menu;
 
+import org.academiadecodigo.bootcamp.Prompt;
 import org.academiadecodigo.javabank.view.PromptView;
 
 public class MainMenuView extends PromptView {
+
+    public MainMenuView(Prompt prompt) {
+        super(prompt);
+    }
 
     @Override
     public void success() {

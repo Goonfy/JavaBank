@@ -7,12 +7,10 @@ import org.academiadecodigo.javabank.view.account.WithdrawMoneyPromptView;
 
 public class WithdrawMoneyController extends AccountController {
 
-    private final WithdrawMoneyPromptView view;
+    private WithdrawMoneyPromptView view;
 
     public WithdrawMoneyController(JpaAccountService accountService, JpaAuthenticationService authenticationService) {
         super(accountService, authenticationService);
-
-        view = new WithdrawMoneyPromptView();
     }
 
     @Override
@@ -23,5 +21,9 @@ public class WithdrawMoneyController extends AccountController {
         getAccountService().withdraw(accountId, amountToWithdraw);
 
         view.success();
+    }
+
+    public void setView(WithdrawMoneyPromptView view) {
+        this.view = view;
     }
 }

@@ -8,13 +8,12 @@ import org.academiadecodigo.javabank.view.account.TransferMoneyPromptView;
 
 public class TransferMoneyController extends AccountController {
 
-    private final TransferMoneyPromptView view;
+    private TransferMoneyPromptView view;
     private final JpaCustomerService customerService;
 
     public TransferMoneyController(JpaAccountService accountService, JpaAuthenticationService authenticationService, JpaCustomerService customerService) {
         super(accountService, authenticationService);
 
-        view = new TransferMoneyPromptView();
         this.customerService = customerService;
     }
 
@@ -33,5 +32,9 @@ public class TransferMoneyController extends AccountController {
         getAccountService().transfer(accountId, accountIdToTransferMoneyTo, amountOfMoney);
 
         view.success();
+    }
+
+    public void setView(TransferMoneyPromptView view) {
+        this.view = view;
     }
 }

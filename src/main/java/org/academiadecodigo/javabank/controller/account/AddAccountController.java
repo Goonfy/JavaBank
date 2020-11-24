@@ -8,12 +8,10 @@ import org.academiadecodigo.javabank.view.account.AddAccountPromptView;
 
 public class AddAccountController extends AccountController {
 
-    private final AddAccountPromptView view;
+    private AddAccountPromptView view;
 
     public AddAccountController(JpaAccountService accountService, JpaAuthenticationService authenticationService) {
         super(accountService, authenticationService);
-
-        view = new AddAccountPromptView();
     }
 
     @Override
@@ -39,5 +37,9 @@ public class AddAccountController extends AccountController {
         getAccountService().add(account);
 
         view.success();
+    }
+
+    public void setView(AddAccountPromptView view) {
+        this.view = view;
     }
 }

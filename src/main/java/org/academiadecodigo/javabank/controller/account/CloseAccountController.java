@@ -7,12 +7,10 @@ import org.academiadecodigo.javabank.view.account.CloseAccountPromptView;
 
 public class CloseAccountController extends AccountController {
 
-    private final CloseAccountPromptView view;
+    private CloseAccountPromptView view;
 
     public CloseAccountController(JpaAccountService accountService, JpaAuthenticationService authenticationService) {
         super(accountService, authenticationService);
-
-        view = new CloseAccountPromptView();
     }
 
     @Override
@@ -25,5 +23,9 @@ public class CloseAccountController extends AccountController {
 
         getAccountService().remove(accountId);
         view.success();
+    }
+
+    public void setView(CloseAccountPromptView view) {
+        this.view = view;
     }
 }

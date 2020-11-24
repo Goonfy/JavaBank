@@ -11,6 +11,8 @@ import java.util.List;
 
 public class ShowCustomerController extends CustomerController {
 
+    private ShowCustomerPromptView view;
+
     public ShowCustomerController(JpaCustomerService customerService, JpaAccountService accountService, JpaAuthenticationService authenticationService) {
         super(customerService, accountService, authenticationService);
     }
@@ -18,7 +20,7 @@ public class ShowCustomerController extends CustomerController {
     @Override
     public void execute() {
         List<Customer> customers = getCustomerService().listAll();
-        ShowCustomerPromptView view = new ShowCustomerPromptView(customers.toString());
+        view = new ShowCustomerPromptView(view.getPrompt(), customers.toString());
 
         if (customers.isEmpty()) {
             view.error();
@@ -26,5 +28,9 @@ public class ShowCustomerController extends CustomerController {
         }
 
         view.success();
+    }
+
+    public void setView(ShowCustomerPromptView view) {
+        this.view = view;
     }
 }

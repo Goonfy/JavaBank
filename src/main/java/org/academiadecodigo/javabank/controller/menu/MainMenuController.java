@@ -15,13 +15,11 @@ import java.util.Map;
 
 public class MainMenuController extends CustomerController {
 
-    private final MainMenuView view;
+    private MainMenuView view;
     private Map<Integer, CustomerController> menuMap;
 
     public MainMenuController(JpaCustomerService customerService, JpaAccountService accountService, JpaAuthenticationService authenticationService) {
         super(customerService, accountService, authenticationService);
-
-        this.view = new MainMenuView();
     }
 
     @Override
@@ -43,5 +41,9 @@ public class MainMenuController extends CustomerController {
 
     public void setMenuMap(Map<Integer, CustomerController> menuMap) {
         this.menuMap = menuMap;
+    }
+
+    public void setView(MainMenuView view) {
+        this.view = view;
     }
 }

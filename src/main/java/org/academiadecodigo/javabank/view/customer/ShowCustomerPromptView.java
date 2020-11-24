@@ -1,12 +1,14 @@
 package org.academiadecodigo.javabank.view.customer;
 
+import org.academiadecodigo.bootcamp.Prompt;
 import org.academiadecodigo.javabank.view.PromptView;
 
 public class ShowCustomerPromptView extends PromptView {
 
-    private String allCustomersInfo;
+    private final String allCustomersInfo;
 
-    public ShowCustomerPromptView(String allCustomersInfo) {
+    public ShowCustomerPromptView(Prompt prompt, String allCustomersInfo) {
+        super(prompt);
         this.allCustomersInfo = allCustomersInfo;
     }
 
