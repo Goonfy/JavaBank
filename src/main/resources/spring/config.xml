@@ -117,7 +117,7 @@
                value-type="org.academiadecodigo.javabank.model.Customer"/>
     <bean id="showCustomerPromptView" class="org.academiadecodigo.javabank.view.customer.ShowCustomerPromptView">
         <constructor-arg name="prompt" ref="prompt"/>
-        <constructor-arg name="customers" ref="listCustomers"/>
+        <property name="customers" ref="listCustomers"/>
     </bean>
 
     <bean id="mainMenuController" class="org.academiadecodigo.javabank.controller.menu.MainMenuController">
@@ -207,7 +207,7 @@
                value-type="org.academiadecodigo.javabank.model.account.Account"/>
     <bean id="showAccountPromptView" class="org.academiadecodigo.javabank.view.account.ShowAccountPromptView">
         <constructor-arg name="prompt" ref="prompt"/>
-        <constructor-arg name="accounts" ref="listAccounts"/>
+        <property name="accounts" ref="listAccounts"/>
     </bean>
     <bean id="transferMoneyPromptView" class="org.academiadecodigo.javabank.view.account.TransferMoneyPromptView">
         <constructor-arg name="prompt" ref="prompt"/>

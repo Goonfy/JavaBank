@@ -22,6 +22,7 @@ public class ShowCustomerController extends CustomerController {
     @Override
     public void execute() {
         customers = getCustomerService().listAll();
+        view.setCustomers(customers);
 
         if (customers.isEmpty()) {
             view.error();

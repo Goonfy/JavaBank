@@ -8,11 +8,10 @@ import java.util.List;
 
 public class ShowCustomerPromptView extends PromptView {
 
-    private final List<Customer> customers;
+    private List<Customer> customers;
 
-    public ShowCustomerPromptView(Prompt prompt, List<Customer> customers) {
+    public ShowCustomerPromptView(Prompt prompt) {
         super(prompt);
-        this.customers = customers;
     }
 
     @Override
@@ -23,5 +22,9 @@ public class ShowCustomerPromptView extends PromptView {
     @Override
     public void error() {
         System.out.println("\nPlease create a costumer before proceeding...");
+    }
+
+    public void setCustomers(List<Customer> customers) {
+        this.customers = customers;
     }
 }

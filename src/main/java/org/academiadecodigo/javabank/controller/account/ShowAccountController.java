@@ -22,6 +22,7 @@ public class ShowAccountController extends AccountController {
     @Override
     public void execute() {
         accounts = getAccountService().getAllAccountsInfoFrom(getAuthenticationService().getAccessingCustomer());
+        view.setAccounts(accounts);
 
         if (accounts.isEmpty()) {
             view.error();
