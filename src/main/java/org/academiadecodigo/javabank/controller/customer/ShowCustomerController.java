@@ -2,6 +2,7 @@ package org.academiadecodigo.javabank.controller.customer;
 
 import org.academiadecodigo.javabank.controller.CustomerController;
 import org.academiadecodigo.javabank.model.Customer;
+import org.academiadecodigo.javabank.model.account.Account;
 import org.academiadecodigo.javabank.service.JpaAccountService;
 import org.academiadecodigo.javabank.service.JpaAuthenticationService;
 import org.academiadecodigo.javabank.service.JpaCustomerService;
@@ -12,6 +13,7 @@ import java.util.List;
 public class ShowCustomerController extends CustomerController {
 
     private ShowCustomerPromptView view;
+    private List<Customer> customers;
 
     public ShowCustomerController(JpaCustomerService customerService, JpaAccountService accountService, JpaAuthenticationService authenticationService) {
         super(customerService, accountService, authenticationService);
@@ -19,8 +21,7 @@ public class ShowCustomerController extends CustomerController {
 
     @Override
     public void execute() {
-        List<Customer> customers = getCustomerService().listAll();
-        view = new ShowCustomerPromptView(view.getPrompt(), customers.toString());
+        customers = getCustomerService().listAll();
 
         if (customers.isEmpty()) {
             view.error();
@@ -32,5 +33,9 @@ public class ShowCustomerController extends CustomerController {
 
     public void setView(ShowCustomerPromptView view) {
         this.view = view;
+    }
+
+    public void setCustomers(List<Customer> customers) {
+        this.customers = customers;
     }
 }

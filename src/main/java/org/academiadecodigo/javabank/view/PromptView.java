@@ -50,7 +50,7 @@ public abstract class PromptView implements View {
 
     public int createCustomerMenu(JpaCustomerService customerService) {
         List<Customer> customers = customerService.listAll();
-        new ShowCustomerPromptView(getPrompt(), customers.toString());
+        System.out.println("\n" + customers.toString());
         if (customers.isEmpty()) {
             return -1;
         }
@@ -60,7 +60,7 @@ public abstract class PromptView implements View {
 
     public int createAccountMenu(JpaAccountService accountService, Customer customer) {
         List<AbstractAccount> accounts = accountService.getAllAccountsInfoFrom(customer);
-        new ShowAccountPromptView(getPrompt(), accounts.toString());
+        System.out.println("\n" + accounts.toString());
         if (accounts.isEmpty()) {
             return -1;
         }

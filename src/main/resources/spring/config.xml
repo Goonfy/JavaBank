@@ -51,6 +51,9 @@
         <constructor-arg name="printStream" ref="stdout"/>
     </bean>
 
+    <bean id="customer" class="org.academiadecodigo.javabank.model.Customer"/>
+    <bean id="account" class="org.academiadecodigo.javabank.model.account.AbstractAccount" abstract="true"/>
+
     <bean id="jpaSessionManager" class="org.academiadecodigo.javabank.persistence.jpa.JpaSessionManager"/>
 
     <bean id="jpaTransactionManager" class="org.academiadecodigo.javabank.persistence.jpa.JpaTransactionManager">
@@ -90,6 +93,7 @@
         <constructor-arg name="accountService" ref="jpaAccountService"/>
         <constructor-arg name="authenticationService" ref="jpaAuthenticationService"/>
         <property name="view" ref="showCustomerPromptView"/>
+        <property name="customers" ref="listCustomers"/>
     </bean>
 
     <bean id="removeCustomerController" class="org.academiadecodigo.javabank.controller.customer.RemoveCustomerController">
@@ -108,9 +112,12 @@
     <bean id="removeCustomerPromptView" class="org.academiadecodigo.javabank.view.customer.RemoveCustomerPromptView">
         <constructor-arg name="prompt" ref="prompt"/>
     </bean>
+
+    <util:list id="listCustomers" list-class="java.util.LinkedList"
+               value-type="org.academiadecodigo.javabank.model.Customer"/>
     <bean id="showCustomerPromptView" class="org.academiadecodigo.javabank.view.customer.ShowCustomerPromptView">
         <constructor-arg name="prompt" ref="prompt"/>
-        <constructor-arg value=""/>
+        <constructor-arg name="customers" ref="listCustomers"/>
     </bean>
 
     <bean id="mainMenuController" class="org.academiadecodigo.javabank.controller.menu.MainMenuController">
@@ -144,6 +151,7 @@
         <constructor-arg name="accountService" ref="jpaAccountService"/>
         <constructor-arg name="authenticationService" ref="jpaAuthenticationService"/>
         <property name="view" ref="showAccountPromptView"/>
+        <property name="accounts" ref="listAccounts"/>
     </bean>
 
     <bean id="transferMoneyController" class="org.academiadecodigo.javabank.controller.account.TransferMoneyController">
@@ -194,9 +202,12 @@
     <bean id="depositMoneyPromptView" class="org.academiadecodigo.javabank.view.account.DepositMoneyPromptView">
         <constructor-arg name="prompt" ref="prompt"/>
     </bean>
+
+    <util:list id="listAccounts" list-class="java.util.LinkedList"
+               value-type="org.academiadecodigo.javabank.model.account.Account"/>
     <bean id="showAccountPromptView" class="org.academiadecodigo.javabank.view.account.ShowAccountPromptView">
         <constructor-arg name="prompt" ref="prompt"/>
-        <constructor-arg value=""/>
+        <constructor-arg name="accounts" ref="listAccounts"/>
     </bean>
     <bean id="transferMoneyPromptView" class="org.academiadecodigo.javabank.view.account.TransferMoneyPromptView">
         <constructor-arg name="prompt" ref="prompt"/>
