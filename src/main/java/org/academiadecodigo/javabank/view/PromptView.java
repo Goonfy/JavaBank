@@ -9,8 +9,6 @@ import org.academiadecodigo.javabank.model.Customer;
 import org.academiadecodigo.javabank.model.account.AbstractAccount;
 import org.academiadecodigo.javabank.service.JpaAccountService;
 import org.academiadecodigo.javabank.service.JpaCustomerService;
-import org.academiadecodigo.javabank.view.account.ShowAccountPromptView;
-import org.academiadecodigo.javabank.view.customer.ShowCustomerPromptView;
 
 import java.util.List;
 

@@ -3,7 +3,9 @@ package org.academiadecodigo.javabank.model;
 import org.academiadecodigo.javabank.model.account.AbstractAccount;
 
 import javax.persistence.*;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 
 /**
  * The customer domain entity

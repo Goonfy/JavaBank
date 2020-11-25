@@ -1,8 +1,11 @@
 package org.academiadecodigo.javabank.controller.account;
 
-import org.academiadecodigo.javabank.model.account.*;
-import org.academiadecodigo.javabank.service.JpaAccountService;
 import org.academiadecodigo.javabank.controller.AccountController;
+import org.academiadecodigo.javabank.model.account.AbstractAccount;
+import org.academiadecodigo.javabank.model.account.AccountType;
+import org.academiadecodigo.javabank.model.account.CheckingAccount;
+import org.academiadecodigo.javabank.model.account.SavingsAccount;
+import org.academiadecodigo.javabank.service.JpaAccountService;
 import org.academiadecodigo.javabank.service.JpaAuthenticationService;
 import org.academiadecodigo.javabank.view.account.AddAccountPromptView;
 

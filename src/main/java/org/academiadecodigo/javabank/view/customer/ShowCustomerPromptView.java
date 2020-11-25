@@ -1,14 +1,11 @@
 package org.academiadecodigo.javabank.view.customer;
 
 import org.academiadecodigo.bootcamp.Prompt;
-import org.academiadecodigo.javabank.model.Customer;
 import org.academiadecodigo.javabank.view.PromptView;
-
-import java.util.List;
 
 public class ShowCustomerPromptView extends PromptView {
 
-    private List<Customer> customers;
+    private String customers;
 
     public ShowCustomerPromptView(Prompt prompt) {
         super(prompt);
@@ -16,7 +13,7 @@ public class ShowCustomerPromptView extends PromptView {
 
     @Override
     public void success() {
-        System.out.println("\n" + customers.toString());
+        System.out.println("\n" + customers);
     }
 
     @Override
@@ -24,7 +21,7 @@ public class ShowCustomerPromptView extends PromptView {
         System.out.println("\nPlease create a costumer before proceeding...");
     }
 
-    public void setCustomers(List<Customer> customers) {
+    public void setCustomers(String customers) {
         this.customers = customers;
     }
 }

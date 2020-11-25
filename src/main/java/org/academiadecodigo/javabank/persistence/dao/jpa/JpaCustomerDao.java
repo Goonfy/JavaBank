@@ -4,7 +4,6 @@ import org.academiadecodigo.javabank.model.Customer;
 import org.academiadecodigo.javabank.persistence.dao.CustomerDao;
 import org.academiadecodigo.javabank.persistence.jpa.JpaSessionManager;
 
-import javax.persistence.PersistenceUnit;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;

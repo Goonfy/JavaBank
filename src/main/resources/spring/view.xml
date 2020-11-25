@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
+
+    <util:constant id="stdin" static-field="java.lang.System.in"/>
+    <util:constant id="stdout" static-field="java.lang.System.out"/>
+
+    <bean id="prompt" class="org.academiadecodigo.bootcamp.Prompt">
+        <constructor-arg name="inputStream" ref="stdin"/>
+        <constructor-arg name="printStream" ref="stdout"/>
+    </bean>
+
+    <bean id="mainMenuView" class="org.academiadecodigo.javabank.view.menu.MainMenuView">
+        <constructor-arg name="prompt" ref="prompt"/>
+    </bean>
+    <bean id="addNewCustomerPromptView" class="org.academiadecodigo.javabank.view.customer.AddNewCustomerPromptView">
+        <constructor-arg name="prompt" ref="prompt"/>
+    </bean>
+    <bean id="removeCustomerPromptView" class="org.academiadecodigo.javabank.view.customer.RemoveCustomerPromptView">
+        <constructor-arg name="prompt" ref="prompt"/>
+    </bean>
+    <bean id="editCustomerMenuView" class="org.academiadecodigo.javabank.view.menu.EditCustomerMenuView">
+        <constructor-arg name="prompt" ref="prompt"/>
+    </bean>
+    <bean id="listCustomers" class="java.lang.String"/>
+    <bean id="showCustomerPromptView" class="org.academiadecodigo.javabank.view.customer.ShowCustomerPromptView">
+        <constructor-arg name="prompt" ref="prompt"/>
+        <property name="customers" ref="listCustomers"/>
+    </bean>
+
+    <bean id="addAccountPromptView" class="org.academiadecodigo.javabank.view.account.AddAccountPromptView">
+        <constructor-arg name="prompt" ref="prompt"/>
+    </bean>
+    <bean id="closeAccountPromptView" class="org.academiadecodigo.javabank.view.account.CloseAccountPromptView">
+        <constructor-arg name="prompt" ref="prompt"/>
+    </bean>
+    <bean id="depositMoneyPromptView" class="org.academiadecodigo.javabank.view.account.DepositMoneyPromptView">
+        <constructor-arg name="prompt" ref="prompt"/>
+    </bean>
+
+    <bean id="listAccounts" class="java.lang.String"/>
+    <bean id="showAccountPromptView" class="org.academiadecodigo.javabank.view.account.ShowAccountPromptView">
+        <constructor-arg name="prompt" ref="prompt"/>
+        <property name="accounts" ref="listAccounts"/>
+    </bean>
+    <bean id="transferMoneyPromptView" class="org.academiadecodigo.javabank.view.account.TransferMoneyPromptView">
+        <constructor-arg name="prompt" ref="prompt"/>
+    </bean>
+    <bean id="withdrawMoneyPromptView" class="org.academiadecodigo.javabank.view.account.WithdrawMoneyPromptView">
+        <constructor-arg name="prompt" ref="prompt"/>
+    </bean>
+</beans>

@@ -1,17 +1,13 @@
 package org.academiadecodigo.javabank.controller.menu;
 
+import org.academiadecodigo.javabank.controller.AccountController;
 import org.academiadecodigo.javabank.controller.CustomerController;
 import org.academiadecodigo.javabank.service.JpaAccountService;
-import org.academiadecodigo.javabank.controller.AccountController;
-import org.academiadecodigo.javabank.controller.account.*;
 import org.academiadecodigo.javabank.service.JpaAuthenticationService;
 import org.academiadecodigo.javabank.service.JpaCustomerService;
-import org.academiadecodigo.javabank.view.PromptView;
-import org.academiadecodigo.javabank.view.menu.EditCustomerMenuView;
-import org.academiadecodigo.javabank.view.menu.MainMenuView;
 import org.academiadecodigo.javabank.ui.MenuItem;
+import org.academiadecodigo.javabank.view.menu.EditCustomerMenuView;
 
-import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class EditCustomerMenuController extends CustomerController {
