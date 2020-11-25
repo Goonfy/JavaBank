@@ -7,6 +7,8 @@ import org.academiadecodigo.bootcamp.scanners.string.StringInputScanner;
 import org.academiadecodigo.javabank.Descriptable;
 import org.academiadecodigo.javabank.model.Customer;
 import org.academiadecodigo.javabank.model.account.AbstractAccount;
+import org.academiadecodigo.javabank.service.AccountService;
+import org.academiadecodigo.javabank.service.CustomerService;
 import org.academiadecodigo.javabank.service.JpaAccountService;
 import org.academiadecodigo.javabank.service.JpaCustomerService;
 
@@ -46,7 +48,7 @@ public abstract class PromptView implements View {
         return prompt.getUserInput(chooseCustomerOption);
     }
 
-    public int createCustomerMenu(JpaCustomerService customerService) {
+    public int createCustomerMenu(CustomerService customerService) {
         List<Customer> customers = customerService.listAll();
         System.out.println("\n" + customers.toString());
         if (customers.isEmpty()) {
@@ -56,7 +58,7 @@ public abstract class PromptView implements View {
         return createSelectionInput("Choose one customer from the list: ");
     }
 
-    public int createAccountMenu(JpaAccountService accountService, Customer customer) {
+    public int createAccountMenu(AccountService accountService, Customer customer) {
         List<AbstractAccount> accounts = accountService.getAllAccountsInfoFrom(customer);
         System.out.println("\n" + accounts.toString());
         if (accounts.isEmpty()) {

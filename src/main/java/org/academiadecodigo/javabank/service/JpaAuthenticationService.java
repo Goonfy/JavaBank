@@ -4,10 +4,11 @@ import org.academiadecodigo.javabank.model.Customer;
 
 public class JpaAuthenticationService implements AuthenticationService {
 
-    private JpaCustomerService customerService;
+    private CustomerService customerService;
     private Customer accessingCustomer;
 
-    public void setCustomerService(JpaCustomerService customerService) {
+    @Override
+    public void setCustomerService(CustomerService customerService) {
         this.customerService = customerService;
     }
 

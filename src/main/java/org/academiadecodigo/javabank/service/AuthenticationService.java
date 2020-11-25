@@ -6,4 +6,5 @@ public interface AuthenticationService {
 
     boolean authenticate(Integer id);
     Customer getAccessingCustomer();
+    void setCustomerService(CustomerService customerService);
 }

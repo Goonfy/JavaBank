@@ -26,23 +26,6 @@
 
     </bean>
 
-    <!-- spring jpa entity manager factory configuration -->
-    <bean id="emFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
-        <property name="dataSource" ref="dataSource"/>
-        <property name="packagesToScan" value="org.academiadecodigo.javabank.model"/>
-        <property name="jpaVendorAdapter">
-            <bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter"/>
-        </property>
-        <property name="jpaProperties">
-            <map>
-                <entry key="hibernate.dialect" value="org.hibernate.dialect.MySQL8Dialect"/>
-                <entry key="hibernate.show_sql" value="true"/>
-                <!-- WARNING: Will re-create the database schema, causing data loss -->
-                <entry key="hibernate.hbm2ddl.auto" value="create"/>
-            </map>
-        </property>
-    </bean>
-
     <import resource="persistence.xml"/>
     <import resource="service.xml"/>
     <import resource="view.xml"/>

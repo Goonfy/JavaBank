@@ -5,6 +5,8 @@ import org.academiadecodigo.javabank.model.account.AbstractAccount;
 import org.academiadecodigo.javabank.model.account.AccountType;
 import org.academiadecodigo.javabank.model.account.CheckingAccount;
 import org.academiadecodigo.javabank.model.account.SavingsAccount;
+import org.academiadecodigo.javabank.service.AccountService;
+import org.academiadecodigo.javabank.service.AuthenticationService;
 import org.academiadecodigo.javabank.service.JpaAccountService;
 import org.academiadecodigo.javabank.service.JpaAuthenticationService;
 import org.academiadecodigo.javabank.view.account.AddAccountPromptView;
@@ -13,7 +15,7 @@ public class AddAccountController extends AccountController {
 
     private AddAccountPromptView view;
 
-    public AddAccountController(JpaAccountService accountService, JpaAuthenticationService authenticationService) {
+    public AddAccountController(AccountService accountService, AuthenticationService authenticationService) {
         super(accountService, authenticationService);
     }
 

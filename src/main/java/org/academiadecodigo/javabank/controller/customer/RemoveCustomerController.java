@@ -1,16 +1,14 @@
 package org.academiadecodigo.javabank.controller.customer;
 
 import org.academiadecodigo.javabank.controller.CustomerController;
-import org.academiadecodigo.javabank.service.JpaAccountService;
-import org.academiadecodigo.javabank.service.JpaAuthenticationService;
-import org.academiadecodigo.javabank.service.JpaCustomerService;
+import org.academiadecodigo.javabank.service.*;
 import org.academiadecodigo.javabank.view.customer.RemoveCustomerPromptView;
 
 public class RemoveCustomerController extends CustomerController {
 
     private RemoveCustomerPromptView view;
 
-    public RemoveCustomerController(JpaCustomerService customerService, JpaAccountService accountService, JpaAuthenticationService authenticationService) {
+    public RemoveCustomerController(CustomerService customerService, AccountService accountService, AuthenticationService authenticationService) {
         super(customerService, accountService, authenticationService);
 
     }

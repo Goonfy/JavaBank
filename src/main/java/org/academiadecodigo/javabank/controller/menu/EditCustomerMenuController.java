@@ -2,9 +2,7 @@ package org.academiadecodigo.javabank.controller.menu;
 
 import org.academiadecodigo.javabank.controller.AccountController;
 import org.academiadecodigo.javabank.controller.CustomerController;
-import org.academiadecodigo.javabank.service.JpaAccountService;
-import org.academiadecodigo.javabank.service.JpaAuthenticationService;
-import org.academiadecodigo.javabank.service.JpaCustomerService;
+import org.academiadecodigo.javabank.service.*;
 import org.academiadecodigo.javabank.ui.MenuItem;
 import org.academiadecodigo.javabank.view.menu.EditCustomerMenuView;
 
@@ -15,7 +13,7 @@ public class EditCustomerMenuController extends CustomerController {
     private EditCustomerMenuView view;
     private Map<Integer, AccountController> menuMap;
 
-    public EditCustomerMenuController(JpaCustomerService customerService, JpaAccountService accountService, JpaAuthenticationService authenticationService) {
+    public EditCustomerMenuController(CustomerService customerService, AccountService accountService, AuthenticationService authenticationService) {
         super(customerService, accountService, authenticationService);
     }
 

@@ -1,20 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
 
-    <bean id="jpaSessionManager" class="org.academiadecodigo.javabank.persistence.jpa.JpaSessionManager"/>
-
-    <bean id="jpaTransactionManager" class="org.academiadecodigo.javabank.persistence.jpa.JpaTransactionManager">
-        <constructor-arg name="sessionManager" ref="jpaSessionManager"/>
+    <!-- spring jpa entity manager factory configuration -->
+    <bean id="emFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+        <property name="dataSource" ref="dataSource"/>
+        <property name="packagesToScan" value="org.academiadecodigo.javabank.model"/>
+        <property name="jpaVendorAdapter">
+            <bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter"/>
+        </property>
+        <property name="jpaProperties">
+            <map>
+                <entry key="hibernate.dialect" value="org.hibernate.dialect.MySQL8Dialect"/>
+                <entry key="hibernate.show_sql" value="true"/>
+                <!-- WARNING: Will re-create the database schema, causing data loss -->
+                <entry key="hibernate.hbm2ddl.auto" value="create"/>
+            </map>
+        </property>
     </bean>
 
-    <bean id="jpaCustomerDao" class="org.academiadecodigo.javabank.persistence.dao.jpa.JpaCustomerDao">
-        <constructor-arg name="sessionManager" ref="jpaSessionManager"/>
+    <bean id="jpaTransactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+        <constructor-arg name="emf" ref="emFactory"/>
     </bean>
 
-    <bean id="jpaAccountDao" class="org.academiadecodigo.javabank.persistence.dao.jpa.JpaAccountDao">
-        <constructor-arg name="sessionManager" ref="jpaSessionManager"/>
-    </bean>
+    <tx:annotation-driven transaction-manager="jpaTransactionManager"/>
+
+    <bean id="jpaCustomerDao" class="org.academiadecodigo.javabank.persistence.dao.jpa.JpaCustomerDao"/>
+
+    <bean id="jpaAccountDao" class="org.academiadecodigo.javabank.persistence.dao.jpa.JpaAccountDao"/>
 
 </beans>

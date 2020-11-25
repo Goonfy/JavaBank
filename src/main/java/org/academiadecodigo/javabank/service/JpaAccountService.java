@@ -4,7 +4,7 @@ import org.academiadecodigo.javabank.model.Customer;
 import org.academiadecodigo.javabank.model.account.AbstractAccount;
 import org.academiadecodigo.javabank.model.account.Account;
 import org.academiadecodigo.javabank.persistence.dao.AccountDao;
-import org.academiadecodigo.javabank.persistence.jpa.JpaTransactionManager;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -16,82 +16,64 @@ public class JpaAccountService implements AccountService {
 
     private final JpaAuthenticationService authenticationService;
     private final AccountDao<AbstractAccount> accountDao;
-    private final JpaTransactionManager transactionManager;
 
-    public JpaAccountService(JpaAuthenticationService authenticationService, JpaTransactionManager transactionManager, AccountDao<AbstractAccount> accountDao) {
+    public JpaAccountService(JpaAuthenticationService authenticationService, AccountDao<AbstractAccount> accountDao) {
         this.authenticationService = authenticationService;
-        this.transactionManager = transactionManager;
         this.accountDao = accountDao;
     }
 
+    @Transactional
     @Override
     public void add(AbstractAccount account) {
-        try {
-            account.setCustomer(authenticationService.getAccessingCustomer());
+        account.setCustomer(authenticationService.getAccessingCustomer());
 
-            transactionManager.beginWrite();
-            AbstractAccount acc = accountDao.saveOrUpdate(account);
-            transactionManager.commit();
+        AbstractAccount acc = accountDao.saveOrUpdate(account);
 
-            authenticationService.getAccessingCustomer().addAccount(acc);
-        } finally {
-            transactionManager.rollback();
-        }
+        authenticationService.getAccessingCustomer().addAccount(acc);
     }
 
+    @Transactional
     @Override
     public void remove(int id) {
         try {
             AbstractAccount account = accountDao.findById(id);
 
-            transactionManager.beginWrite();
             accountDao.delete(id);
-            transactionManager.commit();
 
             authenticationService.getAccessingCustomer().removeAccount(account);
         } finally {
-            transactionManager.rollback();
         }
     }
 
+    @Transactional
     @Override
     public void deposit(int id, double amount) {
-        try {
-            AbstractAccount account = accountDao.findById(id);
+        AbstractAccount account = accountDao.findById(id);
 
-            if (!account.canCredit(amount)) {
-                return;
-            }
-
-            account.addBalance(amount);
-
-            transactionManager.beginWrite();
-            accountDao.saveOrUpdate(account);
-            transactionManager.commit();
-        } finally {
-            transactionManager.rollback();
+        if (!account.canCredit(amount)) {
+            return;
         }
+
+        account.addBalance(amount);
+
+        accountDao.saveOrUpdate(account);
     }
 
+    @Transactional
     @Override
     public void withdraw(int id, double amount) {
-        try {
-            AbstractAccount account = accountDao.findById(id);
+        AbstractAccount account = accountDao.findById(id);
 
-            if (!account.canWithdraw() || !account.canDebit(amount)) {
-                return;
-            }
-
-            account.removeBalance(amount);
-
-            transactionManager.beginWrite();
-            accountDao.saveOrUpdate(account);
-            transactionManager.commit();
-        } finally {
-            transactionManager.rollback();
+        if (!account.canWithdraw() || !account.canDebit(amount)) {
+            return;
         }
+
+        account.removeBalance(amount);
+
+        accountDao.saveOrUpdate(account);
     }
 
+    @Transactional(readOnly = true)
     @Override
     public void transfer(int srcId, int dstId, double amount) {
         Account srcAccount = accountDao.findById(srcId);
@@ -115,10 +97,12 @@ public class JpaAccountService implements AccountService {
         return accounts;
     }
 
+    @Transactional(readOnly = true)
     public double getBalance(int id) {
         return accountDao.findById(id).getBalance();
     }
 
+    @Transactional(readOnly = true)
     public int getBalanceFromAllAccounts() {
         int balance = 0;
 

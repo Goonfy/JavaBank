@@ -9,6 +9,4 @@ public class App {
                 .getBean(MainMenuController.class, "mainMenuController")
                 .execute();
     }
-
-
 }

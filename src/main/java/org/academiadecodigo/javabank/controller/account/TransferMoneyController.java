@@ -1,17 +1,15 @@
 package org.academiadecodigo.javabank.controller.account;
 
 import org.academiadecodigo.javabank.controller.AccountController;
-import org.academiadecodigo.javabank.service.JpaAccountService;
-import org.academiadecodigo.javabank.service.JpaAuthenticationService;
-import org.academiadecodigo.javabank.service.JpaCustomerService;
+import org.academiadecodigo.javabank.service.*;
 import org.academiadecodigo.javabank.view.account.TransferMoneyPromptView;
 
 public class TransferMoneyController extends AccountController {
 
     private TransferMoneyPromptView view;
-    private final JpaCustomerService customerService;
+    private final CustomerService customerService;
 
-    public TransferMoneyController(JpaAccountService accountService, JpaAuthenticationService authenticationService, JpaCustomerService customerService) {
+    public TransferMoneyController(AccountService accountService, AuthenticationService authenticationService, CustomerService customerService) {
         super(accountService, authenticationService);
 
         this.customerService = customerService;

@@ -1,30 +1,28 @@
 package org.academiadecodigo.javabank.controller;
 
-import org.academiadecodigo.javabank.service.JpaAccountService;
-import org.academiadecodigo.javabank.service.JpaAuthenticationService;
-import org.academiadecodigo.javabank.service.JpaCustomerService;
+import org.academiadecodigo.javabank.service.*;
 
 public abstract class CustomerController implements Controller {
 
-    private final JpaCustomerService customerService;
-    private final JpaAccountService accountService;
-    private final JpaAuthenticationService authenticationService;
+    private final CustomerService customerService;
+    private final AccountService accountService;
+    private final AuthenticationService authenticationService;
 
-    public CustomerController(JpaCustomerService customerService, JpaAccountService accountService, JpaAuthenticationService authenticationService) {
+    public CustomerController(CustomerService customerService, AccountService accountService, AuthenticationService authenticationService) {
         this.customerService = customerService;
         this.accountService = accountService;
         this.authenticationService = authenticationService;
     }
 
-    public JpaCustomerService getCustomerService() {
+    public CustomerService getCustomerService() {
         return customerService;
     }
 
-    public JpaAccountService getAccountService() {
+    public AccountService getAccountService() {
         return accountService;
     }
 
-    public JpaAuthenticationService getAuthenticationService() {
+    public AuthenticationService getAuthenticationService() {
         return authenticationService;
     }
 }

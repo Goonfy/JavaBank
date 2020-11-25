@@ -6,7 +6,7 @@ import org.academiadecodigo.javabank.persistence.jpa.JpaSessionManager;
 
 public class JpaAccountDao extends GenericJpaDao<AbstractAccount> implements AccountDao<AbstractAccount> {
 
-    public JpaAccountDao(JpaSessionManager sessionManager) {
-        super(sessionManager, AbstractAccount.class);
+    public JpaAccountDao() {
+        super(AbstractAccount.class);
     }
 }

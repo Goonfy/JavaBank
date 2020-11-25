@@ -2,47 +2,37 @@ package org.academiadecodigo.javabank.service;
 
 import org.academiadecodigo.javabank.model.Customer;
 import org.academiadecodigo.javabank.persistence.dao.CustomerDao;
-import org.academiadecodigo.javabank.persistence.jpa.JpaTransactionManager;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 public class JpaCustomerService implements CustomerService {
 
-    private final JpaTransactionManager transactionManager;
     private final CustomerDao<Customer> customerDao;
 
-    public JpaCustomerService(JpaTransactionManager transactionManager, CustomerDao<Customer> customerDao) {
-        this.transactionManager = transactionManager;
+    public JpaCustomerService(CustomerDao<Customer> customerDao) {
         this.customerDao = customerDao;
     }
 
+    @Transactional
     @Override
     public void add(String name, String email, String phoneNumber) {
-        try {
-            transactionManager.beginWrite();
-            customerDao.saveOrUpdate(new Customer(name, email, phoneNumber));
-            transactionManager.commit();
-        } finally {
-            transactionManager.rollback();
-        }
+        customerDao.saveOrUpdate(new Customer(name, email, phoneNumber));
     }
 
+    @Transactional
     @Override
     public void remove(int id) {
-        try {
-            transactionManager.beginWrite();
-            customerDao.delete(id);
-            transactionManager.commit();
-        } finally {
-            transactionManager.rollback();
-        }
+        customerDao.delete(id);
     }
 
+    @Transactional(readOnly = true)
     @Override
     public List<Customer> listAll() {
         return customerDao.findAll();
     }
 
+    @Transactional(readOnly = true)
     @Override
     public Customer get(int id) {
         return customerDao.findById(id);

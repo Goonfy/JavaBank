@@ -2,10 +2,9 @@ package org.academiadecodigo.javabank.controller.customer;
 
 import org.academiadecodigo.javabank.controller.CustomerController;
 import org.academiadecodigo.javabank.model.Customer;
-import org.academiadecodigo.javabank.service.JpaAccountService;
-import org.academiadecodigo.javabank.service.JpaAuthenticationService;
-import org.academiadecodigo.javabank.service.JpaCustomerService;
+import org.academiadecodigo.javabank.service.*;
 import org.academiadecodigo.javabank.view.customer.ShowCustomerPromptView;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -13,7 +12,7 @@ public class ShowCustomerController extends CustomerController {
 
     private ShowCustomerPromptView view;
 
-    public ShowCustomerController(JpaCustomerService customerService, JpaAccountService accountService, JpaAuthenticationService authenticationService) {
+    public ShowCustomerController(CustomerService customerService, AccountService accountService, AuthenticationService authenticationService) {
         super(customerService, accountService, authenticationService);
     }
 
