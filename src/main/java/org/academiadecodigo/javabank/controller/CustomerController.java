@@ -1,28 +1,30 @@
 package org.academiadecodigo.javabank.controller;
 
-import org.academiadecodigo.javabank.service.*;
+import org.academiadecodigo.javabank.service.CustomerService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestMapping;
 
-public abstract class CustomerController implements Controller {
+@Controller
+public class CustomerController extends AbstractController {
+    private CustomerService customerService;
 
-    private final CustomerService customerService;
-    private final AccountService accountService;
-    private final AuthenticationService authenticationService;
-
-    public CustomerController(CustomerService customerService, AccountService accountService, AuthenticationService authenticationService) {
-        this.customerService = customerService;
-        this.accountService = accountService;
-        this.authenticationService = authenticationService;
-    }
-
+    @Autowired
     public CustomerService getCustomerService() {
         return customerService;
     }
 
-    public AccountService getAccountService() {
-        return accountService;
+    @Autowired
+    public void setCustomerService(CustomerService customerService) {
+        this.customerService = customerService;
     }
 
-    public AuthenticationService getAuthenticationService() {
-        return authenticationService;
+    @RequestMapping
+    @Override
+    public String show(Model model) {
+        model.addAttribute("customers", customerService.listAll());
+
+        return "showcustomers";
     }
 }

@@ -4,11 +4,7 @@ import org.academiadecodigo.javabank.model.Customer;
 
 import java.util.List;
 
-public interface CustomerService {
+public interface CustomerService extends Service<Customer>{
 
-    Customer get(int id);
-    void remove(int id);
-    List<Customer> listAll();
-    void add(String name, String email, String phoneNumber);
-    int getNumberOfCustomers();
+
 }

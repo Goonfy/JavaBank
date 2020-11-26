@@ -1,25 +1,29 @@
 package org.academiadecodigo.javabank.controller;
 
+import org.academiadecodigo.javabank.model.account.Account;
 import org.academiadecodigo.javabank.service.AccountService;
-import org.academiadecodigo.javabank.service.AuthenticationService;
-import org.academiadecodigo.javabank.service.JpaAccountService;
-import org.academiadecodigo.javabank.service.JpaAuthenticationService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 
-public abstract class AccountController implements Controller {
+@Controller
+public class AccountController extends AbstractController {
+    private AccountService accountService;
 
-    private final AccountService accountService;
-    private final AuthenticationService authenticationService;
+    @Override
+    String show(Model model) {
+        model.addAttribute("accounts", accountService.listAll());
 
-    public AccountController(AccountService accountService, AuthenticationService authenticationService) {
-        this.accountService = accountService;
-        this.authenticationService = authenticationService;
+        return "showaccounts";
     }
 
+    @Autowired
     public AccountService getAccountService() {
         return accountService;
     }
 
-    public AuthenticationService getAuthenticationService() {
-        return authenticationService;
+    @Autowired
+    public void setAccountService(AccountService accountService) {
+        this.accountService = accountService;
     }
 }

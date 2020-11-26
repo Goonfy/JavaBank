@@ -1,11 +1,9 @@
 package org.academiadecodigo.javabank.model.account;
 
-import org.academiadecodigo.javabank.Descriptable;
-
 /**
  * The possible {@link Account} types
  */
-public enum AccountType implements Descriptable {
+public enum AccountType {
 
     /**
      * @see CheckingAccount
@@ -23,7 +21,6 @@ public enum AccountType implements Descriptable {
         this.description = description;
     }
 
-    @Override
     public String getDescription() {
         return description;
     }

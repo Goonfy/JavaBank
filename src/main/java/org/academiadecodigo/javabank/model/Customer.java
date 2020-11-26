@@ -18,19 +18,19 @@ public class Customer {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    private final String name;
-    private final String email;
+    private String name;
+    private String email;
     @Column(name = "phone_number")
-    private final String phoneNumber;
+    private String phoneNumber;
 
     @OneToMany(
             mappedBy = "customer",
             fetch = FetchType.EAGER
     )
-    private final List<AbstractAccount> accounts;
+    private List<AbstractAccount> accounts;
 
     public Customer() {
-        this("", "", "");
+
     }
 
     public Customer(String name, String email, String phoneNumber) {

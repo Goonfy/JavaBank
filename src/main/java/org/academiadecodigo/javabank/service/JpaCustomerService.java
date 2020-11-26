@@ -2,22 +2,28 @@ package org.academiadecodigo.javabank.service;
 
 import org.academiadecodigo.javabank.model.Customer;
 import org.academiadecodigo.javabank.persistence.dao.CustomerDao;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Profile;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+@Service
+@Profile("jpa")
 public class JpaCustomerService implements CustomerService {
 
     private final CustomerDao<Customer> customerDao;
 
+    @Autowired
     public JpaCustomerService(CustomerDao<Customer> customerDao) {
         this.customerDao = customerDao;
     }
 
     @Transactional
     @Override
-    public void add(String name, String email, String phoneNumber) {
-        customerDao.saveOrUpdate(new Customer(name, email, phoneNumber));
+    public void add(Customer customer) {
+        customerDao.saveOrUpdate(customer);
     }
 
     @Transactional
@@ -39,7 +45,7 @@ public class JpaCustomerService implements CustomerService {
     }
 
     @Override
-    public int getNumberOfCustomers() {
+    public int getSize() {
         return listAll().size();
     }
 }

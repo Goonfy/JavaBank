@@ -4,6 +4,9 @@ import org.academiadecodigo.javabank.model.Customer;
 import org.academiadecodigo.javabank.model.account.AbstractAccount;
 import org.academiadecodigo.javabank.model.account.Account;
 import org.academiadecodigo.javabank.persistence.dao.AccountDao;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Profile;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.LinkedList;
@@ -12,11 +15,14 @@ import java.util.List;
 /**
  * Responsible for account management
  */
+@Service
+@Profile("jpa")
 public class JpaAccountService implements AccountService {
 
     private final JpaAuthenticationService authenticationService;
     private final AccountDao<AbstractAccount> accountDao;
 
+    @Autowired
     public JpaAccountService(JpaAuthenticationService authenticationService, AccountDao<AbstractAccount> accountDao) {
         this.authenticationService = authenticationService;
         this.accountDao = accountDao;
@@ -35,20 +41,32 @@ public class JpaAccountService implements AccountService {
     @Transactional
     @Override
     public void remove(int id) {
-        try {
-            AbstractAccount account = accountDao.findById(id);
+        AbstractAccount account = get(id);
 
-            accountDao.delete(id);
+        accountDao.delete(id);
 
-            authenticationService.getAccessingCustomer().removeAccount(account);
-        } finally {
-        }
+        authenticationService.getAccessingCustomer().removeAccount(account);
+    }
+
+    @Override
+    public AbstractAccount get(int id) {
+        return accountDao.findById(id);
+    }
+
+    @Override
+    public List<AbstractAccount> listAll() {
+        return accountDao.findAll();
+    }
+
+    @Override
+    public int getSize() {
+        return listAll().size();
     }
 
     @Transactional
     @Override
     public void deposit(int id, double amount) {
-        AbstractAccount account = accountDao.findById(id);
+        AbstractAccount account = get(id);
 
         if (!account.canCredit(amount)) {
             return;
@@ -62,7 +80,7 @@ public class JpaAccountService implements AccountService {
     @Transactional
     @Override
     public void withdraw(int id, double amount) {
-        AbstractAccount account = accountDao.findById(id);
+        AbstractAccount account = get(id);
 
         if (!account.canWithdraw() || !account.canDebit(amount)) {
             return;
@@ -76,8 +94,8 @@ public class JpaAccountService implements AccountService {
     @Transactional(readOnly = true)
     @Override
     public void transfer(int srcId, int dstId, double amount) {
-        Account srcAccount = accountDao.findById(srcId);
-        Account dstAccount = accountDao.findById(dstId);
+        Account srcAccount = get(srcId);
+        Account dstAccount = get(dstId);
 
         if (srcAccount.canDebit(amount) && dstAccount.canCredit(amount)) {
             withdraw(srcId, amount);
@@ -88,7 +106,7 @@ public class JpaAccountService implements AccountService {
     @Override
     public List<AbstractAccount> getAllAccountsInfoFrom(Customer customer) {
         List<AbstractAccount> accounts = new LinkedList<>();
-        for (AbstractAccount acc : accountDao.findAll()) {
+        for (AbstractAccount acc : listAll()) {
             if (acc.getCustomer().getId() == customer.getId()) {
                 accounts.add(acc);
             }
@@ -98,15 +116,17 @@ public class JpaAccountService implements AccountService {
     }
 
     @Transactional(readOnly = true)
+    @Override
     public double getBalance(int id) {
-        return accountDao.findById(id).getBalance();
+        return get(id).getBalance();
     }
 
     @Transactional(readOnly = true)
+    @Override
     public int getBalanceFromAllAccounts() {
         int balance = 0;
 
-        for (Account account : accountDao.findAll()) {
+        for (Account account : listAll()) {
             balance += account.getBalance();
         }
 
