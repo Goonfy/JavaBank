@@ -48,11 +48,13 @@ public class JpaAccountService implements AccountService {
         authenticationService.getAccessingCustomer().removeAccount(account);
     }
 
+    @Transactional(readOnly = true)
     @Override
     public AbstractAccount get(int id) {
         return accountDao.findById(id);
     }
 
+    @Transactional(readOnly = true)
     @Override
     public List<AbstractAccount> listAll() {
         return accountDao.findAll();
@@ -91,7 +93,6 @@ public class JpaAccountService implements AccountService {
         accountDao.saveOrUpdate(account);
     }
 
-    @Transactional(readOnly = true)
     @Override
     public void transfer(int srcId, int dstId, double amount) {
         Account srcAccount = get(srcId);
