@@ -44,8 +44,4 @@ public class JpaCustomerService implements CustomerService {
         return customerDao.findById(id);
     }
 
-    @Override
-    public int getSize() {
-        return listAll().size();
-    }
 }

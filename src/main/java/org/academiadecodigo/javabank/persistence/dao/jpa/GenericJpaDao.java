@@ -44,8 +44,6 @@ public abstract class GenericJpaDao<T> implements Dao<T> {
 
     @Override
     public void delete(Integer id) {
-        T account = findById(id);
-
-        session.remove(session.merge(account));
+        session.remove(session.find(type, id));
     }
 }

@@ -18,7 +18,6 @@ public class JpaAuthenticationServiceTest {
         customerService = mock(JpaCustomerService.class);
         accessingCustomer = mock(Customer.class);
         authenticationService = mock(JpaAuthenticationService.class);
-        authenticationService.setCustomerService(customerService);
     }
 
     //@Test

@@ -60,11 +60,6 @@ public class JpaAccountService implements AccountService {
         return accountDao.findAll();
     }
 
-    @Override
-    public int getSize() {
-        return listAll().size();
-    }
-
     @Transactional
     @Override
     public void deposit(int id, double amount) {

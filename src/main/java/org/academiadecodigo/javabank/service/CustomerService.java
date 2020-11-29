@@ -4,7 +4,6 @@ import org.academiadecodigo.javabank.model.Customer;
 
 import java.util.List;
 
-public interface CustomerService extends Service<Customer>{
-
+public interface CustomerService extends Service<Customer> {
 
 }
