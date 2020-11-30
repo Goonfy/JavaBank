@@ -1,7 +1,9 @@
 package org.academiadecodigo.javabank.persistence.dao;
 
-public interface CustomerDao<T> extends Dao<T> {
+import org.academiadecodigo.javabank.model.Customer;
 
-    T findByUsername(String username);
-    T findByEmail(String email);
+public interface CustomerDao extends Dao<Customer> {
+
+    Customer findByUsername(String username);
+    Customer findByEmail(String email);
 }

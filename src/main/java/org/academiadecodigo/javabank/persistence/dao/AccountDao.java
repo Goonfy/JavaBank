@@ -1,5 +1,7 @@
 package org.academiadecodigo.javabank.persistence.dao;
 
-public interface AccountDao<T> extends Dao<T> {
+import org.academiadecodigo.javabank.model.account.AbstractAccount;
+
+public interface AccountDao extends Dao<AbstractAccount> {
 
 }

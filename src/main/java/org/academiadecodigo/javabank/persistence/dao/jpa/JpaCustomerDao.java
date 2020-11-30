@@ -11,7 +11,7 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 
 @Repository
-public class JpaCustomerDao extends GenericJpaDao<Customer> implements CustomerDao<Customer> {
+public class JpaCustomerDao extends GenericJpaDao<Customer> implements CustomerDao {
 
     @PersistenceContext
     private EntityManager session;

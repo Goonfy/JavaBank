@@ -19,13 +19,18 @@ public class Customer {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    private String name;
+    @Column(name = "first_name")
+    private String firstName;
+    @Column(name = "last_name")
+    private String lastName;
     private String email;
     @Column(name = "phone_number")
     private String phoneNumber;
 
     @OneToMany(
+            cascade = {CascadeType.ALL},
             mappedBy = "customer",
+            orphanRemoval = true,
             fetch = FetchType.EAGER
     )
     private List<AbstractAccount> accounts;
@@ -34,28 +39,33 @@ public class Customer {
 
     }
 
-    public Customer(String name, String email, String phoneNumber) {
-        this.name = name;
+    public Customer(String firstName, String lastName, String email, String phoneNumber) {
+        this.firstName = firstName;
+        this.lastName = lastName;
         this.email = email;
         this.phoneNumber = phoneNumber;
 
         accounts = new ArrayList<>();
     }
 
-    public void addAccount(AbstractAccount account) {
+    /*public void addAccount(AbstractAccount account) {
         accounts.add(account);
     }
 
     public void removeAccount(AbstractAccount account) {
         accounts.remove(account);
-    }
+    }*/
 
     public int getId() {
         return id;
     }
 
-    public String getName() {
-        return name;
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
     }
 
     public String getEmail() {
@@ -66,9 +76,37 @@ public class Customer {
         return phoneNumber;
     }
 
+    public List<AbstractAccount> getAccounts() {
+        return accounts;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
+    public void setAccounts(List<AbstractAccount> accounts) {
+        this.accounts = accounts;
+    }
+
     @Override
     public String toString() {
-        return "\n" + id + " - [ Name: " + name + ", Email: " + email + ", Phone Number: " + phoneNumber + " ]";
+        return id + " - " + firstName + " " + lastName;
     }
 
     @Override

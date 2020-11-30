@@ -6,7 +6,7 @@ import org.academiadecodigo.javabank.persistence.dao.AccountDao;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class JpaAccountDao extends GenericJpaDao<AbstractAccount> implements AccountDao<AbstractAccount> {
+public class JpaAccountDao extends GenericJpaDao<AbstractAccount> implements AccountDao {
 
     public JpaAccountDao() {
         super(AbstractAccount.class);

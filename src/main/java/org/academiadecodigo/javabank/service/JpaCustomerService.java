@@ -10,13 +10,12 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @Service
-@Profile("jpa")
 public class JpaCustomerService implements CustomerService {
 
-    private final CustomerDao<Customer> customerDao;
+    private final CustomerDao customerDao;
 
     @Autowired
-    public JpaCustomerService(CustomerDao<Customer> customerDao) {
+    public JpaCustomerService(CustomerDao customerDao) {
         this.customerDao = customerDao;
     }
 

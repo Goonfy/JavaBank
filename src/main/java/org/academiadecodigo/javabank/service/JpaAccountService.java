@@ -16,14 +16,13 @@ import java.util.List;
  * Responsible for account management
  */
 @Service
-@Profile("jpa")
 public class JpaAccountService implements AccountService {
 
     private final JpaAuthenticationService authenticationService;
-    private final AccountDao<AbstractAccount> accountDao;
+    private final AccountDao accountDao;
 
     @Autowired
-    public JpaAccountService(JpaAuthenticationService authenticationService, AccountDao<AbstractAccount> accountDao) {
+    public JpaAccountService(JpaAuthenticationService authenticationService, AccountDao accountDao) {
         this.authenticationService = authenticationService;
         this.accountDao = accountDao;
     }
@@ -35,7 +34,7 @@ public class JpaAccountService implements AccountService {
 
         AbstractAccount acc = accountDao.saveOrUpdate(account);
 
-        authenticationService.getAccessingCustomer().addAccount(acc);
+        //authenticationService.getAccessingCustomer().addAccount(acc);
     }
 
     @Transactional
@@ -45,7 +44,7 @@ public class JpaAccountService implements AccountService {
 
         accountDao.delete(id);
 
-        authenticationService.getAccessingCustomer().removeAccount(account);
+        //authenticationService.getAccessingCustomer().removeAccount(account);
     }
 
     @Transactional(readOnly = true)
