@@ -20,70 +20,52 @@
 <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
     <a class="navbar-brand" href="#">Java Bank</a>
     <ul class="navbar-nav">
-        <li class="nav-item active">
+        <li class="nav-item">
             <a class="nav-link" th:href="@{/}">Customers</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" th:href="@{/accounts}">Accounts</a>
+            <a class="nav-link active" th:href="@{/accounts}">Accounts</a>
         </li>
     </ul>
 </nav>
 <div class="container bootstrap snippet">
     <div class="row">
-        <h1 th:text="'Customer ' + ${customer.id}">User Name</h1>
+        <h1>Add Customer</h1>
     </div>
     <div class="row">
-        <div class="col-sm-3">
-            <div class="text-center">
-                <img src="https://bootdey.com/img/Content/user_1.jpg" class="avatar img-circle img-thumbnail"
-                     alt="avatar">
-                <br>
-                <h6>Upload a different photo...</h6>
-                <input type="file" class="text-center center-block file-upload">
-            </div>
-        </div>
         <div class="col-sm-9">
             <div class="tab-content">
                 <div class="tab-pane active" id="home">
-                    <form class="form" th:object="${customer}" th:action="@{/save/{id}(id=${customer.id})}"
+                    <form class="form" th:object="${account}" th:action="@{/save}"
                           id="registrationForm" method="post">
                         <div class="form-group">
 
                             <div class="col-xs-6">
-                                <label for="first_name"><h4>First name</h4></label>
-                                <input type="text" class="form-control" name="first_name" id="first_name"
-                                       th:value="${customer.firstName}" title="enter your first name if any."
-                                       th:field="*{firstName}">
+                                <label for="account_type"><h4>Account Type</h4></label>
+                                <select name="account_type" id="account_type">
+                                    <option value="CheckingAccount">Checking Account</option>
+                                    <option value="SavingsAccount">Savings Account</option>
+                                </select>
                             </div>
                         </div>
                         <div class="form-group">
 
                             <div class="col-xs-6">
-                                <label for="last_name"><h4>Last name</h4></label>
-                                <input type="text" class="form-control" name="last_name" id="last_name"
-                                       th:value="${customer.lastName}" title="enter your last name if any."
-                                       th:field="*{lastName}">
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-
-                            <div class="col-xs-6">
-                                <label for="phone"><h4>Phone</h4></label>
-                                <input type="text" class="form-control" name="phone" id="phone"
-                                       th:value="${customer.phoneNumber}" title="enter your phone number if any."
-                                       th:field="*{phoneNumber}">
+                                <label for="balance"><h4>Balance</h4></label>
+                                <input type="text" class="form-control" name="balance" id="balance"
+                                       th:field="*{balance}">
                             </div>
                         </div>
 
                         <div class="form-group">
 
                             <div class="col-xs-6">
-                                <label for="email"><h4>Email</h4></label>
-                                <input type="email" class="form-control" name="email" id="email"
-                                       th:value="${customer.email}" title="enter your email." th:field="*{email}">
+                                <label for="customer"><h4>Customer</h4></label>
+                                <input type="text" class="form-control" name="customer" id="customer"
+                                       th:field="*{customer}">
                             </div>
                         </div>
+
                         <div class="form-group">
                             <div class="col-xs-12">
                                 <br>

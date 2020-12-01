@@ -40,8 +40,9 @@ public class CustomerController implements Controller<Customer> {
     @RequestMapping(method = RequestMethod.GET, value = "/add")
     @Override
     public String addItem(Model model) {
-        model.addAttribute("customer", "");
-        return "customeredit";
+        model.addAttribute("customer", new Customer());
+
+        return "customeradd";
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/edit/{id}")
@@ -60,13 +61,28 @@ public class CustomerController implements Controller<Customer> {
         return "redirect:/";
     }
 
+    @RequestMapping(method = RequestMethod.POST, value = "/save/{id}")
+    @Override
+    public String saveItem(@PathVariable Integer id, @ModelAttribute Customer customer) {
+
+        Customer c = customerService.get(id);
+        c.setFirstName(customer.getFirstName());
+        c.setLastName(customer.getLastName());
+        c.setEmail(customer.getEmail());
+        c.setPhoneNumber(customer.getPhoneNumber());
+
+        customerService.add(c);
+
+        return "redirect:/";
+    }
+
     @RequestMapping(method = RequestMethod.POST, value = "/save")
+    @Override
     public String saveItem(@ModelAttribute Customer customer) {
 
         customerService.add(customer);
 
         return "redirect:/";
-
     }
 
 }

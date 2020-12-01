@@ -1,4 +1,6 @@
 package org.academiadecodigo.javabank.persistence.dao;
 
-public interface RecipientDao extends Dao {
+import org.academiadecodigo.javabank.model.Recipient;
+
+public interface RecipientDao extends Dao<Recipient> {
 }
