@@ -1,5 +1,6 @@
 package org.academiadecodigo.javabank.service;
 
+import org.academiadecodigo.javabank.exception.InvalidCustomerID;
 import org.academiadecodigo.javabank.model.Customer;
 import org.academiadecodigo.javabank.persistence.dao.CustomerDao;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class JpaCustomerService implements CustomerService {
@@ -21,14 +23,16 @@ public class JpaCustomerService implements CustomerService {
 
     @Transactional
     @Override
-    public void add(Customer customer) {
-        customerDao.saveOrUpdate(customer);
+    public void add(Customer customer) throws InvalidCustomerID {
+        Optional.ofNullable(customerDao.saveOrUpdate(customer)).orElseThrow(InvalidCustomerID::new);
     }
 
     @Transactional
     @Override
-    public void remove(int id) {
+    public void remove(int id) throws InvalidCustomerID {
         customerDao.delete(id);
+
+        //Optional.ofNullable(customerDao.delete(id)).orElseThrow(InvalidCustomerID::new);
     }
 
     @Transactional(readOnly = true)
@@ -39,8 +43,8 @@ public class JpaCustomerService implements CustomerService {
 
     @Transactional(readOnly = true)
     @Override
-    public Customer get(int id) {
-        return customerDao.findById(id);
+    public Customer get(int id) throws InvalidCustomerID {
+        return Optional.ofNullable(customerDao.findById(id)).orElseThrow(InvalidCustomerID::new);
     }
 
 }

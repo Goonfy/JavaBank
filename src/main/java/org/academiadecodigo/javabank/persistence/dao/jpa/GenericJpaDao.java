@@ -8,7 +8,6 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import java.util.List;
-import java.util.Optional;
 
 public abstract class GenericJpaDao<T> implements Dao<T> {
 
@@ -33,8 +32,7 @@ public abstract class GenericJpaDao<T> implements Dao<T> {
 
     @Override
     public T findById(Integer id) {
-        return Optional.ofNullable(session.find(type, id))
-                .orElseThrow(IllegalArgumentException::new);
+        return session.find(type, id);
     }
 
     @Override
@@ -43,7 +41,11 @@ public abstract class GenericJpaDao<T> implements Dao<T> {
     }
 
     @Override
-    public void delete(Integer id) {
-        session.remove(session.find(type, id));
+    public T delete(Integer id) throws IllegalArgumentException {
+        T t = session.find(type, id);
+
+        session.remove(t);
+
+        return t;
     }
 }

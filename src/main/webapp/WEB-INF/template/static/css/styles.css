@@ -4,6 +4,9 @@ body {
     font-family: 'Varela Round', sans-serif;
     font-size: 13px;
 }
+.error {
+    color: #F44336;
+}
 .table-responsive {
     margin: 30px 0;
 }
@@ -100,6 +103,7 @@ table.table .avatar {
     border-radius: 50%;
     vertical-align: middle;
     margin-right: 10px;
+    width: 100px;
 }
 .status {
     font-size: 30px;

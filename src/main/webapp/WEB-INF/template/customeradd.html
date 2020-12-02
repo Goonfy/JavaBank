@@ -28,32 +28,34 @@
         </li>
     </ul>
 </nav>
+<br>
 <div class="container bootstrap snippet">
     <div class="row">
         <h1>Add Customer</h1>
     </div>
-    <div class="row">
-        <div class="col-sm-3">
-            <div class="text-center">
-                <img src="https://bootdey.com/img/Content/user_1.jpg" class="avatar img-circle img-thumbnail"
-                     alt="avatar">
-                <br>
-                <h6>Upload a different photo...</h6>
-                <input type="file" class="text-center center-block file-upload">
+    <form class="form" th:object="${customer}" th:action="@{/save}"
+          id="registrationForm" method="post">
+        <div class="row">
+            <div class="col-sm-3">
+                <div class="text-center">
+                    <h6>Profile Pic URL...</h6>
+                    <input class="text-center center-block"
+                           title="enter your profile pic url."
+                           type="url" th:name="profilePicUrl"
+                           value="https://www.bootdey.com/img/Content/user_1.jpg">
+                </div>
             </div>
-        </div>
-        <div class="col-sm-9">
-            <div class="tab-content">
-                <div class="tab-pane active" id="home">
-                    <form class="form" th:object="${customer}" th:action="@{/save}"
-                          id="registrationForm" method="post">
+            <div class="col-sm-9">
+                <div class="tab-content">
+                    <div class="tab-pane active" id="home">
                         <div class="form-group">
-
                             <div class="col-xs-6">
                                 <label for="first_name"><h4>First name</h4></label>
                                 <input type="text" class="form-control" name="first_name" id="first_name"
                                        title="enter your first name if any."
                                        th:field="*{firstName}">
+                                <span class="error" th:if="${#fields.hasErrors('firstName')}"
+                                      th:errors="*{firstName}"></span>
                             </div>
                         </div>
                         <div class="form-group">
@@ -63,6 +65,8 @@
                                 <input type="text" class="form-control" name="last_name" id="last_name"
                                        title="enter your last name if any."
                                        th:field="*{lastName}">
+                                <span class="error" th:if="${#fields.hasErrors('lastName')}"
+                                      th:errors="*{lastName}"></span>
                             </div>
                         </div>
 
@@ -73,6 +77,8 @@
                                 <input type="text" class="form-control" name="phone" id="phone"
                                        title="enter your phone number if any."
                                        th:field="*{phoneNumber}">
+                                <span class="error" th:if="${#fields.hasErrors('phoneNumber')}"
+                                      th:errors="*{phoneNumber}"></span>
                             </div>
                         </div>
 
@@ -82,6 +88,7 @@
                                 <label for="email"><h4>Email</h4></label>
                                 <input type="email" class="form-control" name="email" id="email"
                                        title="enter your email." th:field="*{email}">
+                                <span class="error" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span>
                             </div>
                         </div>
                         <div class="form-group">
@@ -95,11 +102,11 @@
                                 <a class="btn btn-lg" th:href="@{/}"><i class="glyphicon glyphicon-repeat"></i>Back</a>
                             </div>
                         </div>
-                    </form>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
+    </form>
 </div>
 </body>
 </html>

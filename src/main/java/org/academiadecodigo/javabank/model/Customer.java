@@ -19,6 +19,8 @@ public class Customer {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
+    @Column(name = "profile_pic_url")
+    private String profilePicUrl;
     @Column(name = "first_name")
     private String firstName;
     @Column(name = "last_name")
@@ -33,20 +35,18 @@ public class Customer {
             orphanRemoval = true,
             fetch = FetchType.EAGER
     )
-    private List<AbstractAccount> accounts;
+    private List<AbstractAccount> accounts = new ArrayList<>();
 
     public Customer() {
 
     }
 
-    public Customer(String firstName, String lastName, String email, String phoneNumber) {
+    /*public Customer(String firstName, String lastName, String email, String phoneNumber) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.phoneNumber = phoneNumber;
-
-        accounts = new ArrayList<>();
-    }
+    }*/
 
     /*public void addAccount(AbstractAccount account) {
         accounts.add(account);
@@ -102,6 +102,14 @@ public class Customer {
 
     public void setAccounts(List<AbstractAccount> accounts) {
         this.accounts = accounts;
+    }
+
+    public String getProfilePicUrl() {
+        return profilePicUrl;
+    }
+
+    public void setProfilePicUrl(String profilePicUrl) {
+        this.profilePicUrl = profilePicUrl;
     }
 
     @Override

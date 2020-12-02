@@ -1,17 +1,17 @@
 package org.academiadecodigo.javabank.controller;
 
-import org.academiadecodigo.javabank.model.Customer;
+import org.academiadecodigo.javabank.exception.InvalidCustomerID;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.servlet.ModelAndView;
 
 public interface Controller<T> {
 
-    String listAllItems(Model model);
-    String showItem(Integer id, Model model);
-    String addItem(Model model);
-    String editItem(Integer id, Model model);
-    String removeItem(Integer id, Model model);
-    String saveItem(Integer id, T customer);
-    String saveItem(T customer);
+    ModelAndView listAllItems();
+    ModelAndView showItem(Integer id) throws InvalidCustomerID;
+    ModelAndView addItem();
+    ModelAndView editItem(Integer id) throws InvalidCustomerID;
+    ModelAndView removeItem(Integer id) throws InvalidCustomerID;
+    ModelAndView saveItem(Integer id, T customer, BindingResult bindingResult) throws InvalidCustomerID;
+    ModelAndView saveItem(T customer, BindingResult bindingResult) throws InvalidCustomerID;
 }

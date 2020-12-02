@@ -1,5 +1,6 @@
 package org.academiadecodigo.javabank.service;
 
+import org.academiadecodigo.javabank.exception.InvalidCustomerID;
 import org.academiadecodigo.javabank.model.Customer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
@@ -17,7 +18,7 @@ public class JpaAuthenticationService implements AuthenticationService {
     }
 
     @Override
-    public boolean authenticate(Integer id) {
+    public boolean authenticate(Integer id) throws InvalidCustomerID {
         accessingCustomer = customerService.get(id);
         return accessingCustomer != null;
     }
