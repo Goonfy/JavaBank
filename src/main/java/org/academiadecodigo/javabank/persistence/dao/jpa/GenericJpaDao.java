@@ -1,5 +1,6 @@
 package org.academiadecodigo.javabank.persistence.dao.jpa;
 
+import org.academiadecodigo.javabank.exception.InvalidCustomerID;
 import org.academiadecodigo.javabank.persistence.dao.Dao;
 
 import javax.persistence.EntityManager;
@@ -8,6 +9,7 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import java.util.List;
+import java.util.Optional;
 
 public abstract class GenericJpaDao<T> implements Dao<T> {
 
@@ -41,8 +43,8 @@ public abstract class GenericJpaDao<T> implements Dao<T> {
     }
 
     @Override
-    public T delete(Integer id) throws IllegalArgumentException {
-        T t = session.find(type, id);
+    public T delete(Integer id) throws InvalidCustomerID {
+        T t = Optional.ofNullable(session.find(type, id)).orElseThrow(InvalidCustomerID::new);
 
         session.remove(t);
 

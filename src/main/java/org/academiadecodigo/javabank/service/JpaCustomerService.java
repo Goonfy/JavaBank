@@ -31,8 +31,6 @@ public class JpaCustomerService implements CustomerService {
     @Override
     public void remove(int id) throws InvalidCustomerID {
         customerDao.delete(id);
-
-        //Optional.ofNullable(customerDao.delete(id)).orElseThrow(InvalidCustomerID::new);
     }
 
     @Transactional(readOnly = true)
