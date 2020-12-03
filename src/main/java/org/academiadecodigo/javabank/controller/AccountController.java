@@ -53,7 +53,7 @@ public class AccountController implements Controller<AccountDto> {
     public ModelAndView addItem() {
         ModelAndView modelAndView = new ModelAndView("accountadd");
 
-        //modelAndView.addObject("account", new Account());
+        modelAndView.addObject("account", new AccountDto());
 
         return modelAndView;
     }
