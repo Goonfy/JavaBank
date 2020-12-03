@@ -1,4 +1,4 @@
-package org.academiadecodigo.javabank.model.account;
+package org.academiadecodigo.javabank.persistence.model.account;
 
 import javax.persistence.Entity;
 

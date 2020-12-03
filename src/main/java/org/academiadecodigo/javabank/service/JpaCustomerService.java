@@ -1,10 +1,9 @@
 package org.academiadecodigo.javabank.service;
 
 import org.academiadecodigo.javabank.exception.InvalidCustomerID;
-import org.academiadecodigo.javabank.model.Customer;
+import org.academiadecodigo.javabank.persistence.model.Customer;
 import org.academiadecodigo.javabank.persistence.dao.CustomerDao;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

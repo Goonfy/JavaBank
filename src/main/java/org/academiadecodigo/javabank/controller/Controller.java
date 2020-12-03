@@ -12,6 +12,6 @@ public interface Controller<T> {
     ModelAndView addItem();
     ModelAndView editItem(Integer id) throws InvalidCustomerID;
     ModelAndView removeItem(Integer id) throws InvalidCustomerID;
-    ModelAndView saveItem(Integer id, T customer, BindingResult bindingResult) throws InvalidCustomerID;
-    ModelAndView saveItem(T customer, BindingResult bindingResult) throws InvalidCustomerID;
+    ModelAndView saveItem(Integer id, T data, BindingResult bindingResult) throws InvalidCustomerID;
+    ModelAndView saveItem(T data, BindingResult bindingResult) throws InvalidCustomerID;
 }

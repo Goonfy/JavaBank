@@ -2,10 +2,9 @@ package org.academiadecodigo.services;
 
 import static org.mockito.Mockito.*;
 
-import org.academiadecodigo.javabank.model.Customer;
+import org.academiadecodigo.javabank.persistence.model.Customer;
 import org.academiadecodigo.javabank.service.JpaAuthenticationService;
 import org.academiadecodigo.javabank.service.JpaCustomerService;
-import org.junit.*;
 
 public class JpaAuthenticationServiceTest {
 

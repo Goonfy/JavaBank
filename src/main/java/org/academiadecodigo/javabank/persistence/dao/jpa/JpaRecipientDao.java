@@ -1,6 +1,6 @@
 package org.academiadecodigo.javabank.persistence.dao.jpa;
 
-import org.academiadecodigo.javabank.model.Recipient;
+import org.academiadecodigo.javabank.persistence.model.Recipient;
 import org.academiadecodigo.javabank.persistence.dao.RecipientDao;
 import org.springframework.stereotype.Repository;
 

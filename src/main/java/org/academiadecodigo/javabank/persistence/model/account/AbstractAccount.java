@@ -1,6 +1,6 @@
-package org.academiadecodigo.javabank.model.account;
+package org.academiadecodigo.javabank.persistence.model.account;
 
-import org.academiadecodigo.javabank.model.Customer;
+import org.academiadecodigo.javabank.persistence.model.Customer;
 
 import javax.persistence.*;
 import java.util.Objects;
@@ -20,6 +20,8 @@ public abstract class AbstractAccount implements Account {
 
     @ManyToOne
     private Customer customer;
+
+    //private AccountType accountType;
 
     @Override
     public void addBalance(double amount) {
@@ -49,6 +51,14 @@ public abstract class AbstractAccount implements Account {
     @Override
     public double getBalance() {
         return balance;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public void setBalance(double balance) {
+        this.balance = balance;
     }
 
     @Override

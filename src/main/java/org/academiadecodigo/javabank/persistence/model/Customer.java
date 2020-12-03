@@ -1,7 +1,6 @@
-package org.academiadecodigo.javabank.model;
+package org.academiadecodigo.javabank.persistence.model;
 
-import org.academiadecodigo.javabank.model.account.AbstractAccount;
-import org.academiadecodigo.javabank.model.account.Account;
+import org.academiadecodigo.javabank.persistence.model.account.AbstractAccount;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -51,13 +50,13 @@ public class Customer {
         this.accounts = accounts;
     }
 
-    /*public void addAccount(AbstractAccount account) {
+    public void addAccount(AbstractAccount account) {
         accounts.add(account);
     }
 
     public void removeAccount(AbstractAccount account) {
         accounts.remove(account);
-    }*/
+    }
 
     public int getId() {
         return id;

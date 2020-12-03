@@ -1,10 +1,9 @@
 package org.academiadecodigo.javabank.controller.dto;
 
-import org.academiadecodigo.javabank.model.Customer;
-import org.academiadecodigo.javabank.model.account.AbstractAccount;
-import org.academiadecodigo.javabank.model.account.Account;
+import org.academiadecodigo.javabank.persistence.model.Customer;
+import org.academiadecodigo.javabank.persistence.model.account.Account;
+import org.academiadecodigo.javabank.persistence.model.account.CheckingAccount;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -23,7 +22,7 @@ public class DtoMapper {
         return customerDto;
     }
 
-    public static Customer convertToCustomer(CustomerDto customerDto) {
+    public static Customer convertFromDto(CustomerDto customerDto) {
         Customer customer = new Customer();
 
         customer.setProfilePicUrl(customerDto.getProfilePicUrl());
@@ -45,16 +44,24 @@ public class DtoMapper {
         return accountDto;
     }
 
-    /*public static Account convertToAccount(AccountDto accountDto) {
+    /*public static Account convertFromDto(AccountDto accountDto) {
         Account account = new AbstractAccount() {
         }
     }*/
 
-    public static List<CustomerDto> convertToCustomerDtoList(List<Customer> customerList) {
+    public static List<CustomerDto> convertCustomerListToDto(List<Customer> customerList) {
         return customerList.stream().map(e -> new CustomerDto(e.getId(), e.getProfilePicUrl(), e.getFirstName(), e.getLastName(), e.getEmail(), e.getPhoneNumber(), e.getAccounts())).collect(Collectors.toList());
     }
 
-    public static List<Customer> convertToCustomerList(List<CustomerDto> customerDtoList) {
+    public static List<Customer> convertFromCustomerDtoList(List<CustomerDto> customerDtoList) {
         return customerDtoList.stream().map(e -> new Customer(e.getId(), e.getProfilePicUrl(), e.getFirstName(), e.getLastName(), e.getEmail(), e.getPhoneNumber(), e.getAccounts())).collect(Collectors.toList());
     }
+
+    public static List<AccountDto> convertAccountListToDto(List<Account> accountList) {
+        return accountList.stream().map(e -> new AccountDto(e.getId(), e.getBalance(), e.getCustomer(), e.getAccountType())).collect(Collectors.toList());
+    }
+
+    /*public static List<Account> convertFromAccountDtoList(List<AccountDto> accountDtoList) {
+        return accountDtoList.stream().map(e -> new CheckingAccount(e.getId(), e.getBalance(), e.getCustomer()).collect(Collectors.toList());
+    }*/
 }

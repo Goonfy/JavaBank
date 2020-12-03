@@ -1,11 +1,8 @@
 package org.academiadecodigo.javabank.controller.dto;
 
-import org.academiadecodigo.javabank.model.Customer;
+import org.academiadecodigo.javabank.persistence.model.Customer;
+import org.academiadecodigo.javabank.persistence.model.account.AccountType;
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -23,13 +20,18 @@ public class AccountDto {
     @NotBlank(message = "customer is mandatory")
     private Customer customer;
 
+    @NotNull(message = "account type is mandatory")
+    @NotBlank(message = "account type is mandatory")
+    private AccountType accountType;
+
     public AccountDto() {
     }
 
-    public AccountDto(int id, double balance, Customer customer) {
+    public AccountDto(int id, double balance, Customer customer, AccountType accountType) {
         this.id = id;
         this.balance = balance;
         this.customer = customer;
+        this.accountType = accountType;
     }
 
     public int getId() {
@@ -54,5 +56,13 @@ public class AccountDto {
 
     public void setCustomer(Customer customer) {
         this.customer = customer;
+    }
+
+    public AccountType getAccountType() {
+        return accountType;
+    }
+
+    public void setAccountType(AccountType accountType) {
+        this.accountType = accountType;
     }
 }

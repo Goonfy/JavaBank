@@ -1,7 +1,7 @@
 package org.academiadecodigo.javabank.service;
 
 import org.academiadecodigo.javabank.exception.InvalidCustomerID;
-import org.academiadecodigo.javabank.model.Customer;
+import org.academiadecodigo.javabank.persistence.model.Customer;
 
 public interface AuthenticationService {
 

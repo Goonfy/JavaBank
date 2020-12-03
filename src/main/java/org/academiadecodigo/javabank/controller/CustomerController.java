@@ -3,22 +3,17 @@ package org.academiadecodigo.javabank.controller;
 import org.academiadecodigo.javabank.controller.dto.CustomerDto;
 import org.academiadecodigo.javabank.controller.dto.DtoMapper;
 import org.academiadecodigo.javabank.exception.InvalidCustomerID;
-import org.academiadecodigo.javabank.model.Customer;
+import org.academiadecodigo.javabank.persistence.model.Customer;
 import org.academiadecodigo.javabank.service.CustomerService;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
-import java.util.Optional;
 
 @org.springframework.stereotype.Controller
 @RequestMapping("")
@@ -35,7 +30,7 @@ public class CustomerController implements Controller<CustomerDto> {
     @Override
     public ModelAndView listAllItems() {
         ModelAndView modelAndView = new ModelAndView("customers");
-        modelAndView.addObject("customers", customerService.listAll());
+        modelAndView.addObject("customers", DtoMapper.convertCustomerListToDto(customerService.listAll()));
 
         return modelAndView;
     }
@@ -45,7 +40,7 @@ public class CustomerController implements Controller<CustomerDto> {
     public ModelAndView showItem(@PathVariable Integer id) throws InvalidCustomerID {
         ModelAndView modelAndView = new ModelAndView("customerinfo");
 
-        modelAndView.addObject("customer", customerService.get(id));
+        modelAndView.addObject("customer", DtoMapper.convertToDto(customerService.get(id)));
 
         return modelAndView;
     }
@@ -104,7 +99,7 @@ public class CustomerController implements Controller<CustomerDto> {
             return new ModelAndView("customeradd");
         }
 
-        customerService.add(DtoMapper.convertToCustomer(customerDto));
+        customerService.add(DtoMapper.convertFromDto(customerDto));
 
         return new ModelAndView("redirect:/");
     }

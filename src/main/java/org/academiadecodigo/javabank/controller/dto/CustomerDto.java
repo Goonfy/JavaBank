@@ -1,7 +1,6 @@
 package org.academiadecodigo.javabank.controller.dto;
 
-import org.academiadecodigo.javabank.model.account.AbstractAccount;
-import org.academiadecodigo.javabank.model.account.Account;
+import org.academiadecodigo.javabank.persistence.model.account.AbstractAccount;
 
 import javax.validation.constraints.*;
 import java.util.List;

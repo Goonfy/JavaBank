@@ -1,8 +1,8 @@
 package org.academiadecodigo.javabank.exception;
 
-public class InvalidCustomerID extends JavaBankException {
+public class InvalidAccountID extends JavaBankException {
 
-    public InvalidCustomerID() {
+    public InvalidAccountID() {
         super("Invalid customer ID.");
     }
 }

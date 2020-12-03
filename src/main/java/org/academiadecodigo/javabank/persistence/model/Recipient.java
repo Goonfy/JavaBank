@@ -1,4 +1,4 @@
-package org.academiadecodigo.javabank.model;
+package org.academiadecodigo.javabank.persistence.model;
 
 import javax.persistence.*;
 

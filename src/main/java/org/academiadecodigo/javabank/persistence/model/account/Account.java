@@ -1,6 +1,6 @@
-package org.academiadecodigo.javabank.model.account;
+package org.academiadecodigo.javabank.persistence.model.account;
 
-import org.academiadecodigo.javabank.model.Customer;
+import org.academiadecodigo.javabank.persistence.model.Customer;
 
 public interface Account {
     void addBalance(double amount);
