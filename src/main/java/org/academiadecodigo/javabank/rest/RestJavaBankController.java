@@ -103,6 +103,10 @@ public class RestJavaBankController {
     @DeleteMapping("/customer/{cid}/account/{aid}")
     public ResponseEntity<?> deleteAccount(@PathVariable Integer cid, @PathVariable Integer aid) {
         try {
+            if (!customerService.get(cid).getAccounts().contains(accountService.get(aid))) {
+                throw new InvalidAccountID();
+            }
+
             accountService.remove(aid);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 
