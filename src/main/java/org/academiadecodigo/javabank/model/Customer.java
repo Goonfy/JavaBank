@@ -41,12 +41,15 @@ public class Customer {
 
     }
 
-    /*public Customer(String firstName, String lastName, String email, String phoneNumber) {
+    public Customer(int id, String profilePicUrl, String firstName, String lastName, String email, String phoneNumber, List<AbstractAccount> accounts) {
+        this.id = id;
+        this.profilePicUrl = profilePicUrl;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.phoneNumber = phoneNumber;
-    }*/
+        this.accounts = accounts;
+    }
 
     /*public void addAccount(AbstractAccount account) {
         accounts.add(account);
