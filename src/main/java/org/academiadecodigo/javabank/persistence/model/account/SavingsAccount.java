@@ -1,10 +1,13 @@
 package org.academiadecodigo.javabank.persistence.model.account;
 
+import org.academiadecodigo.javabank.persistence.model.Customer;
+
 import javax.persistence.Entity;
 
 /**
  * A savings account domain entity which requires a minimum balance
  * and can only be used for transferring money, not for debiting
+ *
  * @see Account
  * @see AccountType#SAVINGS
  */
@@ -23,6 +26,12 @@ public class SavingsAccount extends AbstractAccount {
      */
     public SavingsAccount() {
         super();
+    }
+
+    public SavingsAccount(int id, double balance, Customer customer) {
+        this.id = id;
+        this.balance = balance;
+        this.customer = customer;
     }
 
     /**

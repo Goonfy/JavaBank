@@ -14,14 +14,12 @@ public abstract class AbstractAccount implements Account {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    protected int id;
 
-    private double balance;
+    protected double balance;
 
     @ManyToOne
-    private Customer customer;
-
-    //private AccountType accountType;
+    protected Customer customer;
 
     @Override
     public void addBalance(double amount) {

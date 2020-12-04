@@ -1,5 +1,7 @@
 package org.academiadecodigo.javabank.persistence.model.account;
 
+import org.academiadecodigo.javabank.persistence.model.Customer;
+
 import javax.persistence.Entity;
 
 /**
@@ -17,6 +19,12 @@ public class CheckingAccount extends AbstractAccount {
      */
     public CheckingAccount() {
         super();
+    }
+
+    public CheckingAccount(int id, double balance, Customer customer) {
+        this.id = id;
+        this.balance = balance;
+        this.customer = customer;
     }
 
     /**

@@ -38,10 +38,10 @@ public class RestJavaBankController {
         return new ResponseEntity<>(DtoMapper.convertCustomerListToDto(customerService.listAll()), HttpStatus.OK);
     }
 
-    /*@GetMapping("/customer/{id}/account")
+    @GetMapping("/customer/{id}/account")
     public ResponseEntity<List<AccountDto>> listAccounts(@PathVariable Integer id) {
         return new ResponseEntity<>(DtoMapper.convertAccountListToDto(customerService.get(id).getAccounts()), HttpStatus.OK);
-    }*/
+    }
 
     @GetMapping("/customer/{id}")
     public ResponseEntity<CustomerDto> getCustomer(@PathVariable Integer id) {

@@ -33,7 +33,7 @@ public class AccountController implements Controller<AccountDto> {
     @Override
     public ModelAndView listAllItems() {
         ModelAndView modelAndView = new ModelAndView("accounts");
-        //modelAndView.addObject("accounts", DtoMapper.convertToDto(accountService.listAll()));
+        modelAndView.addObject("accounts", DtoMapper.convertAccountListToDto(accountService.listAll()));
 
         return modelAndView;
     }
@@ -99,7 +99,7 @@ public class AccountController implements Controller<AccountDto> {
             return new ModelAndView("accountadd");
         }
 
-        //accountService.add(DtoMapper.convertFromDto(accountDto));
+        accountService.add(DtoMapper.convertFromDto(accountDto));
 
         return new ModelAndView("redirect:/");
     }
