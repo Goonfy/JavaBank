@@ -85,7 +85,6 @@ public class AccountController implements Controller<AccountDto> {
 
         AbstractAccount account = accountService.get(id);
         account.setBalance(accountDto.getBalance());
-        account.setCustomer(accountDto.getCustomer());
 
         accountService.add(account);
 

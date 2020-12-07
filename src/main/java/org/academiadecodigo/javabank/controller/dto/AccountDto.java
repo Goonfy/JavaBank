@@ -16,21 +16,20 @@ public class AccountDto {
     @Size(min = 1, max = 1000)
     private double balance;
 
-    @NotNull(message = "customer is mandatory")
-    @NotBlank(message = "customer is mandatory")
-    private Customer customer;
-
     @NotNull(message = "account type is mandatory")
     @NotBlank(message = "account type is mandatory")
     private AccountType accountType;
 
+    @NotNull(message = "customer is mandatory")
+    @NotBlank(message = "customer is mandatory")
+    private int customerId;
+
     public AccountDto() {
     }
 
-    public AccountDto(int id, double balance, Customer customer, AccountType accountType) {
+    public AccountDto(int id, double balance, AccountType accountType) {
         this.id = id;
         this.balance = balance;
-        this.customer = customer;
         this.accountType = accountType;
     }
 
@@ -50,19 +49,19 @@ public class AccountDto {
         this.balance = balance;
     }
 
-    public Customer getCustomer() {
-        return customer;
-    }
-
-    public void setCustomer(Customer customer) {
-        this.customer = customer;
-    }
-
     public AccountType getAccountType() {
         return accountType;
     }
 
     public void setAccountType(AccountType accountType) {
         this.accountType = accountType;
+    }
+
+    public int getCustomerId() {
+        return customerId;
+    }
+
+    public void setCustomerId(int customerId) {
+        this.customerId = customerId;
     }
 }

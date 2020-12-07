@@ -18,13 +18,11 @@ public class CheckingAccount extends AbstractAccount {
      * @see Account#Account(int)
      */
     public CheckingAccount() {
-        super();
     }
 
-    public CheckingAccount(int id, double balance, Customer customer) {
+    public CheckingAccount(int id, double balance) {
         this.id = id;
         this.balance = balance;
-        this.customer = customer;
     }
 
     /**

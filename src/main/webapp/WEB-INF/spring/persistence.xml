@@ -36,7 +36,7 @@
                 <entry key="hibernate.dialect" value="org.hibernate.dialect.MySQL8Dialect"/>
                 <entry key="hibernate.show_sql" value="true"/>
                 <!-- WARNING: Will re-create the database schema, causing data loss -->
-                <entry key="hibernate.hbm2ddl.auto" value="create"/>
+                <entry key="hibernate.hbm2ddl.auto" value="validate"/>
             </map>
         </property>
     </bean>

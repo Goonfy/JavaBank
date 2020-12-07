@@ -22,29 +22,22 @@ import java.util.List;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
-@RequestMapping("/api")
-public class RestJavaBankController {
+@RequestMapping("/api/customers")
+public class RestJavaBankCustomerController {
 
     private final CustomerService customerService;
-    private final AccountService accountService;
 
     @Autowired
-    public RestJavaBankController(CustomerService customerService, AccountService accountService) {
+    public RestJavaBankCustomerController(CustomerService customerService, AccountService accountService) {
         this.customerService = customerService;
-        this.accountService = accountService;
     }
 
-    @GetMapping("/customer")
+    @GetMapping("")
     public ResponseEntity<List<CustomerDto>> listCustomers() {
         return new ResponseEntity<>(DtoMapper.convertCustomerListToDto(customerService.listAll()), HttpStatus.OK);
     }
 
-    @GetMapping("/customer/{id}/account")
-    public ResponseEntity<List<AccountDto>> listAccounts(@PathVariable Integer id) {
-        return new ResponseEntity<>(DtoMapper.convertAccountListToDto(customerService.get(id).getAccounts()), HttpStatus.OK);
-    }
-
-    @GetMapping("/customer/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<CustomerDto> getCustomer(@PathVariable Integer id) {
         try {
             return new ResponseEntity<>(DtoMapper.convertToDto(customerService.get(id)), HttpStatus.OK);
@@ -54,21 +47,7 @@ public class RestJavaBankController {
         }
     }
 
-    @GetMapping("/customer/{cid}/account/{aid}")
-    public ResponseEntity<AccountDto> getAccount(@PathVariable Integer cid, @PathVariable Integer aid) {
-        try {
-            if (!customerService.get(cid).getAccounts().contains(accountService.get(aid))) {
-                throw new InvalidAccountID();
-            }
-
-            return new ResponseEntity<>(DtoMapper.convertToDto(accountService.get(aid)), HttpStatus.OK);
-
-        } catch (InvalidCustomerID e) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-    }
-
-    @PutMapping("/customer/{id}")
+    @PutMapping("/{id}")
     public ResponseEntity<?> edit(@PathVariable Integer id, @Valid @RequestBody CustomerDto customerDto, BindingResult validation) {
         if (validation.hasErrors()) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -84,13 +63,14 @@ public class RestJavaBankController {
             customer.setAccounts(customerDto.getAccounts());
 
             customerService.add(customer);
+
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } catch (InvalidCustomerID e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
 
-    @DeleteMapping("/customer/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteCustomer(@PathVariable Integer id) {
         try {
             customerService.remove(id);
@@ -101,22 +81,7 @@ public class RestJavaBankController {
         }
     }
 
-    @DeleteMapping("/customer/{cid}/account/{aid}")
-    public ResponseEntity<?> deleteAccount(@PathVariable Integer cid, @PathVariable Integer aid) {
-        try {
-            if (!customerService.get(cid).getAccounts().contains(accountService.get(aid))) {
-                throw new InvalidAccountID();
-            }
-
-            accountService.remove(aid);
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-
-        } catch (InvalidCustomerID e) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-    }
-
-    @PostMapping("/customer")
+    @PostMapping("")
     public ResponseEntity<?> create(@Valid @RequestBody CustomerDto customerDto, BindingResult validation, UriComponentsBuilder componentsBuilder) {
         if (validation.hasErrors()) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
