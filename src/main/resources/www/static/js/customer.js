@@ -81,11 +81,5 @@ function deleteCustomer(id) {
         type: "delete",
         contentType: "application/json",
         dataType: "json",
-        success: function (response) {
-            alert("Deleted");
-        },
-        error: function (response) {
-            alert("Error");
-        }
     });
 };
