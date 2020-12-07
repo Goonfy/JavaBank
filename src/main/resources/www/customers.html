@@ -54,24 +54,6 @@
                     <th>Action</th>
                 </tr>
                 </thead>
-                <!--<tbody>
-                <tr th:each="customer : ${customers}">
-                    <td th:text="${customer.id}"></td>
-                    <td><a th:href="@{/{id}(id=${customer.id})}"><img th:src="${customer.profilePicUrl}"
-                                                                      class="avatar" alt="Avatar"
-                                                                      th:text="${customer.firstName} + ' ' + ${customer.lastName}"></a>
-                    </td>
-                    <td th:text="${customer.email}"></td>
-                    <td th:text="${customer.phoneNumber}"></td>
-                    <td>
-                        <a th:href="@{/edit/{id}(id=${customer.id})}" class="edit" title="Edit" data-toggle="tooltip"><i
-                                class="material-icons">edit</i></a>
-                        <a onclick="return confirm('Are you sure?')" th:href="@{/remove/{id}(id=${customer.id})}"
-                           class="delete" title="Delete" data-toggle="tooltip"><i
-                                class="material-icons">delete_forever</i></a>
-                    </td>
-                </tr>
-                </tbody>-->
             </table>
             <div class="clearfix">
                 <div class="hint-text">Showing <b>x</b> out of <b>x</b> entries</div>
