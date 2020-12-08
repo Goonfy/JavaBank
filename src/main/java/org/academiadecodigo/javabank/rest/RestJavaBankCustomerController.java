@@ -60,7 +60,6 @@ public class RestJavaBankCustomerController {
             customer.setLastName(customerDto.getLastName());
             customer.setEmail(customerDto.getEmail());
             customer.setPhoneNumber(customerDto.getPhoneNumber());
-            customer.setAccounts(customerDto.getAccounts());
 
             customerService.add(customer);
 

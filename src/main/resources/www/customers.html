@@ -40,7 +40,7 @@
                     </div>
                     <div class="col-8">
                         <a href="" class="btn btn-default btn-rounded mb-4" data-toggle="modal"
-                           data-target="#modalRegisterForm"><i class="material-icons">&#xE147;</i>
+                           data-target="#modalCustomerForm"><i class="material-icons">&#xE147;</i>
                             <span>Add New User</span></a>
                     </div>
                 </div>
@@ -65,8 +65,8 @@
                 </ul>
             </div>
 
-            <form class="create-customer-form" method="post">
-                <div class="modal fade" id="modalRegisterForm" tabindex="-1" role="dialog"
+            <form class="customer-form" method="post">
+                <div class="modal fade" id="modalCustomerForm" tabindex="-1" role="dialog"
                      aria-labelledby="myModalLabel"
                      aria-hidden="true">
                     <div class="modal-dialog" role="document">
@@ -110,6 +110,59 @@
                             </div>
                             <div class="modal-footer d-flex justify-content-center">
                                 <button class="btn btn-deep-orange">Create Customer</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            <form class="edit-customer-form" method="post">
+                <div class="modal fade" id="modalEditCustomerForm" tabindex="-1" role="dialog"
+                     aria-labelledby="myModalLabel"
+                     aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header text-center">
+                                <h4 class="modal-title w-100 font-weight-bold">Edit Customer</h4>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body mx-3">
+                                <div class="md-form mb-5">
+                                    <img id="edit-pic" class="rounded mx-auto d-block" src="https://www.bootdey.com/img/Content/user_1.jpg">
+                                </div>
+                                <div class="md-form mb-5">
+                                    <input type="text" id="edit-pic-url" class="form-control validate"
+                                           value="https://www.bootdey.com/img/Content/user_1.jpg">
+                                    <label data-error="wrong" data-success="right" for="edit-pic-url">Profile Pic
+                                        URL</label>
+                                </div>
+                                <div class="md-form mb-5">
+                                    <input type="text" id="edit-first-name" class="form-control validate" required>
+                                    <label data-error="wrong" data-success="right" for="edit-first-name">First
+                                        Name</label>
+                                </div>
+                                <div class="md-form mb-5">
+                                    <input type="text" id="edit-last-name" class="form-control validate" required>
+                                    <label data-error="wrong" data-success="right" for="edit-last-name">Last
+                                        Name</label>
+                                </div>
+
+                                <div class="md-form mb-5">
+                                    <input type="email" id="edit-email" class="form-control validate" required>
+                                    <label data-error="wrong" data-success="right" for="edit-email">Email
+                                    </label>
+                                </div>
+
+                                <div class="md-form mb-5">
+                                    <input type="text" id="edit-phone-number" class="form-control validate" required>
+                                    <label data-error="wrong" data-success="right" for="edit-phone-number">Phone
+                                        Number</label>
+                                </div>
+
+                            </div>
+                            <div class="modal-footer d-flex justify-content-center">
+                                <button class="btn btn-deep-orange">Save Customer</button>
                             </div>
                         </div>
                     </div>
